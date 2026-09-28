@@ -198,12 +198,14 @@
           .search-box { flex: 1; min-width: 120px; width: auto; font-size: 12px; }
           .bilingual-btn, .toggle-notes-btn { font-size: 11px; padding: 6px 10px; }
           main { padding-top: calc(var(--header-height) + 16px); padding-bottom: 180px; }
-          .subtitle { flex-direction: column; gap: 8px; padding: 8px 10px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); border: 1px solid rgba(0, 0, 0, 0.08); }
-          .text-box { width: 100%; padding: 6px 10px; padding-right: 40px; height: auto; min-height: 34px; font-size: 16px; }
+          .subtitle { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 6px; padding: 8px 10px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); border: 1px solid rgba(0, 0, 0, 0.08); }
+          .text-box { width: auto; flex: 1; min-width: 0; padding: 6px 10px; padding-right: 40px; height: auto; min-height: 34px; font-size: 16px; }
           .row-actions { top: 12px; transform: none; right: 8px; }
-          .note-area { width: 100%; flex: none; }
+          .note-area { width: 100%; flex-basis: 100%; flex: none; display: none; }
+          .subtitle.has-written-note .note-area,
+          .subtitle.note-open .note-area { display: flex; }
           .note-container { width: 100%; flex: none; }
-          .note-box { width: 100%; height: 20px; max-height: 80px; overflow-y: auto !important; }
+          .note-box { width: 100%; min-height: 36px; max-height: 140px; overflow-y: auto !important; }
         }
         
         @media (max-width: 600px) {
@@ -1393,6 +1395,15 @@
           });
           mo.observe(box, { childList: true });
         }
+
+        // 5) 小螢幕：點字幕行展開/收合空白筆記框（避免每行都多佔一行）
+        document.addEventListener('click', function (e) {
+          if (!window.matchMedia('(max-width: 900px)').matches) return;
+          var sub = e.target.closest && e.target.closest('.subtitle');
+          if (!sub) return;
+          if (e.target.closest('.note-box') || e.target.closest('.row-actions') || e.target.closest('button')) return;
+          sub.classList.toggle('note-open');
+        });
       })();
     </script>
 </body>
