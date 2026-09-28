@@ -134,7 +134,7 @@
           padding-right: 40px; 
           justify-content: center;
         }
-        .japanese-text { font-family: "Hiragino Sans", "Meiryo", sans-serif; font-size: 16px; color: #2c3e50; margin-bottom: 4px; line-height: 1.9; }
+        .japanese-text { font-family: "Hiragino Sans", "Meiryo", sans-serif; font-weight: 700; font-size: 16px; color: #e6781e; margin-bottom: 4px; line-height: 1.9; }
         .chinese-text { font-family: "Arial", "Microsoft YaHei", sans-serif; font-size: 15px; color: #666; border-top: 1px dashed #eee; padding-top: 4px; margin-top: 4px; line-height: 1.4; }
         .single-language .chinese-text { display: none; }
         .single-language .japanese-text { margin-bottom: 0; border: none; }
@@ -380,14 +380,7 @@
         .es-chips .chip:nth-child(3n+2) { background: #fdf3ee; }
         .es-chips .chip:nth-child(3n) { background: #f5f2ea; }
         .es-chips .chip:hover { transform: translateY(-3px); color: var(--vermillion); border-color: var(--gold); }
-        .es-drop {
-          margin: 0 auto; max-width: 520px; padding: 18px; border-radius: 6px; font-size: 14px; font-weight: 700;
-          border: 2px dashed var(--gold); background: #fffdf9; color: #9a7a3c;
-          transition: all .2s ease;
-        }
-        .es-drop:hover { background: #fff; transform: none; }
         .es-tips { margin-top: 14px; font-size: 12.5px; color: #9a9184; }
-        body.dragging .es-drop { border-color: var(--vermillion); background: #fdf3ee; color: var(--vermillion); transform: none; }
         body.dragging::after {
           content: "放手就交給我 ✨"; position: fixed; inset: 0; z-index: 9998;
           display: flex; align-items: center; justify-content: center; pointer-events: none;
@@ -593,7 +586,6 @@
                 <span class="chip">🔊 點一下就朗讀</span>
                 <span class="chip">📕 匯出講義 PDF</span>
             </div>
-            <div class="es-drop">📂 把 .srt / .ass / .docx / .txt / .pdf / .epub 拖到這裡</div>
             <div class="es-tips">💡 小提示：一次放兩個檔案（日文＋中文）會自動對齊合併喔</div>
         </div>
         <div id="subtitles" aria-live="polite" data-page-node-id="eKUYvcbYFa3Of3QCO9lkcs"></div>
@@ -725,9 +717,6 @@
             if (kuroLoading) return kuroLoading;
             kuroLoading = (async () => {
                 try {
-                    updateUIStatus("正在準備日語注音引擎...", "loading");
-                    var _el = document.querySelector('#subtitles .loading');
-                    if (_el) _el.classList.add('engine-loading');
                     await loadScriptFallback(KURO_SCRIPT_SOURCES);
                     let tokenizer = null, lastErr = null;
                     for (const dp of KURO_DICT_SOURCES) {
