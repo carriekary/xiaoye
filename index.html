@@ -296,8 +296,6 @@
         }
         .subtitle:hover { transform: none; box-shadow: 0 3px 10px rgba(60, 53, 48, 0.10); border-left-color: var(--vermillion); }
         .subtitle.has-written-note { border-left-color: var(--vermillion); }
-        .japanese-text { font-weight: 600; color: #33302b; line-height: 1.95; font-size: 16px; }
-        .chinese-text { color: #8d8477; line-height: 1.7; font-size: 15px; }
         .note-box {
           border-radius: 4px; border: 1px solid #e6ddc8; background: #fffdf9; color: #6b6357;
           box-shadow: none; font-size: 13px;
@@ -852,12 +850,14 @@
         
         // ==================== 數據處理核心 ====================
         async function processAndDisplayData() {
+          const epoch = AppState.renderEpoch || 0;   // 渲染世代：移除檔案後會 +1，舊的渲染流程直接作廢
           AppState.notesData = {};
           let rawSubs = [];
-          
+
           if (file1Data.subtitles.length > 0 && file2Data.subtitles.length > 0) {
             updateUIStatus("偵測到雙檔案，正在自動對齊合併...", 'loading');
             await new Promise(resolve => setTimeout(resolve, 100));
+            if (epoch !== (AppState.renderEpoch || 0)) return;   // 期間檔案已被移除，放棄渲染
             
             let jpSubs = file1Data.subtitles; let zhSubs = file2Data.subtitles;
             
@@ -881,6 +881,7 @@
           if (isKuroshiroReady && AppState.processedSubtitles.length > 0) {
             updateUIStatus("正在生成日語平假名注音，請稍候...", 'loading');
             await new Promise(resolve => setTimeout(resolve, 50));
+            if (epoch !== (AppState.renderEpoch || 0)) return;   // 期間檔案已被移除，放棄渲染
             try {
               AppState.processedSubtitles.forEach((sub) => {
                 if (sub.japanese) {
@@ -1060,8 +1061,14 @@
             document.getElementById(`labelFile${num}`).classList.remove('has-file');
             document.getElementById(`clearBtn${num}`).style.display = 'none';
 
+            // 中止所有還在進行中的渲染（注音生成、雙檔合併），確保移除後畫面不殘留舊字幕
+            AppState.renderEpoch = (AppState.renderEpoch || 0) + 1;
+
             if (!file1Data.subtitles.length && !file2Data.subtitles.length) {
-                document.getElementById('subtitles').innerHTML = ''; AppState.processedSubtitles = []; AppState.notesData = {};
+                document.getElementById('subtitles').innerHTML = '';
+                document.getElementById('fileInfo').style.display = 'none';
+                AppState.processedSubtitles = []; AppState.filteredData = []; AppState.renderedCount = 0;
+                AppState.notesData = {}; AppState.currentFileName = '';
                 updateNoteCount(); showGlobalStatus('已清空所有檔案');
             } else { processAndDisplayData(); showGlobalStatus(`已恢復單一檔案顯示`); }
         }
@@ -1071,6 +1078,7 @@
 
         function handleFileChoose(file, targetData, num) {
           if (!file) return clearFile(num);
+          AppState.renderEpoch = (AppState.renderEpoch || 0) + 1;   // 換新檔案時，舊的渲染流程一律作廢
           document.getElementById('textFile' + num).textContent = file.name;
           document.getElementById('labelFile' + num).classList.add('has-file');
           document.getElementById('clearBtn' + num).style.display = 'block';
