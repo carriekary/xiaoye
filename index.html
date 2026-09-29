@@ -655,6 +655,7 @@
             renderedCount: 0, // 无限滚动的计数器
             currentUtterance: null,
             isReadingAll: false,    // 是否正在朗讀全文
+            readAllIndex: 0,        // 朗讀全文的續讀游標：停止後保留，下次從此位置繼續
             currentQuery: ''        // 当前搜寻关键字
         };
         
@@ -916,26 +917,28 @@
           window.speechSynthesis.cancel();
           AppState.isReadingAll = false;
           updateReadAllBtn();
+          // 不重置 readAllIndex：保留游標，下次按「朗讀全文」從停的位置繼續
         }
         function readAllSubtitles() {
           if (!('speechSynthesis' in window)) { alert('您的浏览器不支援语音朗读功能'); return; }
-          if (AppState.isReadingAll) { stopReadAll(); return; }   // 再点一次 = 停止
+          if (AppState.isReadingAll) { stopReadAll(); return; }   // 再点一次 = 停止（保留游標）
           const lines = AppState.processedSubtitles
             .map(s => (s.japanese || s.originalText || '').toString())
             .filter(t => t.trim().length > 0);
           if (!lines.length) { alert('没有可朗读的字幕'); return; }
+          // 游標已讀到最尾（上一次自然讀完）→ 從頭開始；否則從游標位置續讀
+          if (AppState.readAllIndex >= lines.length) AppState.readAllIndex = 0;
           window.speechSynthesis.cancel();
           AppState.isReadingAll = true;
           updateReadAllBtn();
-          let i = 0;
           function speakNext() {
             if (!AppState.isReadingAll) return;            // 已被取消
-            if (i >= lines.length) { stopReadAll(); return; }
-            const u = new SpeechSynthesisUtterance(lines[i]);
-            u.lang = pickSpeechLang(lines[i]);   // 純英文→en-US，其餘→ja-JP
+            if (AppState.readAllIndex >= lines.length) { stopReadAll(); return; }
+            const u = new SpeechSynthesisUtterance(lines[AppState.readAllIndex]);
+            u.lang = pickSpeechLang(lines[AppState.readAllIndex]);   // 純英文→en-US，其餘→ja-JP
             u.rate = 0.9;
-            u.onend = function() { if (AppState.isReadingAll) { i++; speakNext(); } };
-            u.onerror = function() { if (AppState.isReadingAll) { i++; speakNext(); } };
+            u.onend = function() { if (AppState.isReadingAll) { AppState.readAllIndex++; speakNext(); } };
+            u.onerror = function() { if (AppState.isReadingAll) { AppState.readAllIndex++; speakNext(); } };
             window.speechSynthesis.speak(u);
           }
           speakNext();
@@ -946,6 +949,7 @@
           const epoch = AppState.renderEpoch || 0;   // 渲染世代：移除档案后会 +1，旧的渲染流程直接作废
           AppState.notesData = {};
           if (AppState.isReadingAll) stopReadAll();   // 载入新档案时停止正在进行的全文朗读
+          AppState.readAllIndex = 0;                  // 新档案：续读游標归零，下次朗讀全文从开头
           let rawSubs = [];
 
           if (file1Data.subtitles.length > 0 && file2Data.subtitles.length > 0) {
