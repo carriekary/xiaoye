@@ -64,6 +64,14 @@
         .clear-btn:hover { transform: scale(1.2); }
         
         .action-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .offset-control { display: none; align-items: center; gap: 8px; padding: 4px 10px; background: #faf3e6; border: 1px solid #e6ddc8; border-radius: 8px; font-size: 12px; color: #6b6357; }
+        .offset-control.show { display: flex; }
+        .offset-control .offset-label { white-space: nowrap; font-weight: 600; color: #7c5f28; }
+        .offset-control input[type="range"] { width: 160px; accent-color: #b02430; cursor: pointer; }
+        .offset-control .offset-value { min-width: 44px; text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; color: #b02430; }
+        .offset-control .offset-reset { border: 1px solid #d8cdb4; background: #fff; color: #6b6357; border-radius: 6px; padding: 3px 8px; cursor: pointer; font-size: 12px; }
+        .offset-control .offset-reset:hover { background: #f3ead8; color: #b02430; }
+        @media (max-width: 900px) { .offset-control { width: 100%; justify-content: space-between; } .offset-control input[type="range"] { flex: 1; width: auto; } }
         .search-box {
           padding: 6px 12px; border-radius: 20px; border: 1px solid #ddd; background: #fff;
           font-size: 13px; width: 150px; transition: all 0.2s ease;
@@ -119,7 +127,7 @@
           padding-right: 40px; 
           justify-content: center; text-align: center;
         }
-        .japanese-text { font-family: "Hiragino Mincho ProN", "Yu Mincho", "Hiragino Mincho", "YuMincho", serif; font-weight: 600; font-size: 16px; color: #b02430; margin-bottom: 2px; line-height: 1.9; text-align: left; }
+        .japanese-text { font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", "YuGothic", "Noto Sans CJK JP", "Noto Sans JP", "Meiryo", "Hiragino Sans", sans-serif; font-weight: 600; font-size: 16px; color: #b02430; margin-bottom: 2px; line-height: 1.9; text-align: left; }
         .chinese-text { font-family: "Microsoft YaHei", "PingFang SC", "Source Han Sans SC", "Noto Sans SC", sans-serif; font-size: 14px; color: #666; border-top: 1px dashed #eee; padding-top: 2px; margin-top: 2px; line-height: 1.4; text-align: right; }
         .single-language .chinese-text { display: none; }
         .single-language .japanese-text { margin-bottom: 0; border: none; }
@@ -138,9 +146,9 @@
         .note-area { display: flex; flex-direction: row; gap: 8px; flex: 1; }
         .note-container { flex: 1; display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
         .note-box {
-          width: 100%; min-height: 34px; max-height: 150px; padding: 8px 12px; border-radius: 6px;
+          width: 100%; min-height: 34px; padding: 8px 12px; border-radius: 6px;
           border: 1px solid #ddd; background: #fff; font-size: 13px; line-height: 1.4; color: #333;
-          resize: none; font-family: inherit; transition: all 0.2s ease; overflow-y: hidden;
+          resize: none; font-family: inherit; transition: all 0.2s ease; overflow-y: auto;
           display: block;
         }
         .note-box.has-content { border-color: #ff9800; background: #fff8e1; color: #e65100; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
@@ -449,8 +457,9 @@
         /* ==================== 支持作者（低调入口 + 弹窗） ==================== */
         .site-footer { text-align: center; padding: 22px 12px 30px; }
         .support-author-link {
+          display: inline-block; margin-top: 12px;
           background: none; border: none; cursor: pointer; padding: 4px 8px;
-          font-size: 12px; color: #b9b1a4; letter-spacing: .5px; opacity: .65;
+          font-size: 12.5px; color: #c0392b; letter-spacing: .5px; opacity: .92; font-weight: 600;
           transition: opacity .2s ease, color .2s ease; font-family: inherit;
         }
         .support-author-link:hover { opacity: 1; color: var(--vermillion); }
@@ -537,6 +546,13 @@
               </div>
             </div>
 
+            <div class="offset-control" id="offsetControl" title="日文檔與中文檔時間碼有整體偏差時，拖動此滑桿把中文整體前／後移 N 秒來對齊">
+              <span class="offset-label">中文時間偏移</span>
+              <input type="range" id="offsetSlider" min="-30" max="30" step="0.5" value="0" />
+              <span class="offset-value" id="offsetValue">0.0s</span>
+              <button type="button" class="offset-reset" id="offsetReset">重置</button>
+            </div>
+
             <div class="action-group" data-page-node-id="BWYc5XSWoYrehLZ2u4wq9G">
                 <input id="searchBox" class="search-box" type="text" placeholder="搜寻关键字" data-page-node-id="YX8HkWuYm03cBmVxJTje3k" />
                 <button id="toggleNotesBtn" class="toggle-notes-btn" data-page-node-id="Bue79v2SKhcXGCvm4BKH71">隐藏笔记</button>
@@ -597,14 +613,11 @@
                 <span class="chip">📕 汇出讲义 PDF</span>
             </div>
             <div class="es-tips">💡 小提示：一次放两个档案（日文＋中文）会自动对齐合并喔</div>
+            <button id="supportAuthorBtn" class="support-author-link" type="button">支持作者</button>
         </div>
         <div id="subtitles" aria-live="polite" data-page-node-id="eKUYvcbYFa3Of3QCO9lkcs"></div>
         <div id="scrollSentinel" style="height: 20px; width: 100%;" data-page-node-id="KWEcCVEiK1XPaIb0ZFnhHT"></div>
     </main>
-
-    <footer class="site-footer">
-        <button id="supportAuthorBtn" class="support-author-link" type="button">支持作者</button>
-    </footer>
 
     <div id="authorModal" class="author-modal" hidden>
         <div class="author-modal-backdrop" data-author-close></div>
@@ -633,6 +646,7 @@
             notesData: {},
             noteCount: 0,
             bilingualEnabled: true,
+            mergeOffsetSec: 0,        // 方案2：中文檔整體時間偏移（秒），用於對齊日文档
             notesVisible: true,
             furiganaEnabled: true, // 新增：是否显示平假名注音
             renderedCount: 0, // 无限滚动的计数器
@@ -825,22 +839,26 @@
         }
         
         // ==================== UI 互动逻辑 ====================
+        // 笔记框高度 = 左侧字幕框（.text-box）的高度，让左右两框对齐；
+        // 若笔记内容本身更高，则取较大值，避免长笔记被裁切。
         function autoResizeTextarea(textarea) {
           if (!AppState.notesVisible) return;
           const subtitleRow = textarea.closest('.subtitle');
           if (!subtitleRow) return;
-          // 笔记框高度只跟随自己的内容，不再绑定日文字幕高度，
-          // 这样隐藏/显示注音（日文字幕变高变矮）时，笔记框不会跟着忽大忽小
+          const textBox = subtitleRow.querySelector('.text-box');
+          if (!textBox) return;
+          // 量字幕框「内容」真实高度：.subtitle 用 align-items:stretch，
+          // 长笔记会把字幕框一并撑高，此时 textBox.scrollHeight 返回的是被撑高的高度
+          // 而非内容高度，导致清空长笔记后笔記框缩不回去。先临时取消拉伸再量。
+          const prevAlign = textBox.style.alignSelf;
+          textBox.style.alignSelf = 'flex-start';
+          const boxH = Math.max(textBox.scrollHeight, 34);
+          textBox.style.alignSelf = prevAlign;
           textarea.style.height = 'auto';
-          const noteHeight = textarea.scrollHeight;
-          const isDesktop = window.innerWidth > 900;
-          let finalHeight = Math.max(noteHeight, 34);
-          if (isDesktop && finalHeight >= 150) {
-            textarea.style.overflowY = 'auto'; finalHeight = 150;
-          } else {
-            textarea.style.overflowY = 'auto';
-          }
-          textarea.style.height = finalHeight + 'px';
+          const noteH = Math.max(textarea.scrollHeight, 34);
+          const finalH = Math.max(boxH, noteH);
+          textarea.style.height = finalH + 'px';
+          textarea.style.overflowY = 'auto';
         }
 
         // 把已经算好注音（rubyHtml）的行一次性刷进 DOM：
@@ -854,6 +872,8 @@
             const el = container.querySelector(`.row[data-index="${i}"] .japanese-text`);
             if (el && subs[i].rubyHtml) el.innerHTML = subs[i].rubyHtml;
           }
+          // 注音会改变字幕框高度，顺手让笔记框重新对齐左侧字幕框
+          if (AppState.notesVisible) container.querySelectorAll('.note-box').forEach(autoResizeTextarea);
         }
 
         const isJapaneseText = (text) => text && /[\u3040-\u309F\u30A0-\u30FF]/.test(text);
@@ -890,11 +910,19 @@
             for(let i=0; i<Math.min(20, file1Data.subtitles.length); i++) if (isJapaneseText(file1Data.subtitles[i].text)) f1KanaCount++;
             for(let i=0; i<Math.min(20, file2Data.subtitles.length); i++) if (isJapaneseText(file2Data.subtitles[i].text)) f2KanaCount++;
 
-            if (f2KanaCount > f1KanaCount) { jpSubs = file2Data.subtitles; zhSubs = file1Data.subtitles; } 
-            
+            if (f2KanaCount > f1KanaCount) { jpSubs = file2Data.subtitles; zhSubs = file1Data.subtitles; }
+            AppState._jpSubs = jpSubs; AppState._zhSubs = zhSubs;   // 記住中日參照，供滑桿重新合併使用
+
             AppState.currentFileName = `${file1Data.name} + ${file2Data.name}`;
-            rawSubs = mergeSubtitlesArrays(jpSubs, zhSubs);
+            // 新載入雙檔時先把偏移歸零，並顯示微調控制
+            AppState.mergeOffsetSec = 0;
+            const slider = document.getElementById('offsetSlider');
+            if (slider) { slider.value = '0'; document.getElementById('offsetValue').textContent = '0.0s'; }
+            document.getElementById('offsetControl').classList.add('show');
+            const zhShifted = shiftTimecodes(zhSubs, AppState.mergeOffsetSec);
+            rawSubs = mergeSubtitlesArrays(jpSubs, zhShifted);
           } else {
+            const oc = document.getElementById('offsetControl'); if (oc) oc.classList.remove('show');
             const activeFile = file1Data.subtitles.length > 0 ? file1Data : file2Data;
             AppState.currentFileName = activeFile.name;
             rawSubs = processSingleFileSubtitles(activeFile.subtitles);
@@ -1022,6 +1050,45 @@
             }
           }
           return merged;
+        }
+
+        // ==================== 時間碼偏移（方案2） ====================
+        // 把單個時間碼字串（SRT 00:00:00,000 或 ASS 0:00:00.00）前後移 deltaMs
+        function shiftTC(tc, deltaMs) {
+          const m = (tc || '').match(/(\d+):(\d{2}):(\d{2})[,.](\d+)/);
+          if (!m) return tc;
+          const frac = m[4].length >= 3 ? m[4].slice(0, 3) : m[4].padEnd(3, '0');
+          let ms = (+m[1]) * 3600000 + (+m[2]) * 60000 + (+m[3]) * 1000 + (+frac);
+          ms = Math.max(0, ms + deltaMs);
+          const h = Math.floor(ms / 3600000); ms -= h * 3600000;
+          const mi = Math.floor(ms / 60000); ms -= mi * 60000;
+          const se = Math.floor(ms / 1000); const fr = ms - se * 1000;
+          const sep = tc.includes('.') ? '.' : ',';
+          return `${String(h).padStart(2, '0')}:${String(mi).padStart(2, '0')}:${String(se).padStart(2, '0')}${sep}${String(fr).padStart(3, '0')}`;
+        }
+        function shiftTimecodes(subs, offsetSec) {
+          if (!offsetSec) return subs;
+          const delta = Math.round(offsetSec * 1000);
+          return subs.map(s => ({
+            ...s,
+            startTime: s.startTime ? shiftTC(s.startTime, delta) : s.startTime,
+            endTime: s.endTime ? shiftTC(s.endTime, delta) : s.endTime
+          }));
+        }
+        // 滑桿微調偏移後，按新偏移重新合併 + 重渲染
+        function remargeWithOffset() {
+          if (!AppState._jpSubs || !AppState._zhSubs) return;
+          const epoch = (AppState.renderEpoch = (AppState.renderEpoch || 0) + 1);
+          AppState.notesData = {}; updateNoteCount();   // 配對已改變，舊筆記索引失效，清空
+          const zhShifted = shiftTimecodes(AppState._zhSubs, AppState.mergeOffsetSec);
+          const merged = mergeSubtitlesArrays(AppState._jpSubs, zhShifted);
+          AppState.processedSubtitles = merged;
+          merged.forEach(s => s.rubyHtml = '');
+          const y = window.scrollY || window.pageYOffset || 0;
+          updateDisplay('');
+          window.scrollTo(0, y);
+          if (isKuroshiroReady && merged.length) generateFuriganaInChunks(epoch);
+          showGlobalStatus('已套用偏移 ' + (AppState.mergeOffsetSec > 0 ? '+' : '') + AppState.mergeOffsetSec.toFixed(1) + 's，重新對齊', 2200);
         }
 
         // ==================== 档案解析 ====================
@@ -1253,7 +1320,7 @@
             container.insertAdjacentHTML('beforeend', nextBatch.map(createSubtitleRowHTML).join(''));
             
             // 针对刚加载进来有内容的笔记框进行高度计算
-            container.querySelectorAll(`.row:nth-child(n+${AppState.renderedCount + 1}) .note-box.has-content`).forEach(autoResizeTextarea);
+            container.querySelectorAll(`.row:nth-child(n+${AppState.renderedCount + 1}) .note-box`).forEach(autoResizeTextarea);
             
             AppState.renderedCount += nextBatch.length;
         }
@@ -1311,6 +1378,26 @@
         });
 
         // ==================== 按钮与汇出逻辑 ====================
+        // 方案2：中文時間偏移滑桿（雙檔對齊用）
+        (function setupOffsetSlider() {
+          const slider = document.getElementById('offsetSlider');
+          const valEl = document.getElementById('offsetValue');
+          const resetBtn = document.getElementById('offsetReset');
+          if (!slider) return;
+          let timer = null;
+          slider.addEventListener('input', () => {
+            const v = parseFloat(slider.value) || 0;
+            AppState.mergeOffsetSec = v;
+            valEl.textContent = (v > 0 ? '+' : '') + v.toFixed(1) + 's';
+            clearTimeout(timer);
+            timer = setTimeout(() => remargeWithOffset(), 220);   // 拖動時防抖，放開後再重算
+          });
+          resetBtn.addEventListener('click', () => {
+            AppState.mergeOffsetSec = 0; slider.value = '0'; valEl.textContent = '0.0s';
+            remargeWithOffset();
+          });
+        })();
+
         document.getElementById('bilingualBtn').addEventListener('click', function() {
           AppState.bilingualEnabled = !AppState.bilingualEnabled; this.textContent = AppState.bilingualEnabled ? '单语显示' : '双语显示';
           document.body.classList.toggle('single-language', !AppState.bilingualEnabled);
@@ -1331,6 +1418,11 @@
           // 显示注音时，若部分行生成已完成却还没刷进 DOM（如生成途中滚到的新行），立即补刷
           if (AppState.furiganaEnabled) refillFuriganaDOM();
           document.querySelectorAll('.note-box').forEach(autoResizeTextarea);
+        });
+
+        // 视窗尺寸变化会改变字幕框换行高度，笔记框需同步对齐
+        window.addEventListener('resize', () => {
+          if (AppState.notesVisible) document.querySelectorAll('.note-box').forEach(autoResizeTextarea);
         });
 
         const exportMenu = document.getElementById('exportMenu');
