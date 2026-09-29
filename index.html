@@ -402,6 +402,8 @@
         #toggleNotesBtn::before { content: "📒 "; }
         #bilingualBtn::before { content: "🌐 "; }
         #furiganaBtn::before { content: "🔤 "; }
+        #readAllBtn::before { content: "🔊 "; }
+        #readAllBtn.reading { background: var(--vermillion); color: #fff; border-color: var(--vermillion); }
         #importBtn::before { content: "📥 "; }
         #mainExportBtn::before { content: "📤 "; }
         .toggle-notes-btn, .bilingual-btn, .import-btn, .main-export-btn { transition: transform .18s var(--pop), box-shadow .18s ease, background .18s ease; }
@@ -558,6 +560,7 @@
                 <button id="toggleNotesBtn" class="toggle-notes-btn" data-page-node-id="Bue79v2SKhcXGCvm4BKH71">隐藏笔记</button>
                 <button id="bilingualBtn" class="bilingual-btn" data-page-node-id="4Bknm7rNDPRogzOnMVlPHh">单语显示</button>
                 <button id="furiganaBtn" class="bilingual-btn" data-page-node-id="QvV7DzEHEYuQQhDCGlwGxO">隐藏注音</button>
+                <button id="readAllBtn" class="bilingual-btn" type="button">朗讀全文</button>
             </div>
         </div>
     </header>
@@ -651,6 +654,7 @@
             furiganaEnabled: true, // 新增：是否显示平假名注音
             renderedCount: 0, // 无限滚动的计数器
             currentUtterance: null,
+            isReadingAll: false,    // 是否正在朗讀全文
             currentQuery: ''        // 当前搜寻关键字
         };
         
@@ -883,6 +887,7 @@
            const text = btn.getAttribute('data-text');
            if (!text) return;
            if ('speechSynthesis' in window) {
+             if (AppState.isReadingAll) { stopReadAll(); }   // 单句朗读会打断全文朗读
              window.speechSynthesis.cancel(); 
              AppState.currentUtterance = new SpeechSynthesisUtterance(text);
              AppState.currentUtterance.lang = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text) ? 'ja-JP' : 'en-US';
@@ -892,11 +897,54 @@
              alert('您的浏览器不支援语音朗读功能');
            }
         }
+
+        // 朗讀全文：依序唸出所有日文字幕；再点一次可停止
+        function updateReadAllBtn() {
+          const btn = document.getElementById('readAllBtn');
+          if (!btn) return;
+          if (AppState.isReadingAll) {
+            btn.textContent = '停止朗讀';
+            btn.classList.add('reading');
+          } else {
+            btn.textContent = '朗讀全文';
+            btn.classList.remove('reading');
+          }
+        }
+        function stopReadAll() {
+          window.speechSynthesis.cancel();
+          AppState.isReadingAll = false;
+          updateReadAllBtn();
+        }
+        function readAllSubtitles() {
+          if (!('speechSynthesis' in window)) { alert('您的浏览器不支援语音朗读功能'); return; }
+          if (AppState.isReadingAll) { stopReadAll(); return; }   // 再点一次 = 停止
+          const lines = AppState.processedSubtitles
+            .map(s => (s.japanese || s.originalText || '').toString())
+            .filter(t => t.trim().length > 0);
+          if (!lines.length) { alert('没有可朗读的字幕'); return; }
+          window.speechSynthesis.cancel();
+          AppState.isReadingAll = true;
+          updateReadAllBtn();
+          let i = 0;
+          function speakNext() {
+            if (!AppState.isReadingAll) return;            // 已被取消
+            if (i >= lines.length) { stopReadAll(); return; }
+            const u = new SpeechSynthesisUtterance(lines[i]);
+            u.lang = 'ja-JP';
+            u.rate = 0.9;
+            u.onend = function() { if (AppState.isReadingAll) { i++; speakNext(); } };
+            u.onerror = function() { if (AppState.isReadingAll) { i++; speakNext(); } };
+            i++;
+            window.speechSynthesis.speak(u);
+          }
+          speakNext();
+        }
         
         // ==================== 数据处理核心 ====================
         async function processAndDisplayData() {
           const epoch = AppState.renderEpoch || 0;   // 渲染世代：移除档案后会 +1，旧的渲染流程直接作废
           AppState.notesData = {};
+          if (AppState.isReadingAll) stopReadAll();   // 载入新档案时停止正在进行的全文朗读
           let rawSubs = [];
 
           if (file1Data.subtitles.length > 0 && file2Data.subtitles.length > 0) {
@@ -1419,6 +1467,9 @@
           if (AppState.furiganaEnabled) refillFuriganaDOM();
           document.querySelectorAll('.note-box').forEach(autoResizeTextarea);
         });
+
+        // 朗讀全文：依序朗读所有日文字幕，再点一次停止
+        document.getElementById('readAllBtn').addEventListener('click', readAllSubtitles);
 
         // 视窗尺寸变化会改变字幕框换行高度，笔记框需同步对齐
         window.addEventListener('resize', () => {
