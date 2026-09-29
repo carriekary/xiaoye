@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" data-page-node-id="coYPC5zsd5h0anG6PCSr8H" />
     <title>小野字幕君</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     
     <!-- 预连线 CDN 镜像，仅作本机词典的同源回退来源（本机 kuromoji/dict 优先，CDN 仅备援） -->
     <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin data-page-node-id="Q5tdBoYSwdCTAjPErRI2u1" />
@@ -134,8 +134,8 @@
           padding-right: 40px; 
           justify-content: center; text-align: center;
         }
-        .japanese-text { font-family: "Hiragino Mincho ProN", "Yu Mincho", "Hiragino Mincho", "YuMincho", serif; font-weight: 600; font-size: 16px; color: #b02430; margin-bottom: 2px; line-height: 1.9; }
-        .chinese-text { font-family: "Microsoft YaHei", "PingFang SC", "Source Han Sans SC", "Noto Sans SC", sans-serif; font-size: 14px; color: #666; border-top: 1px dashed #eee; padding-top: 2px; margin-top: 2px; line-height: 1.4; }
+        .japanese-text { font-family: "Hiragino Mincho ProN", "Yu Mincho", "Hiragino Mincho", "YuMincho", serif; font-weight: 600; font-size: 16px; color: #b02430; margin-bottom: 2px; line-height: 1.9; text-align: right; }
+        .chinese-text { font-family: "Microsoft YaHei", "PingFang SC", "Source Han Sans SC", "Noto Sans SC", sans-serif; font-size: 14px; color: #666; border-top: 1px dashed #eee; padding-top: 2px; margin-top: 2px; line-height: 1.4; text-align: left; }
         .single-language .chinese-text { display: none; }
         .single-language .japanese-text { margin-bottom: 0; border: none; }
 
@@ -444,17 +444,6 @@
           border-radius: 999px; border: 3px solid transparent; background-clip: padding-box;
         }
 
-        /* --- 回到顶端 --- */
-        .to-top-btn {
-          position: fixed; right: 18px; bottom: 92px; z-index: 1000; width: 52px; height: 52px;
-          border-radius: 50%; border: 1px solid var(--gold); cursor: pointer; font-size: 20px; color: var(--vermillion);
-          background: #fffdf9;
-          box-shadow: 0 4px 14px rgba(60,53,48,.14); display: none; align-items: center; justify-content: center;
-          transition: transform .2s var(--pop);
-        }
-        .to-top-btn.show { display: flex; animation: popIn .3s var(--pop) both; }
-        .to-top-btn:hover { transform: translateY(-4px) scale(1.06); }
-
         /* --- 撒花特效 --- */
         .cute-fx { position: fixed; inset: 0; pointer-events: none; z-index: 9997; overflow: hidden; }
         .cute-fx i { position: absolute; bottom: -40px; font-style: normal; animation: floatUp 2.2s ease-out forwards; }
@@ -467,7 +456,6 @@
           .empty-state .es-mascot { width: 108px; height: 108px; }
           .empty-state h2 { font-size: 18px; }
           .row-badge { align-self: center; min-width: 26px; height: 26px; font-size: 11px; }
-          .to-top-btn { bottom: 150px; width: 46px; height: 46px; }
         }
         @media (prefers-reduced-motion: reduce) {
           * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -867,36 +855,47 @@
           }
 
           AppState.processedSubtitles = rawSubs;
+          // 先初始化 rubyHtml（空 = 用纯文本 fallback），让画面能立刻渲染第一屏
+          AppState.processedSubtitles.forEach(sub => { sub.rubyHtml = ''; });
 
-          // 平假名注音生成处理（kuromoji 本机 / CDN）
+          updateNoteCount();
+          updateDisplay();   // 立即渲染第一屏，避免大档案时整页卡死
+
+          // 后台分块生成平假名注音（不阻塞主线程，开着进度条）
           if (isKuroshiroReady && AppState.processedSubtitles.length > 0) {
-            updateUIStatus("正在生成日语平假名注音，请稍候...", 'loading');
-            await new Promise(resolve => setTimeout(resolve, 50));
-            if (epoch !== (AppState.renderEpoch || 0)) return;   // 期间档案已被移除，放弃渲染
-            try {
-              AppState.processedSubtitles.forEach((sub) => {
-                if (sub.japanese) {
-                  try {
-                    const tokens = kuro.tokenize(sub.japanese);
-                    sub.rubyHtml = furiganaFromTokens(tokens);
-                  } catch (e) {
-                    sub.rubyHtml = escapeHtml(sub.japanese);
-                  }
-                } else {
-                  sub.rubyHtml = '';
-                }
-              });
-            } catch (err) {
-              console.error("注音转换出错:", err);
-            }
-          } else {
-            AppState.processedSubtitles.forEach(sub => {
-              sub.rubyHtml = escapeHtml(sub.japanese || '');
-            });
+            await generateFuriganaInChunks(epoch);
           }
+        }
 
-          updateNoteCount(); 
-          updateDisplay();
+        // 分块生成平假名注音：每批让出主线程，保持页面可响应；边生成边更新已渲染的行
+        async function generateFuriganaInChunks(epoch) {
+          const subs = AppState.processedSubtitles;
+          const total = subs.length;
+          const CHUNK = 60;
+          const container = document.getElementById('subtitles');
+          updateProgress(0, '正在生成日语平假名注音…');
+          for (let start = 0; start < total; start += CHUNK) {
+            if (epoch !== (AppState.renderEpoch || 0)) return;   // 期间档案被移除，放弃
+            const end = Math.min(start + CHUNK, total);
+            for (let i = start; i < end; i++) {
+              const sub = subs[i];
+              if (sub.japanese) {
+                try { sub.rubyHtml = furiganaFromTokens(kuro.tokenize(sub.japanese)); }
+                catch (e) { sub.rubyHtml = escapeHtml(sub.japanese); }
+              } else { sub.rubyHtml = ''; }
+            }
+            // 搜索状态下不就地更新 DOM（会盖掉高亮），下次搜索重整即可
+            if (!AppState.searchActive) {
+              for (let i = start; i < end; i++) {
+                const el = container.querySelector(`.row[data-index="${i}"] .japanese-text`);
+                if (el) el.innerHTML = subs[i].rubyHtml;
+              }
+            }
+            updateProgress(Math.round((end / total) * 100));
+            await new Promise(resolve => setTimeout(resolve, 0));   // 让出主线程
+          }
+          if (epoch !== (AppState.renderEpoch || 0)) return;
+          updateProgress(100);
         }
 
         function processSingleFileSubtitles(subtitles) {
@@ -1118,6 +1117,7 @@
         }
         
         function updateDisplay(query = '') {
+            AppState.searchActive = (query !== undefined && query !== '');
             if (query !== undefined) {
                 let displayData = [];
                 if (!query) {
@@ -1323,8 +1323,6 @@
 
 
 
-    <button id="toTopBtn" class="to-top-btn" title="回到最上面" aria-label="回到最上面">⬆️</button>
-
     <script>
       (function () {
         // 1) 空白引导页：有内容就让位
@@ -1366,14 +1364,6 @@
           } catch (err) { alert('这个浏览器不支援拖放，请改按上方的 📁 选择档案喔'); }
         });
 
-        // 3) 回到顶端
-        var toTop = document.getElementById('toTopBtn');
-        if (toTop) {
-          window.addEventListener('scroll', function () {
-            toTop.classList.toggle('show', window.scrollY > 400);
-          }, { passive: true });
-          toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-        }
 
         // 4) 字幕第一次长出来时撒个小花
         var fx = document.getElementById('cuteFx');
