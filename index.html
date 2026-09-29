@@ -882,6 +882,8 @@
 
         const isJapaneseText = (text) => text && /[\u3040-\u309F\u30A0-\u30FF]/.test(text);
         const isChineseText = (text) => text && /[\u4E00-\u9FAF]/.test(text) && !isJapaneseText(text);
+        // 依字幕内容挑選朗讀語言：含日文/中文字元→日文語音，否則→英文語音（純英文會讀英文）
+        const pickSpeechLang = (text) => /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text) ? 'ja-JP' : 'en-US';
 
         window.speakText = function(btn) {
            const text = btn.getAttribute('data-text');
@@ -890,7 +892,7 @@
              if (AppState.isReadingAll) { stopReadAll(); }   // 单句朗读会打断全文朗读
              window.speechSynthesis.cancel(); 
              AppState.currentUtterance = new SpeechSynthesisUtterance(text);
-             AppState.currentUtterance.lang = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text) ? 'ja-JP' : 'en-US';
+             AppState.currentUtterance.lang = pickSpeechLang(text);
              AppState.currentUtterance.rate = 0.9; 
              window.speechSynthesis.speak(AppState.currentUtterance);
            } else {
@@ -930,11 +932,10 @@
             if (!AppState.isReadingAll) return;            // 已被取消
             if (i >= lines.length) { stopReadAll(); return; }
             const u = new SpeechSynthesisUtterance(lines[i]);
-            u.lang = 'ja-JP';
+            u.lang = pickSpeechLang(lines[i]);   // 純英文→en-US，其餘→ja-JP
             u.rate = 0.9;
             u.onend = function() { if (AppState.isReadingAll) { i++; speakNext(); } };
             u.onerror = function() { if (AppState.isReadingAll) { i++; speakNext(); } };
-            i++;
             window.speechSynthesis.speak(u);
           }
           speakNext();
