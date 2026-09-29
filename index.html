@@ -757,7 +757,11 @@
                     isKuroshiroReady = true;
                     showGlobalStatus("日语注音系统准备就绪！");
                     (function () { var _c = document.getElementById('subtitles'); var _l = _c.querySelector('.loading.engine-loading'); if (_l) _l.remove(); })();
-                    if (AppState.processedSubtitles.length) processAndDisplayData();
+                    // 注音引擎就绪：若页面已载入字幕，就地补生成注音（不再整页重渲染、也不清空笔记）
+                    if (AppState.processedSubtitles.length) {
+                      updateProgress(0, '正在生成日语平假名注音…');
+                      generateFuriganaInChunks(AppState.renderEpoch || 0);
+                    }
                 } catch (err) {
                     console.error("注音引擎初始化失败:", err);
                     showGlobalStatus("注音功能加载失败，将使用纯文字模式", "error");
@@ -825,30 +829,33 @@
           if (!AppState.notesVisible) return;
           const subtitleRow = textarea.closest('.subtitle');
           if (!subtitleRow) return;
-          const textBox = subtitleRow.querySelector('.text-box');
-          
+          // 笔记框高度只跟随自己的内容，不再绑定日文字幕高度，
+          // 这样隐藏/显示注音（日文字幕变高变矮）时，笔记框不会跟着忽大忽小
           textarea.style.height = 'auto';
-          if (textBox) textBox.style.height = 'auto';
-          
-          const textHeight = textBox ? textBox.scrollHeight : 0;
           const noteHeight = textarea.scrollHeight;
-          let finalHeight = Math.max(textHeight, noteHeight, 34);
-          
           const isDesktop = window.innerWidth > 900;
+          let finalHeight = Math.max(noteHeight, 34);
           if (isDesktop && finalHeight >= 150) {
             textarea.style.overflowY = 'auto'; finalHeight = 150;
-          } else if (!isDesktop) {
-            textarea.style.overflowY = 'auto'; finalHeight = Math.max(textHeight, 34);
           } else {
-            textarea.style.overflowY = 'hidden';
+            textarea.style.overflowY = 'auto';
           }
-          
-          if (isDesktop) {
-            textarea.style.height = finalHeight + 'px';
-            if (textBox) textBox.style.height = finalHeight + 'px';
+          textarea.style.height = finalHeight + 'px';
+        }
+
+        // 把已经算好注音（rubyHtml）的行一次性刷进 DOM：
+        // 解决「滚到一半注音还在生成、该行被渲染成纯文本后一直没注音」的问题
+        function refillFuriganaDOM() {
+          if (AppState.searchActive) return;            // 搜索态下高亮由 updateDisplay 接管，不在此覆盖
+          if (!AppState.furiganaEnabled) return;        // 当前隐藏注音则不必刷（toggle 会再触发）
+          const container = document.getElementById('subtitles');
+          const subs = AppState.processedSubtitles;
+          for (let i = 0; i < subs.length; i++) {
+            const el = container.querySelector(`.row[data-index="${i}"] .japanese-text`);
+            if (el && subs[i].rubyHtml) el.innerHTML = subs[i].rubyHtml;
           }
         }
-        
+
         const isJapaneseText = (text) => text && /[\u3040-\u309F\u30A0-\u30FF]/.test(text);
         const isChineseText = (text) => text && /[\u4E00-\u9FAF]/.test(text) && !isJapaneseText(text);
 
@@ -935,6 +942,8 @@
           }
           if (epoch !== (AppState.renderEpoch || 0)) return;
           updateProgress(100);
+          // 生成结束后，把期间已存在于 DOM 的行（被提前渲染成纯文本者）用最新 rubyHtml 补齐
+          refillFuriganaDOM();
         }
 
         function processSingleFileSubtitles(subtitles) {
@@ -1160,6 +1169,8 @@
         // ==================== 渲染与无限滚动 ====================
         function createSubtitleRowHTML(item) {
           const { sub, originalIndex, isContext, highlightJp, highlightZh } = item;
+          // 非搜索态：优先用最新的 rubyHtml（注音可能在首次渲染后才生成完毕，避免后段行一直停在纯文本）
+          const jp = (!AppState.searchActive && sub.rubyHtml) ? sub.rubyHtml : highlightJp;
           const noteContent = AppState.notesData[originalIndex] || '';
           const hasNote = !!noteContent;
           const classes = hasNote ? 'has-written-note' : '';
@@ -1169,7 +1180,7 @@
               <div class="subtitle ${classes}">
                 <span class="row-badge">${originalIndex + 1}</span>
                 <div class="text-box">
-                  <div class="japanese-text">${highlightJp}</div>
+                  <div class="japanese-text">${jp}</div>
                   ${sub.chinese ? `<div class="chinese-text">${highlightZh}</div>` : ''}
                   <div class="row-actions"><button class="action-btn" data-text="${escapeHtml(sub.japanese || sub.originalText)}" onclick="speakText(this)" title="朗读这句">🔊</button></div>
                 </div>
@@ -1317,6 +1328,8 @@
           AppState.furiganaEnabled = !AppState.furiganaEnabled; 
           this.textContent = AppState.furiganaEnabled ? '隐藏注音' : '显示注音';
           document.body.classList.toggle('hide-furigana', !AppState.furiganaEnabled);
+          // 显示注音时，若部分行生成已完成却还没刷进 DOM（如生成途中滚到的新行），立即补刷
+          if (AppState.furiganaEnabled) refillFuriganaDOM();
           document.querySelectorAll('.note-box').forEach(autoResizeTextarea);
         });
 
