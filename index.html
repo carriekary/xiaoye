@@ -170,7 +170,6 @@
         .dropdown-content button:hover { background: #f8f9fa; color: #000; }
         .dropdown-content button.pdf-btn { color: #e74c3c; font-weight: bold; }
         .dropdown-content button.pdf-notes-btn { color: #e67e22; font-weight: bold; }
-        .dropdown-content button.html-btn { color: #2980b9; }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -316,7 +315,6 @@
         .dropdown-content button:hover { background: var(--menu-hover-bg); color: var(--menu-hover-color); }
         .dropdown-content button.pdf-btn { color: var(--vermillion); }
         .dropdown-content button.pdf-notes-btn { color: #9a7a3c; }
-        .dropdown-content button.html-btn { color: #6b6357; }
 
         .progress-bar { background: var(--vermillion); }
         .file-info { border-radius: 6px; box-shadow: 0 4px 14px rgba(60, 53, 48, 0.14); }
@@ -457,12 +455,13 @@
         /* ==================== 支持作者（低调入口 + 弹窗） ==================== */
         .site-footer { text-align: center; padding: 22px 12px 30px; }
         .support-author-link {
-          display: inline-block; margin-top: 12px;
-          background: none; border: none; cursor: pointer; padding: 4px 8px;
-          font-size: 12.5px; color: #c0392b; letter-spacing: .5px; opacity: .92; font-weight: 600;
-          transition: opacity .2s ease, color .2s ease; font-family: inherit;
+          display: inline-block; margin-top: 14px;
+          background: #fff7f3; border: 1.5px solid var(--vermillion); border-radius: 999px; cursor: pointer;
+          padding: 8px 18px; font-size: 13px; color: var(--vermillion); letter-spacing: .5px; opacity: 1; font-weight: 700;
+          transition: background .2s ease, color .2s ease, box-shadow .2s ease, transform .15s ease; font-family: inherit;
+          box-shadow: 0 1px 5px rgba(176, 36, 48, .18);
         }
-        .support-author-link:hover { opacity: 1; color: var(--vermillion); }
+        .support-author-link:hover { background: var(--vermillion); color: #fff; box-shadow: 0 3px 10px rgba(176, 36, 48, .32); transform: translateY(-1px); }
         .support-author-link::before { content: "☕ "; }
 
         .author-modal { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
@@ -495,10 +494,10 @@
         .vocab-page { position: fixed; inset: 0; z-index: 2200; background: #fffdf9; display: flex; flex-direction: column; }
         .vocab-page[hidden] { display: none; }
         .vocab-page-head { display: flex; align-items: center; gap: 12px; padding: 14px 22px; border-bottom: 1px solid var(--gold); background: #fffdf9; }
-        .vocab-page-head h2 { margin: 0; font-size: 20px; color: var(--vermillion); letter-spacing: 1px; }
+        .vocab-page-head h2 { margin: 0; margin-left: auto; font-size: 20px; color: var(--vermillion); letter-spacing: 1px; }
         .vocab-page-head .vocab-count { font-size: 13px; color: #8a8175; }
         .vocab-back {
-          margin-left: auto; border: 1px solid var(--gold); background: #fff; color: #7c6f56; border-radius: 8px;
+          border: 1px solid var(--gold); background: #fff; color: #7c6f56; border-radius: 8px;
           padding: 7px 14px; cursor: pointer; font-size: 14px; font-weight: 700; transition: background .15s ease, transform .15s var(--pop);
         }
         .vocab-back:hover { background: #f7efe0; }
@@ -515,6 +514,22 @@
         .vocab-chip { border: 1px solid #e3d8c2; background: #fff; border-radius: 20px; padding: 4px 13px; font-size: 12.5px; cursor: pointer; color: #7c6f56; transition: background .15s ease; }
         .vocab-chip:hover { background: #f7efe0; }
         .vocab-chip.active { background: var(--vermillion); color: #fff; border-color: var(--vermillion); }
+        .vocab-manage-btn { border: 1px solid #e3d8c2; background: #fff; color: #7c6f56; border-radius: 8px; padding: 8px 12px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+        .vocab-manage-btn:hover { background: #f7efe0; }
+        .vocab-manage-btn.active { background: var(--vermillion); color: #fff; border-color: var(--vermillion); }
+        .vocab-cat-manager { padding: 10px 22px 14px; border-bottom: 1px solid #ece3d2; background: #fbf6ec; }
+        .vocab-cat-manager-head { font-size: 13px; color: #7c6f56; font-weight: 700; margin-bottom: 8px; }
+        .vocab-cat-manager-hint { font-weight: 400; color: #a89e8e; font-size: 12px; }
+        .vocab-cat-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .vocab-cat-row { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid #e3d8c2; border-radius: 16px; padding: 3px 6px 3px 12px; font-size: 12.5px; color: #7c6f56; }
+        .vocab-cat-del { border: none; background: #f3ede1; color: #a8866f; border-radius: 12px; padding: 2px 8px; cursor: pointer; font-size: 12px; }
+        .vocab-cat-del:hover { background: #f0d9d0; color: #b02430; }
+        .vocab-cat-empty { color: #a89e8e; font-size: 12.5px; }
+        .vocab-cat-add { display: flex; gap: 8px; }
+        .vocab-cat-input { flex: 1; max-width: 260px; padding: 7px 11px; border: 1px solid #e3d8c2; border-radius: 8px; font-size: 13px; background: #fff; }
+        .vocab-cat-input:focus { outline: none; border-color: var(--vermillion); }
+        .vocab-cat-addbtn { border: 1px solid var(--vermillion); background: #fff; color: var(--vermillion); border-radius: 8px; padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .vocab-cat-addbtn:hover { background: var(--vermillion); color: #fff; }
         .vocab-list { flex: 1; overflow-y: auto; padding: 12px 22px 30px; display: flex; flex-direction: column; gap: 12px; }
         .vocab-group-head { position: sticky; top: 0; background: #fffdf9; padding: 10px 2px 6px; font-size: 14px; font-weight: 700; color: #7c6f56; border-bottom: 2px solid var(--gold); margin-top: 6px; }
         .vocab-group-head:first-child { margin-top: 0; }
@@ -616,7 +631,6 @@
         <div class="export-dropdown" id="exportDropdownContainer" data-page-node-id="WCKDrez4NjF7jDfwzAldvT">
             <button class="main-export-btn" id="mainExportBtn" data-page-node-id="POWoZh6u3uf60fmlfhHKwh">汇出档案 ▴</button>
             <div class="dropdown-content" id="exportMenu" data-page-node-id="KPCUYa6LSmMyTm3gi8EWn8">
-                <button class="html-btn" id="exportBtn" style="display:none;" data-page-node-id="rZzWHEZLQPaBxtmXdUnN8X">📄 HTML (笔记备份)</button>
                 <button class="pdf-notes-btn" id="exportPdfNotesBtn" style="display:none;" data-page-node-id="0KBhC9unoXVbCYT6CXGr3X">📝 PDF (仅笔记)</button>
                 <button class="pdf-btn" id="exportPdfBtn" data-page-node-id="Qd6gR4tqXFPjl6gRWHAQxZ">📕 PDF (全文)</button>
             </div>
@@ -675,9 +689,9 @@
 
     <div id="vocabBookPage" class="vocab-page" hidden>
         <div class="vocab-page-head">
+            <button class="vocab-back" type="button" id="vocabBackBtn">← 返回字幕</button>
             <h2>📒 生词本</h2>
             <span class="vocab-count" id="vocabCount"></span>
-            <button class="vocab-back" type="button" id="vocabBackBtn">← 返回字幕</button>
         </div>
         <div class="vocab-toolbar">
             <input type="search" class="vocab-search" id="vocabSearch" placeholder="搜索笔记 / 单字 / 来源句…" />
@@ -687,8 +701,17 @@
                 <option value="file">按来源文件</option>
             </select>
             <label class="vocab-group-toggle"><input type="checkbox" id="vocabGroup" /> 📁 按文件分组</label>
+            <button type="button" id="vocabManageBtn" class="vocab-manage-btn">🏷 管理分类</button>
         </div>
         <div class="vocab-chips" id="vocabChips"></div>
+        <div class="vocab-cat-manager" id="vocabCatManager" hidden>
+            <div class="vocab-cat-manager-head">分类管理</div>
+            <div class="vocab-cat-list" id="vocabCatList"></div>
+            <div class="vocab-cat-add">
+                <input type="text" id="vocabCatInput" class="vocab-cat-input" placeholder="输入新分类，如 英语" />
+                <button type="button" id="vocabCatAddBtn" class="vocab-cat-addbtn">新增</button>
+            </div>
+        </div>
         <div class="vocab-list" id="vocabBookList"></div>
     </div>
 
@@ -892,7 +915,6 @@
           document.getElementById('exportPdfBtn').style.display = processedSubtitles.length > 0 ? 'block' : 'none';
 
           const hasNotes = noteCount > 0;
-          document.getElementById('exportBtn').style.display = hasNotes ? 'block' : 'none';
           document.getElementById('exportPdfNotesBtn').style.display = hasNotes ? 'block' : 'none';
           if (hasNotes) showGlobalStatus(`目前共有 ${noteCount} 条笔记`);
         }
@@ -1525,6 +1547,64 @@
           updateNoteCount();
         }
 
+        // ==================== 生词本：用户自定分类（持久化在本机） ====================
+        const VOCAB_CATS_KEY = 'xiaoye_vocab_categories_v1';
+        function loadVocabCategories() {
+          try {
+            const raw = localStorage.getItem(VOCAB_CATS_KEY);
+            if (raw) {
+              const arr = JSON.parse(raw);
+              if (Array.isArray(arr)) {
+                const set = {};
+                arr.forEach(c => { if (c && c.trim()) set[c.trim()] = 1; });
+                // 合并：若既有条目已用过某分类但不在列表里，也纳入（避免孤儿分类）
+                Object.keys(vocabMap).forEach(k => { const c = vocabMap[k].category; if (c) set[c] = 1; });
+                return Object.keys(set).sort((a, b) => a.localeCompare(b));
+              }
+            }
+          } catch (e) {}
+          // 首次使用：提供常用默认分类，并合并既有条目分类
+          const defaults = ['日語', '英語', '文法', '片語', '單字'];
+          const set = {};
+          defaults.forEach(c => set[c] = 1);
+          Object.keys(vocabMap).forEach(k => { const c = vocabMap[k].category; if (c) set[c] = 1; });
+          const init = Object.keys(set).sort((a, b) => a.localeCompare(b));
+          try { localStorage.setItem(VOCAB_CATS_KEY, JSON.stringify(init)); } catch (e) {}
+          return init;
+        }
+        let userCategories = loadVocabCategories();   // 用户定义的分类列表（含默认）
+        function persistVocabCategories() {
+          try { localStorage.setItem(VOCAB_CATS_KEY, JSON.stringify(userCategories)); } catch (e) {}
+        }
+        // chips / 下拉 显示用：用户定义分类 + 条目中出现过的（去重）
+        function getAllCategories() {
+          const set = {};
+          userCategories.forEach(c => { if (c) set[c] = 1; });
+          Object.keys(vocabMap).forEach(k => { const c = vocabMap[k].category; if (c) set[c] = 1; });
+          return Object.keys(set).sort((a, b) => a.localeCompare(b));
+        }
+        function addUserCategory(name) {
+          name = (name || '').trim();
+          if (!name) return false;
+          if (userCategories.indexOf(name) >= 0) return false;   // 已存在
+          userCategories.push(name);
+          userCategories.sort((a, b) => a.localeCompare(b));
+          persistVocabCategories();
+          return true;
+        }
+        function removeUserCategory(name) {
+          name = (name || '').trim();
+          if (!name) return;
+          userCategories = userCategories.filter(c => c !== name);
+          persistVocabCategories();
+          // 把使用此分类的条目改回「未分类」
+          let changed = false;
+          Object.keys(vocabMap).forEach(k => {
+            if (vocabMap[k].category === name) { vocabMap[k].category = ''; vocabMap[k].updatedAt = new Date().toISOString(); changed = true; }
+          });
+          if (changed) persistVocabBookDebounced();
+        }
+
         // ==================== 存档与拖曳逻辑 ====================
         const saveTimers = {};
         const saveNote = (noteBox) => {
@@ -1615,26 +1695,7 @@
         document.getElementById('mainExportBtn').addEventListener('click', e => { e.stopPropagation(); exportMenu.classList.toggle('show'); });
         window.addEventListener('click', () => exportMenu.classList.remove('show'));
 
-        // 生词本（原「导入笔记」已改为本机持久化的生词本，见 setupVocabBook）
-        const triggerDownload = (htmlStr, suffix) => {
-            const blob = new Blob([htmlStr], { type: 'text/html;charset=utf-8' });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-            a.download = `${getSafeFileName()}_${suffix}.html`; a.click();
-        };
-
-        document.getElementById('exportBtn').addEventListener('click', () => {
-          const validNotes = Object.entries(AppState.notesData).filter(([_, n]) => (n || '').trim());
-          if (!validNotes.length) return alert('目前没有笔记可供汇出');
-          
-          const items = validNotes.map(([idx, note], i) => {
-            const s = AppState.processedSubtitles[idx];
-            const title = s.chinese ? `${s.japanese} | ${s.chinese}` : s.japanese;
-            const time = (s.startTime && s.endTime) ? `<div class="export-timecode" style="color:#666; font-size:12px; margin-bottom:6px; margin-left:24px;">⏱ ${escapeHtml(s.startTime)} --> ${escapeHtml(s.endTime)}</div>` : '';
-            return `<div class="export-item" data-original-index="${idx}"><div style="display:flex; align-items:baseline; gap:8px;"><div style="font-weight:bold;">${i+1}.</div><div style="font-weight:bold; color:#2c3e50;">${escapeHtml(title)}</div></div>${time}<div class="export-note-content" style="color:#e67e22; white-space:pre-wrap; background:#fff8e1; padding:10px; border-radius:4px; border-left:4px solid #ff9800; margin-bottom: 16px;">${escapeHtml(note)}</div></div><hr style="border:0; border-top:1px dashed #eee; margin:16px 0;" />`;
-          }).join('');
-          triggerDownload(`<!doctype html><html><head><meta charset="utf-8"><title>笔记备份_${escapeHtml(AppState.currentFileName)}</title><style>body{padding:20px;font-family:sans-serif;}</style></head><body><h2>${escapeHtml(AppState.currentFileName)} - 笔记备份</h2><p style="color:#666;font-size:12px;">此为您撰写的笔记纪录，可随时重新导入系统中。</p><hr style="margin-bottom:20px;"/>${items}</body></html>`, '笔记备份');
-        });
-
+        // PDF 汇出：笔记讲义 / 全文讲义
         const triggerPrint = (htmlStr) => {
             const win = window.open('', '_blank'); win.document.write(htmlStr); win.document.close();
             setTimeout(() => { win.focus(); win.print(); }, 250);
@@ -1674,6 +1735,12 @@
           var backBtn = document.getElementById('vocabBackBtn');
           if (!page || !btn || !list || !chips || !search || !sortSel || !groupChk || !countEl || !backBtn) return;
 
+          var manageBtn = document.getElementById('vocabManageBtn');
+          var catManager = document.getElementById('vocabCatManager');
+          var catList = document.getElementById('vocabCatList');
+          var catInput = document.getElementById('vocabCatInput');
+          var catAddBtn = document.getElementById('vocabCatAddBtn');
+
           var activeCat = '';   // '' = 全部, '__uncat' = 未分类, 否则 = 分类名称
 
           function open() { renderVocabBook(); page.hidden = false; document.body.style.overflow = 'hidden'; try { search.focus(); } catch (e) {} }
@@ -1687,9 +1754,7 @@
           groupChk.addEventListener('change', renderVocabBook);
 
           function allCategories() {
-            var set = {};
-            Object.keys(vocabMap).forEach(function (k) { var c = vocabMap[k].category; if (c) set[c] = 1; });
-            return Object.keys(set).sort(function (a, b) { return a.localeCompare(b); });
+            return getAllCategories();
           }
 
           chips.addEventListener('click', function (e) {
@@ -1723,7 +1788,7 @@
             var sentence = '<div class="vocab-sentence">' + escapeHtml(en.sentence || '') + '</div>';
             var zh = en.sentenceZh ? '<div class="vocab-zh">' + escapeHtml(en.sentenceZh) + '</div>' : '';
             var time = en.time ? ' · ⏱ ' + escapeHtml(en.time) : '';
-            var cats = allCategories();
+            var cats = userCategories;
             var opts = '<option value="">（未分类）</option>';
             cats.forEach(function (c) {
               opts += '<option value="' + escapeHtml(c) + '"' + (en.category === c ? ' selected' : '') + '>' + escapeHtml(c) + '</option>';
@@ -1743,8 +1808,8 @@
             var entries = getFiltered();
             var total = Object.keys(vocabMap).length;
             countEl.textContent = '共 ' + total + ' 条' + (entries.length !== total ? '（筛选出 ' + entries.length + ' 条）' : '');
-            // 分类 chips
-            var cats = allCategories();
+            // 分类 chips（显示用户自定分类，空分类也显示，方便直接筛选/指派）
+            var cats = userCategories;
             var parts = ['<button type="button" class="vocab-chip' + (activeCat === '' ? ' active' : '') + '" data-cat="">全部</button>'];
             parts.push('<button type="button" class="vocab-chip' + (activeCat === '__uncat' ? ' active' : '') + '" data-cat="__uncat">未分类</button>');
             cats.forEach(function (c) { parts.push('<button type="button" class="vocab-chip' + (activeCat === c ? ' active' : '') + '" data-cat="' + escapeHtml(c) + '">' + escapeHtml(c) + '</button>'); });
@@ -1786,12 +1851,54 @@
             var val = sel.value;
             if (val === '__new') {
               var name = prompt('请输入新分类名称：');
-              if (name && name.trim()) setVocabCategory(key, name.trim());
+              if (name && name.trim()) {
+                addUserCategory(name.trim());      // 先加入用户分类清单（重複會被忽略）
+                setVocabCategory(key, name.trim());
+              }
             } else {
               setVocabCategory(key, val);
             }
             renderVocabBook();   // 重新渲染（分類 chip 與清單會同步）
           });
+
+          // ============ 分类管理面板 ============
+          function renderCatManager() {
+            if (!catList) return;
+            catList.innerHTML = userCategories.map(function (c) {
+              return '<div class="vocab-cat-row"><span class="vocab-cat-name">' + escapeHtml(c) + '</span>'
+                + '<button type="button" class="vocab-cat-del" data-catdel="' + escapeHtml(c) + '">删除</button></div>';
+            }).join('') || '<div class="vocab-cat-empty">还没有自定义分类，在下方输入新增吧 ♡</div>';
+          }
+          function doAddCategory() {
+            if (!catInput) return;
+            var name = catInput.value;
+            if (!name || !name.trim()) { alert('请输入分类名称'); return; }
+            if (!addUserCategory(name.trim())) { alert('这个分类已经存在了'); return; }
+            catInput.value = '';
+            renderCatManager();
+            renderVocabBook();
+          }
+          if (manageBtn && catManager) {
+            manageBtn.addEventListener('click', function () {
+              var willShow = catManager.hidden;
+              catManager.hidden = !willShow;
+              manageBtn.classList.toggle('active', willShow);
+              if (willShow) { renderCatManager(); if (catInput) try { catInput.focus(); } catch (e) {} }
+            });
+            if (catAddBtn) catAddBtn.addEventListener('click', doAddCategory);
+            if (catInput) catInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') doAddCategory(); });
+            catList.addEventListener('click', function (e) {
+              var delName = e.target.getAttribute('data-catdel');
+              if (delName) {
+                if (confirm('确定删除分类「' + delName + '」？\n（使用此分类的生词本会改回「未分类」）')) {
+                  removeUserCategory(delName);
+                  if (activeCat === delName) activeCat = '';   // 若正在筛选该分类，取消
+                  renderCatManager();
+                  renderVocabBook();
+                }
+              }
+            });
+          }
 
           function jumpToSource(key) {
             var en = vocabMap[key];
