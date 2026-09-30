@@ -1739,7 +1739,7 @@
               + '</div>';
           }
 
-          window.renderVocabBook = function () {
+          function renderVocabBook() {
             var entries = getFiltered();
             var total = Object.keys(vocabMap).length;
             countEl.textContent = '共 ' + total + ' 条' + (entries.length !== total ? '（筛选出 ' + entries.length + ' 条）' : '');
