@@ -138,6 +138,7 @@
           opacity: 0; transition: opacity 0.2s ease; z-index: 10;
         }
         .text-box:hover .row-actions { opacity: 1; }
+        @media (max-width: 900px) { .row-actions { opacity: 1; } }
         .action-btn {
           background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 6px;
           cursor: pointer; font-size: 13px; color: #475569; transition: all 0.2s; font-weight: bold;
@@ -567,6 +568,47 @@
         #readingEditor .re-del:hover { background: #fbeef0; }
         #readingEditor .re-cancel { border: 1px solid #ddd6c7; background: #fff; color: #7c756a; border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 13px; font-family: inherit; }
         #readingEditor .re-cancel:hover { background: #f5f1e8; }
+
+        /* ==================== AI 文法分析 ==================== */
+        .action-btn.grammar-btn { color: #7c3aed; font-weight: 700; }
+        .action-btn.grammar-btn:hover { background: #f3e8ff; color: #6d28d9; border-color: #c4b5fd; }
+        .action-btn.grammar-btn.has-cache { color: #b02430; background: #fde8ec; border-color: #f3c0cb; }
+        .grammar-box {
+          margin: 7px 0 2px; padding: 10px 12px; border: 1px solid #e9d8fb; border-left: 4px solid #7c3aed;
+          background: #faf7ff; border-radius: 10px; font-size: 13px; color: #3b2f4a; line-height: 1.6;
+          text-align: left; word-break: break-word;
+        }
+        .grammar-box[hidden] { display: none; }
+        .grammar-box .gb-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .grammar-box .gb-title { font-size: 12.5px; font-weight: 700; color: #7c3aed; }
+        .grammar-box .gb-level { font-size: 11px; font-weight: 700; color: #fff; background: #7c3aed; border-radius: 10px; padding: 2px 8px; }
+        .grammar-box .gb-trans { color: #c0392b; font-weight: 600; margin-bottom: 8px; }
+        .grammar-box .gb-section-title { font-size: 11.5px; color: #8a7aa0; font-weight: 700; margin: 8px 0 4px; letter-spacing: .5px; }
+        .grammar-box .gb-item { margin-bottom: 6px; }
+        .grammar-box .gb-pattern { color: #6d28d9; font-weight: 700; }
+        .grammar-box .gb-meaning { color: #2c3e50; }
+        .grammar-box .gb-note { color: #777; font-size: 12px; margin-top: 2px; }
+        .grammar-box .gb-particle { display: inline-block; background: #fff; border: 1px solid #e9d8fb; border-radius: 6px; padding: 2px 8px; margin: 3px 5px 3px 0; font-size: 12px; }
+        .grammar-box .gb-particle b { color: #7c3aed; }
+        .grammar-box .gb-loading { color: #8a7aa0; }
+        .grammar-box .gb-error { color: #b02430; }
+        .ai-settings-btn { color: #7c3aed; border-color: #e9d8fb; }
+        .ai-settings-btn:hover { background: #f3e8ff; color: #6d28d9; }
+        /* AI 設定彈窗 */
+        .ai-modal-backdrop { position: fixed; inset: 0; background: rgba(40,33,48,.45); z-index: 2300; display: flex; align-items: center; justify-content: center; }
+        .ai-modal-backdrop[hidden] { display: none; }
+        .ai-card { background: #fffdf9; border: 1px solid var(--gold); border-radius: 16px; padding: 22px 24px; width: min(460px, 92vw); box-shadow: 0 16px 40px rgba(60,53,48,.28); }
+        .ai-card h3 { margin: 0 0 4px; color: var(--vermillion); font-size: 18px; }
+        .ai-card p.ai-sub { margin: 0 0 14px; color: #8a8175; font-size: 12.5px; line-height: 1.5; }
+        .ai-card label { display: block; font-size: 12.5px; color: #7c6f56; font-weight: 700; margin-bottom: 6px; }
+        .ai-card input.ai-key-input { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid #e3d8c2; border-radius: 8px; font-size: 13px; font-family: inherit; }
+        .ai-card input.ai-key-input:focus { outline: none; border-color: var(--vermillion); }
+        .ai-card .ai-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+        .ai-card .ai-save { border: 1px solid var(--vermillion); background: var(--vermillion); color: #fff; border-radius: 8px; padding: 8px 18px; cursor: pointer; font-size: 13px; font-weight: 700; }
+        .ai-card .ai-save:hover { background: #97202b; }
+        .ai-card .ai-cancel { border: 1px solid #ddd6c7; background: #fff; color: #7c756a; border-radius: 8px; padding: 8px 16px; cursor: pointer; font-size: 13px; }
+        .ai-card .ai-hint { font-size: 11.5px; color: #a89e8e; margin-top: 12px; line-height: 1.5; }
+        .ai-card .ai-hint a { color: #7c3aed; }
     </style>
 
 </head>
@@ -637,6 +679,7 @@
                 <button id="toggleNotesBtn" class="toggle-notes-btn" data-page-node-id="Bue79v2SKhcXGCvm4BKH71">隐藏笔记</button>
                 <button id="bilingualBtn" class="bilingual-btn" data-page-node-id="4Bknm7rNDPRogzOnMVlPHh">单语显示</button>
                 <button id="furiganaBtn" class="bilingual-btn" data-page-node-id="QvV7DzEHEYuQQhDCGlwGxO">隐藏注音</button>
+                <button id="aiSettingsBtn" class="bilingual-btn ai-settings-btn" type="button">⚙ AI 設定</button>
             </div>
         </div>
     </header>
@@ -747,6 +790,25 @@
             <button type="button" class="re-save" id="reSave">儲存</button>
             <button type="button" class="re-del" id="reDel">刪除</button>
             <button type="button" class="re-cancel" id="reCancel">取消</button>
+        </div>
+    </div>
+
+    <!-- AI 文法分析：Puter 登入與模型設定 -->
+    <div id="aiSettingsModal" class="ai-modal-backdrop" hidden>
+        <div class="ai-card">
+            <h3>⚙ AI 文法分析設定</h3>
+            <p class="ai-sub">本功能由 <b>Puter</b> 免費提供：開發者零 API Key、零後端。你點台詞上的 ✦ 時會請你登入 Puter 免費賬號，由你的賬號承擔 AI 費用（免費額度內不收費）。</p>
+            <div class="ai-status" id="aiStatus">登入狀態：檢查中…</div>
+            <div class="ai-actions">
+                <button type="button" class="ai-save" id="aiLoginBtn">登入 Puter</button>
+                <button type="button" class="ai-cancel" id="aiLogoutBtn">登出</button>
+            </div>
+            <label for="aiModelInput" style="margin-top:14px;">模型（可改）</label>
+            <input id="aiModelInput" class="ai-key-input" type="text" placeholder="例如 deepseek/deepseek-chat" autocomplete="off" />
+            <p class="ai-hint">可用 <b>deepseek/deepseek-chat</b>（預設，日文佳）、<b>google/gemini-2.0-flash</b>、<b>openai/gpt-...</b>、<b>qwen/qwen3...</b>、<b>moonshotai/kimi...</b> 等。改完即生效。Puter 需聯網載入；若用 file:// 開啟登錄可能失敗，請用 https 部署或本地伺服器。</p>
+            <div class="ai-actions">
+                <button type="button" class="ai-cancel" id="aiCancelKey" data-ai-close>關閉</button>
+            </div>
         </div>
     </div>
 
@@ -1449,7 +1511,8 @@
                 <div class="text-box">
                   <div class="japanese-text">${jp}</div>
                   ${sub.chinese ? `<div class="chinese-text">${highlightZh}</div>` : ''}
-                  <div class="row-actions"><button class="action-btn" data-text="${escapeHtml(sub.japanese || sub.originalText)}" onclick="speakText(this)" title="朗读这句">🔊</button></div>
+                  <div class="grammar-box" data-index="${originalIndex}" hidden></div>
+                  <div class="row-actions"><button class="action-btn grammar-btn" data-index="${originalIndex}" title="AI 文法分析" type="button">✦</button><button class="action-btn" data-text="${escapeHtml(sub.japanese || sub.originalText)}" onclick="speakText(this)" title="朗读这句">🔊</button></div>
                 </div>
                 <div class="note-area"><div class="note-container">
                   <textarea class="note-box ${noteClasses}" data-index="${originalIndex}" placeholder="✏️ 写点笔记…（自动帮你存好）">${escapeHtml(noteContent)}</textarea>
@@ -1503,6 +1566,7 @@
 
             // 渲染第一批资料
             renderNextBatch();
+            if (window.__refreshGrammarBtns) window.__refreshGrammarBtns();
 
             
             document.body.classList.toggle('single-language', !AppState.bilingualEnabled);
@@ -1857,6 +1921,145 @@
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && editor.classList.contains('show')) closeEditor();
             });
+        })();
+
+        // ==================== AI 文法分析（Puter.js，瀏覽器端呼叫，開發者零 key） ====================
+        (function setupGrammarAI() {
+            var CACHE_STORE = 'xiaoye_grammar_cache_v1';
+            var MODEL_STORE = 'xiaoye_puter_model_v1';
+            var DEFAULT_MODEL = 'deepseek/deepseek-chat';
+
+            function loadModel() { try { return localStorage.getItem(MODEL_STORE) || DEFAULT_MODEL; } catch (e) { return DEFAULT_MODEL; } }
+            function saveModel(m) { try { if (m) localStorage.setItem(MODEL_STORE, m); } catch (e) {} }
+            function loadCache() { try { return JSON.parse(localStorage.getItem(CACHE_STORE) || '{}') || {}; } catch (e) { return {}; } }
+            function saveCache(o) { try { localStorage.setItem(CACHE_STORE, JSON.stringify(o)); } catch (e) {} }
+
+            function puterReady() { return (typeof puter !== 'undefined') && !!puter && !!puter.ai; }
+
+            function extractJson(s) {
+                if (typeof s !== 'string') s = String(s || '');
+                var a = s.indexOf('{'), b = s.lastIndexOf('}');
+                if (a === -1 || b === -1 || b < a) throw new Error('AI 回傳非 JSON 格式');
+                return JSON.parse(s.slice(a, b + 1));
+            }
+
+            // ---- 設定彈窗 ----
+            var modal = document.getElementById('aiSettingsModal');
+            var modelInput = document.getElementById('aiModelInput');
+            var statusEl = document.getElementById('aiStatus');
+            var loginBtn = document.getElementById('aiLoginBtn');
+            var logoutBtn = document.getElementById('aiLogoutBtn');
+            var openBtn = document.getElementById('aiSettingsBtn');
+
+            function refreshStatus() {
+                if (!puterReady()) { if (statusEl) statusEl.textContent = '登入狀態：Puter 未載入（請確認網路）'; return; }
+                puter.auth.isSignedIn().then(function (ok) {
+                    if (statusEl) statusEl.textContent = ok ? '登入狀態：已登入 Puter ✅' : '登入狀態：未登入';
+                }).catch(function () { if (statusEl) statusEl.textContent = '登入狀態：無法確認（請確認網路）'; });
+            }
+            function openSettings() { if (modelInput) modelInput.value = loadModel(); if (modal) modal.hidden = false; refreshStatus(); }
+            function closeSettings() { if (modal) modal.hidden = true; }
+            if (openBtn) openBtn.addEventListener('click', openSettings);
+            if (modal) {
+                modal.querySelectorAll('[data-ai-close]').forEach(function (el) { el.addEventListener('click', closeSettings); });
+                if (loginBtn) loginBtn.addEventListener('click', function () {
+                    if (!puterReady()) { showGlobalStatus('Puter 未載入，請確認網路', 2500); return; }
+                    puter.auth.signIn().then(function () { refreshStatus(); showGlobalStatus('已登入 Puter ♪', 1600); }).catch(function (e) { showGlobalStatus('登入失敗：' + String((e && e.message) || e), 2800); });
+                });
+                if (logoutBtn) logoutBtn.addEventListener('click', function () {
+                    if (!puterReady()) return;
+                    puter.auth.signOut().then(function () { refreshStatus(); }).catch(function () {});
+                });
+                if (modelInput) modelInput.addEventListener('change', function () { saveModel(modelInput.value.trim() || DEFAULT_MODEL); showGlobalStatus('模型已設為 ' + (modelInput.value.trim() || DEFAULT_MODEL), 1600); });
+                document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeSettings(); });
+            }
+
+            function refreshGrammarBtns() {
+                var cache = loadCache();
+                document.querySelectorAll('#subtitles .grammar-btn').forEach(function (btn) {
+                    var idx = +btn.getAttribute('data-index');
+                    var sub = AppState.processedSubtitles[idx];
+                    var jp = sub ? (sub.japanese || '') : '';
+                    if (cache[jp]) btn.classList.add('has-cache'); else btn.classList.remove('has-cache');
+                });
+            }
+
+            function renderGrammarBox(box, data) {
+                if (!data) return;
+                var html = '<div class="gb-head">';
+                if (data.level) html += '<span class="gb-level">' + escapeHtml(data.level) + '</span>';
+                html += '<span class="gb-title">🤖 AI 文法分析</span></div>';
+                if (data.translation) html += '<div class="gb-trans">💬 ' + escapeHtml(data.translation) + '</div>';
+                if (data.grammar && data.grammar.length) {
+                    html += '<div class="gb-section-title">文法點</div>';
+                    data.grammar.forEach(function (g) {
+                        html += '<div class="gb-item"><span class="gb-pattern">' + escapeHtml(g.pattern || '') + '</span> ' +
+                                '<span class="gb-meaning">' + escapeHtml(g.meaning || '') + '</span>' +
+                                (g.note ? '<div class="gb-note">' + escapeHtml(g.note) + '</div>' : '') + '</div>';
+                    });
+                }
+                if (data.particles && data.particles.length) {
+                    html += '<div class="gb-section-title">助詞</div>';
+                    data.particles.forEach(function (p) {
+                        html += '<span class="gb-particle"><b>' + escapeHtml(p.particle || '') + '</b> ' + escapeHtml(p.role || '') + '</span>';
+                    });
+                }
+                box.innerHTML = html;
+                box.hidden = false;
+            }
+
+            function ensureSignedIn() {
+                if (!puterReady()) return Promise.reject(new Error('Puter 未載入，請確認網路連線'));
+                if (!puter.auth) return Promise.reject(new Error('Puter auth 不可用'));
+                return puter.auth.isSignedIn().then(function (ok) {
+                    if (ok) return true;
+                    return puter.auth.signIn().then(function () { return true; });
+                });
+            }
+
+            function callPuter(jpText) {
+                var model = loadModel();
+                var prompt = '你是日文文法老師。請分析以下日劇台詞的文法，用繁體中文（香港用語）解釋，程度對準 JLPT N2/N1 學習者。\n\n台詞：' + jpText + '\n\n請只輸出 JSON（不要任何多餘文字、不要 ``` 標記），欄位：translation=整句自然中文翻譯；level=這句主要文法點的 JLPT 等級（如 N1/N2/N3/N4/N5/無）；grammar=文法點陣列，每個含 pattern(文型如 〜てしまう)、meaning(意思)、note(簡短說明或例句)；particles=助詞陣列，每個含 particle(助詞如 は/が/を/に)、role(語法作用如 主題/對象/方向)。';
+                return puter.ai.chat(prompt, { model: model }).then(function (resp) {
+                    var text = (typeof resp === 'string') ? resp
+                        : (resp && resp.message && resp.message.content) ? resp.message.content
+                        : (resp && resp.text) ? resp.text
+                        : '';
+                    if (!text) throw new Error('AI 沒有回傳內容');
+                    return extractJson(text);
+                });
+            }
+
+            document.getElementById('subtitles').addEventListener('click', function (e) {
+                var btn = e.target.closest('.grammar-btn');
+                if (!btn) return;
+                e.stopPropagation();
+                var idx = +btn.getAttribute('data-index');
+                var sub = AppState.processedSubtitles[idx];
+                if (!sub) return;
+                var jp = sub.japanese || '';
+                var box = btn.closest('.text-box').querySelector('.grammar-box');
+                if (!box) return;
+                // 已展開 → 收合
+                if (!box.hidden && box.dataset.shown === '1') { box.hidden = true; box.dataset.shown = '0'; return; }
+                // 快取命中
+                var cache = loadCache();
+                if (cache[jp]) { renderGrammarBox(box, cache[jp]); box.dataset.shown = '1'; btn.classList.add('has-cache'); return; }
+                // Puter 未載入
+                if (!puterReady()) { openSettings(); showGlobalStatus('AI 功能需要聯網載入 Puter，請檢查網路', 2800); return; }
+                // 呼叫 AI（自動引導登入）
+                box.hidden = false; box.dataset.shown = '1';
+                box.innerHTML = '<div class="gb-loading">⏳ 小野正在請 AI 分析文法…</div>';
+                ensureSignedIn().then(function () { return callPuter(jp); }).then(function (data) {
+                    cache[jp] = data; saveCache(cache);
+                    renderGrammarBox(box, data);
+                    btn.classList.add('has-cache');
+                }).catch(function (err) {
+                    box.innerHTML = '<div class="gb-error">⚠️ 分析失敗：' + escapeHtml(String((err && err.message) || err)) + '<br>請確認已登入 Puter、網路連通，或到「⚙ AI 設定」檢查模型名稱。</div>';
+                });
+            });
+
+            window.__refreshGrammarBtns = refreshGrammarBtns;
         })();
 
         // PDF 汇出：笔记讲义 / 全文讲义
