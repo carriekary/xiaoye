@@ -553,6 +553,9 @@
         .japanese-text .wf-word { cursor: pointer; border-bottom: 1px dotted #c9b78f; border-radius: 2px; transition: background .15s ease; }
         .japanese-text .wf-word:hover { background: #fff3da; }
         .japanese-text .wf-word.user-fixed { background: #eafaf0; border-bottom-color: #2e9e5b; }
+        /* 隐藏注音时，词不可点击修改，也不显示为可点状态 */
+        body.hide-furigana .japanese-text .wf-word { cursor: default; border-bottom: none; }
+        body.hide-furigana .japanese-text .wf-word:hover { background: transparent; }
         #readingEditor { position: fixed; z-index: 200; display: none; min-width: 260px; max-width: 320px; background: #fffdf9; border: 1px solid var(--gold); border-radius: 12px; box-shadow: 0 10px 30px rgba(60,53,48,.22); padding: 14px 16px; font-family: inherit; }
         #readingEditor.show { display: block; }
         #readingEditor .re-word { font-size: 18px; font-weight: 700; color: var(--vermillion); margin-bottom: 4px; word-break: break-all; }
@@ -1832,6 +1835,7 @@
             }
 
             document.getElementById('subtitles').addEventListener('click', function (e) {
+                if (document.body.classList.contains('hide-furigana')) return;   // 隐藏注音时不可修改读
                 var w = e.target.closest('.wf-word');
                 if (!w) return;
                 e.stopPropagation();
