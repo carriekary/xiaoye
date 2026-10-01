@@ -531,31 +531,31 @@
         .vocab-cat-input:focus { outline: none; border-color: var(--vermillion); }
         .vocab-cat-addbtn { border: 1px solid var(--vermillion); background: #fff; color: var(--vermillion); border-radius: 8px; padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
         .vocab-cat-addbtn:hover { background: var(--vermillion); color: #fff; }
-        .vocab-list { flex: 1; overflow-y: auto; padding: 12px 22px 30px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; align-items: start; }
+        .vocab-list { flex: 1; overflow-y: auto; padding: 12px 22px 30px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: start; }
         .vocab-group-head { grid-column: 1 / -1; position: sticky; top: 0; background: #fffdf9; padding: 10px 2px 6px; font-size: 14px; font-weight: 700; color: #7c6f56; border-bottom: 2px solid var(--gold); margin-top: 6px; z-index: 1; }
         .vocab-group-head:first-child { margin-top: 0; }
-        @media (max-width: 1400px) { .vocab-list { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 1080px) { .vocab-list { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 680px) { .vocab-list { grid-template-columns: 1fr; } }
+        @media (max-width: 1200px) { .vocab-list { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 960px) { .vocab-list { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 720px) { .vocab-list { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .vocab-list { grid-template-columns: 1fr; } }
         .vocab-empty { text-align: center; color: #a89e8e; padding: 40px 0; line-height: 1.9; font-size: 14px; }
-        .vocab-item { background: #fffaf0; border: 1px solid #f0e6d4; border-left: 4px solid var(--vermillion); border-radius: 10px; padding: 10px 12px; }
-        .vocab-item .vocab-note { font-size: 15px; color: #c0392b; font-weight: 600; white-space: pre-wrap; margin-bottom: 6px; }
-        .vocab-item .vocab-sentence { font-size: 13px; color: #2c3e50; line-height: 1.55; margin-bottom: 3px; }
-        .vocab-item .vocab-zh { font-size: 12px; color: #777; margin-bottom: 6px; }
-        .vocab-item .vocab-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: #8a8175; flex-wrap: wrap; }
-        .vocab-item .vocab-file { flex: 1; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .vocab-item { background: #fffaf0; border: 1px solid #f0e6d4; border-left: 4px solid var(--vermillion); border-radius: 10px; padding: 8px 10px; min-width: 0; }
+        .vocab-item .vocab-note { font-size: 14px; color: #c0392b; font-weight: 600; white-space: pre-wrap; margin-bottom: 5px; word-break: break-word; }
+        .vocab-item .vocab-sentence { font-size: 12px; color: #2c3e50; line-height: 1.5; margin-bottom: 3px; word-break: break-word; }
+        .vocab-item .vocab-zh { font-size: 11px; color: #777; margin-bottom: 5px; word-break: break-word; }
+        .vocab-item .vocab-meta { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 11px; color: #8a8175; flex-wrap: wrap; }
+        .vocab-item .vocab-file { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .vocab-cat { border: 1px solid #e3d8c2; background: #fff; color: #7c6f56; border-radius: 6px; padding: 3px 6px; font-size: 12px; cursor: pointer; margin-right: 4px; }
         .vocab-del { border: none; background: #f3ede1; color: #a8866f; border-radius: 6px; padding: 3px 9px; cursor: pointer; font-size: 12px; }
         .vocab-del:hover { background: #f0d9d0; color: #b02430; }
         .vocab-jump { border: none; background: #eef3f1; color: #2c7a7b; border-radius: 6px; padding: 3px 9px; cursor: pointer; font-size: 12px; margin-right: 4px; }
         .vocab-jump:hover { background: #d9ebe8; }
         /* ==================== 點擊修正讀音 ==================== */
-        .japanese-text .wf-word { cursor: pointer; border-bottom: 1px dotted #c9b78f; border-radius: 2px; transition: background .15s ease; }
-        .japanese-text .wf-word:hover { background: #fff3da; }
-        .japanese-text .wf-word.user-fixed { background: #eafaf0; border-bottom-color: #2e9e5b; }
-        /* 隐藏注音时，词不可点击修改，也不显示为可点状态 */
-        body.hide-furigana .japanese-text .wf-word { cursor: default; border-bottom: none; }
-        body.hide-furigana .japanese-text .wf-word:hover { background: transparent; }
+        /* 只有「注音(<rt>)」可點擊修改；點詞身不觸發 */
+        .japanese-text .wf-word.user-fixed { background: #eafaf0; border-radius: 2px; }
+        .japanese-text rt { cursor: pointer; border-radius: 3px; transition: background .15s ease; }
+        .japanese-text rt:hover { background: #fff3da; }
+        body.hide-furigana .japanese-text rt { cursor: default; }
         #readingEditor { position: fixed; z-index: 200; display: none; min-width: 260px; max-width: 320px; background: #fffdf9; border: 1px solid var(--gold); border-radius: 12px; box-shadow: 0 10px 30px rgba(60,53,48,.22); padding: 14px 16px; font-family: inherit; }
         #readingEditor.show { display: block; }
         #readingEditor .re-word { font-size: 18px; font-weight: 700; color: var(--vermillion); margin-bottom: 4px; word-break: break-all; }
@@ -1836,7 +1836,9 @@
 
             document.getElementById('subtitles').addEventListener('click', function (e) {
                 if (document.body.classList.contains('hide-furigana')) return;   // 隐藏注音时不可修改读
-                var w = e.target.closest('.wf-word');
+                var rt = e.target.closest('rt');          // 只點擊「注音」本身才開啟修改
+                if (!rt) return;
+                var w = rt.closest('.wf-word');
                 if (!w) return;
                 e.stopPropagation();
                 openEditor(w);
@@ -1851,7 +1853,7 @@
             document.addEventListener('click', function (e) {
                 if (!editor.classList.contains('show')) return;
                 if (editor.contains(e.target)) return;
-                if (e.target.closest('.wf-word')) return;
+                if (e.target.closest('rt')) return;   // 點擊注音不關閉（會由上方重新開啟）
                 closeEditor();
             });
             document.addEventListener('keydown', function (e) {
