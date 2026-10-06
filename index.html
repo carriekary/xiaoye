@@ -567,9 +567,30 @@
         .mp-ctl button:hover { background: #f2e6cf; }
         .mp-ctl button.on { background: #c9a15f; color: #fff; border-color: #c9a15f; }
         .mp-ctl .sep { width: 1px; height: 18px; background: #e0d3b8; margin: 0 3px; }
-        .mp-ctl label.mp-delay { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #8a7f70; white-space: nowrap; }
-        .mp-ctl select.mp-delay-sel { font-family: inherit; font-size: 12px; padding: 3px; border: 1px solid #ddcdb0; border-radius: 6px; background: #faf5ec; color: #4a4458; cursor: pointer; max-width: 96px; }
-        @media (max-width: 600px) { .mp-ctl label.mp-delay { font-size: 11px; } .mp-ctl select.mp-delay-sel { max-width: 80px; } }
+        .mp-ctl .mp-delay { display: flex; align-items: center; gap: 6px; flex: 1 1 250px; min-width: 210px; font-size: 11.5px; color: #8a7f70; white-space: nowrap; }
+        .mp-ctl .mp-delay-cap { flex: 0 0 auto; }
+        .mp-ctl input.mp-delay-range { flex: 1 1 0; min-width: 90px; height: 20px; margin: 0; padding: 0; background: transparent; -webkit-appearance: none; appearance: none; cursor: pointer; }
+        .mp-ctl input.mp-delay-range::-webkit-slider-runnable-track { height: 6px; border-radius: 999px;
+            background: linear-gradient(to right, #c9a15f 0 var(--mpv, 0%), transparent var(--mpv, 0%)),
+            linear-gradient(to left, #c9a15f 0 var(--mpv, 0%), transparent var(--mpv, 0%)),
+            linear-gradient(to right, transparent calc(50% - 1px), #c9a15f calc(50% - 1px), #c9a15f calc(50% + 1px), transparent calc(50% + 1px)),
+            #e8dcc4; }
+        .mp-ctl input.mp-delay-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; margin-top: -5px; border-radius: 50%; background: #c9a15f; border: 2px solid #fffdf8; box-shadow: 0 1px 3px rgba(0,0,0,.25); cursor: grab; }
+        .mp-ctl input.mp-delay-range::-webkit-slider-thumb:active { cursor: grabbing; }
+        .mp-ctl input.mp-delay-range::-moz-range-track { height: 6px; border-radius: 999px; background: #e8dcc4; }
+        .mp-ctl input.mp-delay-range::-moz-range-progress { height: 6px; border-radius: 999px; background: #c9a15f; }
+        .mp-ctl input.mp-delay-range::-moz-range-thumb { width: 14px; height: 14px; border: 2px solid #fffdf8; border-radius: 50%; background: #c9a15f; box-shadow: 0 1px 3px rgba(0,0,0,.25); cursor: grab; }
+        .mp-ctl .mp-delay-val { flex: 0 0 auto; min-width: 66px; text-align: center; font-size: 11.5px; color: #4a4458; background: #faf5ec; border: 1px solid #ddcdb0; border-radius: 6px; padding: 1px 5px; font-variant-numeric: tabular-nums; }
+        .mp-ctl .mp-delay-nudge, .mp-ctl .mp-delay-reset { flex: 0 0 auto; font-family: inherit; font-size: 11px; line-height: 1.1; padding: 3px 6px; min-width: 22px; border: 1px solid #ddcdb0; border-radius: 6px; background: #faf5ec; color: #4a4458; cursor: pointer; }
+        .mp-ctl .mp-delay-nudge:hover, .mp-ctl .mp-delay-reset:hover { background: #f2e6cf; }
+        @media (max-width: 600px) {
+            .mp-ctl .mp-delay { flex: 1 1 100%; order: 2; gap: 4px; min-width: 0; }
+            .mp-ctl .mp-delay-cap { font-size: 0; }
+            .mp-ctl .mp-delay-cap::before { content: '偏移'; font-size: 11px; }
+            .mp-ctl .mp-delay-val { font-size: 11px; min-width: 54px; padding: 1px 4px; }
+            .mp-ctl .mp-delay-nudge, .mp-ctl .mp-delay-reset { font-size: 10px; padding: 3px 5px; min-width: 20px; }
+            .mp-ctl input.mp-delay-range { flex: 1 1 0; min-width: 50px; }
+        }
         .mp-status { font-size: 12px; color: #6b6156; margin-top: 4px; min-height: 17px; line-height: 1.5; }
         .mp-status.bad { color: #c0392b; }
         .mp-status.good { color: #1e7a46; }
@@ -1008,7 +1029,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         <button type="button" id="mpBack10">−10s</button>
         <button type="button" id="mpFwd10">+10s</button>
         <span class="sep"></span>
-        <label class="mp-delay" for="mpDelaySel" title="的音訊與字幕對齊用：負值＝字幕提前（聲音比字幕快 N 秒就選 −N，字幕會早 N 秒亮）；正值＝字幕延後（聲音比字幕慢 N 秒就選 +N，字幕會晚 N 秒亮）。可調 ±1 秒 ～ ±1 分鐘。">🎵 音訊偏移<select class="mp-delay-sel" id="mpDelaySel"><optgroup label="◀ 字幕提前（聲音比字幕快，字幕要早一點亮）"><option value="-60">提前 1 分</option><option value="-50">提前 50 秒</option><option value="-40">提前 40 秒</option><option value="-30">提前 30 秒</option><option value="-25">提前 25 秒</option><option value="-20">提前 20 秒</option><option value="-15">提前 15 秒</option><option value="-10">提前 10 秒</option><option value="-9">提前 9 秒</option><option value="-8">提前 8 秒</option><option value="-7">提前 7 秒</option><option value="-6">提前 6 秒</option><option value="-5">提前 5 秒</option><option value="-4">提前 4 秒</option><option value="-3">提前 3 秒</option><option value="-2">提前 2 秒</option><option value="-1">提前 1 秒</option></optgroup><optgroup label="不偏移"><option value="0">不偏移</option></optgroup><optgroup label="字幕延後 ▶（聲音比字幕慢，字幕要晚一點亮）"><option value="1">1 秒</option><option value="2">2 秒</option><option value="3">3 秒</option><option value="4">4 秒</option><option value="5">5 秒</option><option value="6">6 秒</option><option value="7">7 秒</option><option value="8">8 秒</option><option value="9">9 秒</option><option value="10">10 秒</option><option value="15">15 秒</option><option value="20">20 秒</option><option value="25">25 秒</option><option value="30">30 秒</option><option value="40">40 秒</option><option value="50">50 秒</option><option value="60">1 分</option></optgroup></select></label>
+        <div class="mp-delay" id="mpDelayBox" title="音訊與字幕對齊用：向左拉＝字幕提前（聲音比字幕快，字幕會早 N 秒亮）；向右拉＝字幕延後（聲音比字幕慢，字幕會晚 N 秒亮）。可拖曳、按方向鍵，或用右邊◀▶每次 1 秒微調，範圍 ±1 秒 ～ ±1 分鐘。"><span class="mp-delay-cap">🎵 音訊偏移</span><input type="range" class="mp-delay-range" id="mpDelaySel" min="-60" max="60" step="1" value="0" aria-label="音訊偏移（秒）：向左字幕提前，向右字幕延後" /><span class="mp-delay-val" id="mpDelayVal">不偏移</span><button type="button" class="mp-delay-nudge" id="mpDelayNudgeA" title="字幕提前 1 秒">◀</button><button type="button" class="mp-delay-nudge" id="mpDelayNudgeB" title="字幕延後 1 秒">▶</button><button type="button" class="mp-delay-reset" id="mpDelayReset" title="歸零（不偏移）">↺</button></div>
         </div>
         <div class="mp-status" id="mpStatus"></div>
         </div>
@@ -2651,18 +2672,36 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 try { vv.currentTime = Math.max(0, vv.currentTime + d); } catch (e) { }
                 if (vv.paused) { try { var p = vv.play(); if (p && p.catch) p.catch(function () { }); } catch (e2) { } }
             }
-            // 「🎵 音訊偏移」下拉：負值＝字幕提前、正值＝字幕延後，範圍 ±1 秒 ～ ±1 分鐘
+            // 「🎵 音訊偏移」bar（滑桿）：向左＝字幕提前、向右＝字幕延後，範圍 ±1 秒 ～ ±1 分鐘
             var dsel = document.getElementById('mpDelaySel');
-            if (dsel) dsel.addEventListener('change', function () {
-                var n = Math.max(-60, Math.min(60, parseFloat(this.value) || 0));
-                MP.audioDelaySec = n;
-                try { localStorage.setItem('xiaoye_media_delay_v1', String(n)); } catch (e) { }
-                medStatus(n < 0
-                    ? ('✅ 字幕提前 ' + (-n) + ' 秒：字幕會早 ' + (-n) + ' 秒亮（聲音比字幕快就選這個）。')
-                    : (n > 0
-                        ? ('✅ 字幕延後 ' + n + ' 秒：字幕會晚 ' + n + ' 秒亮（聲音比字幕慢就選這個）。')
+            var _mpDelayShown = null;
+            function mpDelaySync(quiet) {
+                var v = MP.audioDelaySec;
+                if (dsel) { dsel.value = String(v); dsel.style.setProperty('--mpv', (Math.abs(v) / 60 * 50) + '%'); }
+                var dlab = document.getElementById('mpDelayVal');
+                if (dlab) {
+                    var narrow = !!(window.matchMedia && window.matchMedia('(max-width: 430px)').matches);
+                    dlab.textContent = narrow
+                        ? (v < 0 ? ('提前 ' + (-v) + 's') : (v > 0 ? ('延後 ' + v + 's') : '不偏移'))
+                        : (v < 0 ? '提前 ' + (-v) + ' 秒' : (v > 0 ? '延後 ' + v + ' 秒' : '不偏移'));
+                }
+                if (quiet || _mpDelayShown === v) return;
+                _mpDelayShown = v;
+                try { localStorage.setItem('xiaoye_media_delay_v1', String(v)); } catch (e) { }
+                medStatus(v < 0
+                    ? ('✅ 字幕提前 ' + (-v) + ' 秒：字幕會早 ' + (-v) + ' 秒亮（聲音比字幕快就拖向左）。')
+                    : (v > 0
+                        ? ('✅ 字幕延後 ' + v + ' 秒：字幕會晚 ' + v + ' 秒亮（聲音比字幕慢就拖向右）。')
                         : '✅ 不偏移（字幕直接用原時間碼）。'), '');
-            });
+            }
+            function mpDelaySet(v) { MP.audioDelaySec = Math.max(-60, Math.min(60, Math.round(v))); mpDelaySync(false); }
+            if (dsel) dsel.addEventListener('input', function () { mpDelaySet(parseFloat(this.value) || 0); });
+            var dnA = document.getElementById('mpDelayNudgeA');
+            if (dnA) dnA.addEventListener('click', function () { mpDelaySet(MP.audioDelaySec - 1); });
+            var dnB = document.getElementById('mpDelayNudgeB');
+            if (dnB) dnB.addEventListener('click', function () { mpDelaySet(MP.audioDelaySec + 1); });
+            var dnR = document.getElementById('mpDelayReset');
+            if (dnR) dnR.addEventListener('click', function () { mpDelaySet(0); });
             var b10 = document.getElementById('mpBack10'); if (b10) b10.addEventListener('click', function () { nudge(-10); });
             var f10 = document.getElementById('mpFwd10'); if (f10) f10.addEventListener('click', function () { nudge(10); });
                         var bp = document.getElementById('mediaLinkBtn');
@@ -2698,11 +2737,8 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 var dvs = localStorage.getItem('xiaoye_media_delay_v1');
                 if (dvs !== null && dvs !== '') {
                     var dv = parseFloat(dvs);
-                    if (dv >= -60 && dv <= 60) {
-                        MP.audioDelaySec = dv;
-                        var dsel0 = document.getElementById('mpDelaySel');
-                        if (dsel0) dsel0.value = String(dv);
-                    }
+                    if (dv >= -60 && dv <= 60) MP.audioDelaySec = dv;
+                    mpDelaySync(true);
                 }
             } catch (e2) { }
         })();
