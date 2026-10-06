@@ -107,7 +107,7 @@
         }
 
         main { padding: calc(var(--header-height) + 12px) var(--container-padding) 140px; max-width: var(--max-width); margin: 0 auto; }
-        #subtitles { display: block; }
+        #subtitles { display: block; max-height: calc(100vh - 150px); overflow-y: auto; }
         
         .row { display: block; margin: 3px 0; transition: opacity 0.2s ease; }
         .subtitle {
@@ -204,6 +204,7 @@
         
         @media (max-width: 600px) {
           :root { --header-height: 214px; }
+          #subtitles { max-height: calc(100vh - 260px); }
           .file-search-container { flex-direction: row; gap: 6px; }
           .file-buttons-wrapper { width: 100%; flex: none; gap: 6px; }
           .file-item { width: calc(50% - 3px); justify-content: space-between; }
@@ -554,16 +555,21 @@
         /* 卡片內各區塊不要被 flex 收縮：已被 min-height 壓過一次，結果整段文字跑出卡外 */
         .vocab-item > * { flex-shrink: 0; }
         /* ===== 音訊播放器（只播聲音，沒有畫面） ===== */
-        .mp-stage { display: none; position: fixed; top: calc(var(--header-height) + 8px); left: 50%; transform: translateX(-50%); width: min(720px, 94vw); z-index: 8800; }
+        /* 播放器現在住在「🎵 音訊」面板裡，不再是浮在字幕上面的浮動層 */
+        .mp-stage { display: none; margin-top: 10px; padding: 10px 12px; border: 1px solid #e6d9c2; border-radius: 10px; background: #fffdf5; }
+        @media (max-width: 600px) {
+        }
         .mp-stage.show { display: block; }
         .mp-audio { display: block; width: 100%; margin-top: 2px; }
-        /* 播放器下面的小控制列：速度 / 前後10秒 / A-B 反覆 */
-        .mp-ctl { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 5px; padding: 6px 8px; background: #fffdf8; border: 1px solid #e6d9c2; border-radius: 0 0 10px 10px; box-shadow: 0 8px 22px rgba(0,0,0,.28); }
+        /* 播放器下面的小控制列：速度 / 前後10秒 / 音訊偏移（提前·延後） */
+        .mp-ctl { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 5px; padding: 6px 8px; background: #fffdf8; border: 1px solid #e6d9c2; border-radius: 8px; }
         .mp-ctl button { font-family: inherit; font-size: 12px; padding: 4px 9px; border: 1px solid #ddcdb0; border-radius: 6px; background: #faf5ec; color: #4a4458; cursor: pointer; }
         .mp-ctl button:hover { background: #f2e6cf; }
         .mp-ctl button.on { background: #c9a15f; color: #fff; border-color: #c9a15f; }
         .mp-ctl .sep { width: 1px; height: 18px; background: #e0d3b8; margin: 0 3px; }
-        .mp-ctl .abinfo { font-size: 11.5px; color: #8a7f70; }
+        .mp-ctl label.mp-delay { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #8a7f70; white-space: nowrap; }
+        .mp-ctl select.mp-delay-sel { font-family: inherit; font-size: 12px; padding: 3px; border: 1px solid #ddcdb0; border-radius: 6px; background: #faf5ec; color: #4a4458; cursor: pointer; max-width: 96px; }
+        @media (max-width: 600px) { .mp-ctl label.mp-delay { font-size: 11px; } .mp-ctl select.mp-delay-sel { max-width: 80px; } }
         .mp-status { font-size: 12px; color: #6b6156; margin-top: 4px; min-height: 17px; line-height: 1.5; }
         .mp-status.bad { color: #c0392b; }
         .mp-status.good { color: #1e7a46; }
@@ -579,8 +585,12 @@
         .media-panel[hidden] { display: none; }
         .media-panel .mp-backdrop { position: absolute; inset: 0; background: rgba(30,26,22,.45); }
         .media-card { position: relative; width: min(580px, 92vw); max-height: 88vh; overflow-y: auto; background: #fffdf8; border: 2px solid #e2cfa8; border-radius: 14px; padding: 18px 20px; box-shadow: 0 18px 50px rgba(0,0,0,.28); }
+        /* 頭部 🎵 音鈕：聲音還在播（播放器收起／面具關掉時）就亮紅點，點它叫回音訊面板 */
+        #mediaLinkBtn { position: relative; }
+        #mediaLinkBtn.media-sound-on { border-color: var(--vermillion) !important; color: var(--vermillion); }
+        #mediaLinkBtn.media-sound-on::after { content: ""; position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; border-radius: 50%; background: #c0392b; animation: mpDotPulse 1.6s ease-out infinite; }
+        @keyframes mpDotPulse { 0% { box-shadow: 0 0 0 0 rgba(192,57,43,.55); } 70% { box-shadow: 0 0 0 7px rgba(192,57,43,0); } 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0); } }
         .mp-title { font-size: 17px; font-weight: 800; color: #b02430; margin-bottom: 4px; }
-        .mp-sub { font-size: 12.5px; color: #8a7f70; line-height: 1.65; margin-bottom: 10px; }
         .mp-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .mp-input { flex: 1 1 260px; min-width: 0; padding: 9px 11px; border: 1px solid #e0d3b8; border-radius: 8px; font-size: 13.5px; font-family: inherit; }
         .mp-btn { padding: 9px 14px; border: none; border-radius: 8px; background: #b02430; color: #fff; font-size: 13.5px; font-weight: 700; cursor: pointer; }
@@ -595,16 +605,14 @@
         @media (max-width: 600px) {
           .media-card { padding: 14px 14px; }
           .mp-title { font-size: 15.5px; }
-          .mp-sub { font-size: 12px; line-height: 1.6; margin-bottom: 8px; }
-          .mp-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; align-items: center; }
+            .mp-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; align-items: center; }
           .mp-row > #mpDzShow { grid-column: 1 / -1; }
           .mp-row > .mp-input { width: 100%; }
           .mp-row > .mp-btn { grid-column: 1 / -1; width: 100%; padding: 10px 12px; }
           .mp-row > label { grid-column: 1 / -1; font-size: 12px; }
           .mp-ctl { gap: 4px; padding: 6px 5px; }
           .mp-ctl button { flex: 1 1 auto; padding: 5px 7px; }
-          .mp-stage { top: calc(var(--header-height) + 8px); width: 96vw; }
-          .file-info { left: 12px; right: auto; bottom: 70px; }
+            .file-info { left: 12px; right: auto; bottom: 70px; }
         }
         .row .subtitle.is-playing { background: #ffeecd; box-shadow: inset 5px 0 0 #c9a15f, 0 0 0 1px #e8d3a6; border-radius: 6px; }
         .vocab-item .vocab-word {
@@ -619,6 +627,13 @@
             overflow-wrap: anywhere;
         }
         /* 中文釋義：跟單詞明白分開，不再擠在同一塊 */
+        .dict-card { position: fixed; z-index: 1500; width: min(330px, 88vw); max-height: 62vh; overflow-y: auto; background: #fffdf8; border: 2px solid #e2cfa8; border-radius: 12px; padding: 12px 14px; box-shadow: 0 10px 30px rgba(60,53,48,.22); font-family: inherit; }
+        .dict-card-word { font-size: 17px; font-weight: 700; color: #4a4458; word-break: break-all; }
+        .dict-card-rt { font-size: 12.5px; color: #b02430; margin-top: 2px; }
+        .dict-card-list { margin: 8px 0 0; padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: #3a352e; }
+        .dict-card-list .dict-card-none { list-style: none; margin-left: -18px; color: #8a8073; font-size: 12.5px; }
+        .dict-card-close { position: absolute; top: 6px; right: 8px; width: 26px; height: 26px; border: 0; background: transparent; font-size: 18px; line-height: 1; color: #8a8073; cursor: pointer; }
+
         .vocab-item .vocab-gloss {
             font-family: var(--vb-font-zh);
             font-size: calc(17px * var(--vb-scale));
@@ -637,8 +652,6 @@
         .vocab-del:hover { background: #f0d9d0; color: #b02430; }
         .vocab-jump { border: none; background: #eef3f1; color: #2c7a7b; border-radius: 6px; padding: 3px 9px; cursor: pointer; font-size: 12px; margin-right: 4px; }
         .vocab-jump:hover { background: #d9ebe8; }
-        .vocab-look { border: none; background: #eef1fb; color: #3b5bdb; border-radius: 6px; padding: 3px 9px; cursor: pointer; font-size: 12px; margin-right: 4px; }
-        .vocab-look:hover { background: #e0e6ff; }
         /* 記憶曲線（間隔重複）四舍五入的進度條 */
         .vocab-srs { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #7a7266; }
         .vocab-dots { display: inline-flex; gap: 4px; }
@@ -679,12 +692,8 @@
         .japanese-text rt { cursor: pointer; border-radius: 3px; transition: background .15s ease; }
         .japanese-text rt:hover { background: #fff3da; }
         body.hide-furigana .japanese-text rt { cursor: default; }
-        /* Moji 一鍵查：點擊詞身即可用字典查這個詞 */
-        .japanese-text .wf-word { cursor: pointer; border-bottom: 1px dotted rgba(192, 57, 43, .3); }
-        .japanese-text .wf-word:not(.user-fixed):hover { background: #eef4ff; border-radius: 2px; border-bottom-color: #4a7fd4; }
-        .japanese-text .wf-word:active { transform: translateY(1px); }
-
-        #dictPanel { position: fixed; inset: 0; z-index: 260; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .japanese-text .wf-word { border-bottom: 1px dotted rgba(192, 57, 43, .22); }
+#dictPanel { position: fixed; inset: 0; z-index: 260; display: flex; align-items: center; justify-content: center; padding: 20px; }
         #dictPanel[hidden] { display: none; }
         .dict-backdrop { position: absolute; inset: 0; background: rgba(40,33,28,.45); }
         .dict-card { position: relative; width: min(520px, 100%); max-height: 78vh; overflow: auto; background: #fffdf9; border: 1px solid var(--gold); border-radius: 14px; box-shadow: 0 14px 40px rgba(60,53,48,.28); padding: 18px 20px 14px; font-family: inherit; }
@@ -705,6 +714,9 @@
         .dict-foot { margin-top: 8px; font-size: 11.5px; color: #a09789; }
         .dict-foot.dim { margin-top: 4px; font-size: 11px; color: #b3aa9a; }
         .dict-foot a { color: var(--vermillion); }
+
+        .dict-card-close { position: absolute; right: 10px; top: 6px; border: none; background: transparent; font-size: 22px; line-height: 1; color: #a09789; cursor: pointer; }
+        .dict-card-close:hover { color: var(--vermillion); }
         #readingEditor { position: fixed; z-index: 200; display: none; min-width: 260px; max-width: 320px; background: #fffdf9; border: 1px solid var(--gold); border-radius: 12px; box-shadow: 0 10px 30px rgba(60,53,48,.22); padding: 14px 16px; font-family: inherit; }
         #readingEditor.show { display: block; }
         #readingEditor .re-word { font-size: 18px; font-weight: 700; color: var(--vermillion); margin-bottom: 4px; word-break: break-all; }
@@ -874,7 +886,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         </div>
     </div>
 
-    <div id="vocabBookPage" class="vocab-page" hidden>
+        <div id="vocabBookPage" class="vocab-page" hidden>
         <div class="vocab-page-head">
             <button class="vocab-back" type="button" id="vocabBackBtn">← 返回字幕</button>
             <h2>📒 生词本</h2>
@@ -945,8 +957,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         </div>
     </div>
 
-    <!-- 內建詞典查詞面板：點單詞直接在項面里看釋義，不跳外站 -->
-    <div id="dictPanel" hidden>
+<div id="dictPanel" hidden>
         <div id="dictPanelBackdrop" class="dict-backdrop"></div>
         <div class="dict-card">
             <button class="dict-card-close" type="button" id="dictCloseBtn" title="關開">×</button>
@@ -961,12 +972,13 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             <div class="dict-foot" id="dpSource"></div>
         </div>
     </div>
+
     <div id="mediaPanel" class="media-panel" hidden>
         <div class="mp-backdrop" id="mpBackdrop"></div>
         <div class="media-card">
             <button class="dict-card-close" type="button" id="mpCloseBtn" title="关闭">×</button>
             <div class="mp-title">🎵 用音訊對著字幕</div>
-                <div class="mp-sub">這版只有音訊（沒有畫面），而且<b>不收直連結</b>。兩種播法：<b>① 常用劇集</b>——選好劇名／線路／集數，按「▶ 常用劇集」就直接播（內建的，不必自己找連結）；<b>② 本機音檔</b>——按「📁 本機音檔」選你電腦裡的 mp3／m4a／wav。</div>
+                
             <div class="mp-row" style="margin-top:9px;">
                 <select id="mpDzShow" class="mp-input" style="flex:0 0 132px;" hidden title="常用劇集：選劇">
                     <option value="">劇名</option>
@@ -982,28 +994,28 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 <label style="font-size:12.5px;color:#6b6156;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="mpFollow" checked /> 跟著播放自動捲</label>
             </div>
             <input id="mpFile" type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac,.mp4,.webm,.mkv,.m4v" style="display: none;" />
-            <div class="mp-err" id="mpErr"></div>
-            <div class="mp-fix" id="mpFixBox" hidden></div>
-        </div>
-    </div>
-    <div class="mp-stage" id="mpStage">
+
+        <div class="mp-stage" id="mpStage">
         <audio id="mpAudio" class="mp-audio" controls preload="metadata"></audio>
         <div class="mp-ctl" id="mpCtl">
-            <button type="button" data-playrate="0.5">0.5×</button>
-            <button type="button" data-playrate="0.75">0.75×</button>
-            <button type="button" data-playrate="1" class="on">1×</button>
-            <button type="button" data-playrate="1.25">1.25×</button>
-            <button type="button" data-playrate="1.5">1.5×</button>
-            <button type="button" data-playrate="2">2×</button>
-            <span class="sep"></span>
-            <button type="button" id="mpBack10">−10s</button>
-            <button type="button" id="mpFwd10">+10s</button>
-            <button type="button" id="mpAB">A–B 反覆</button>
-            <span class="abinfo" id="mpABInfo"></span>
-            <span class="sep"></span>
-            <button type="button" id="mpStageClose">✕ 收起播放器</button>
+        <button type="button" data-playrate="0.5">0.5×</button>
+        <button type="button" data-playrate="0.75">0.75×</button>
+        <button type="button" data-playrate="1" class="on">1×</button>
+        <button type="button" data-playrate="1.25">1.25×</button>
+        <button type="button" data-playrate="1.5">1.5×</button>
+        <button type="button" data-playrate="2">2×</button>
+        <span class="sep"></span>
+        <button type="button" id="mpBack10">−10s</button>
+        <button type="button" id="mpFwd10">+10s</button>
+        <span class="sep"></span>
+        <label class="mp-delay" for="mpDelaySel" title="的音訊與字幕對齊用：負值＝字幕提前（聲音比字幕快 N 秒就選 −N，字幕會早 N 秒亮）；正值＝字幕延後（聲音比字幕慢 N 秒就選 +N，字幕會晚 N 秒亮）。可調 ±1 秒 ～ ±1 分鐘。">🎵 音訊偏移<select class="mp-delay-sel" id="mpDelaySel"><optgroup label="◀ 字幕提前（聲音比字幕快，字幕要早一點亮）"><option value="-60">提前 1 分</option><option value="-50">提前 50 秒</option><option value="-40">提前 40 秒</option><option value="-30">提前 30 秒</option><option value="-25">提前 25 秒</option><option value="-20">提前 20 秒</option><option value="-15">提前 15 秒</option><option value="-10">提前 10 秒</option><option value="-9">提前 9 秒</option><option value="-8">提前 8 秒</option><option value="-7">提前 7 秒</option><option value="-6">提前 6 秒</option><option value="-5">提前 5 秒</option><option value="-4">提前 4 秒</option><option value="-3">提前 3 秒</option><option value="-2">提前 2 秒</option><option value="-1">提前 1 秒</option></optgroup><optgroup label="不偏移"><option value="0">不偏移</option></optgroup><optgroup label="字幕延後 ▶（聲音比字幕慢，字幕要晚一點亮）"><option value="1">1 秒</option><option value="2">2 秒</option><option value="3">3 秒</option><option value="4">4 秒</option><option value="5">5 秒</option><option value="6">6 秒</option><option value="7">7 秒</option><option value="8">8 秒</option><option value="9">9 秒</option><option value="10">10 秒</option><option value="15">15 秒</option><option value="20">20 秒</option><option value="25">25 秒</option><option value="30">30 秒</option><option value="40">40 秒</option><option value="50">50 秒</option><option value="60">1 分</option></optgroup></select></label>
         </div>
         <div class="mp-status" id="mpStatus"></div>
+        </div>
+                        
+        <div class="mp-err" id="mpErr"></div>
+            <div class="mp-fix" id="mpFixBox" hidden></div>
+        </div>
     </div>
 
         <script>
@@ -1322,233 +1334,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
           return ja.length > 1 ? ja[ja.length - 1] : ja[0];
         }
 
-      // ==================== 查詞：內建詞典面板（只此一家，不跳任何外站） ====================
-      // 助詞／語尾這種單獨出現的小詞，查了只會浪費時間，直接跳過
-      var DICT_SKIP = /^(は|が|を|に|へ|で|と|も|や|の|し|て|た|だ|です|ます|か|ね|よ|ば|わ|ぞ|な|から|まで|より|ながら|ですね|ですよ|ですから)$/;
-      // 查詞來源固定為內建詞典，不再有任何可切換／跳站的來源
-      try { localStorage.removeItem('xiaoye_dict_source_v1'); } catch (e) {}
-      window.dictSearch = function (text, opts) {
-        opts = opts || {};
-        var raw = String(text == null ? '' : text).trim();
-        if (!raw) { showGlobalStatus('先點字幕裡的任何單詞，小野幫你查 ♪'); return; }
-        if (DICT_SKIP.test(raw)) { showGlobalStatus('「' + raw + '」是助詞／語尾，不用查 ♪', 2400); return; }
-        // 一律走內建詞典：直接在頁面裡顯示釋義，不開新分頁、不跳外站
-        openDictPanel(raw, opts);
-      };
 
-      // ---- 內建查詞快取：存本機 60 天，查過的第二次秒開，斷網也看得到 ----
-      var DP_CACHE_KEY = 'xiaoye_dict_cache_v1';
-      var DP_TTL = 60 * 24 * 3600 * 1000;
-      function dpCacheLoad() {
-        try { return JSON.parse(localStorage.getItem(DP_CACHE_KEY) || '{}') || {}; } catch (e) { return {}; }
-      }
-      function dpCacheGet(w) {
-        try {
-          var c = dpCacheLoad(), e = c[w];
-          if (e && e.t && (Date.now() - e.t) < DP_TTL) return e.d || {};
-        } catch (e2) {}
-        return null;
-      }
-      function dpCacheSet(w, d) {
-        try {
-          var c = dpCacheLoad();
-          c[w] = { t: Date.now(), d: d };
-          var ks = Object.keys(c);
-          if (ks.length > 400) {   // 別把 localStorage 塞爆，逾 400 條就砍最舊的
-            ks.sort(function (a, b) { return c[a].t - c[b].t; });
-            for (var i = 0; i < ks.length - 400; i++) delete c[ks[i]];
-          }
-          localStorage.setItem(DP_CACHE_KEY, JSON.stringify(c));
-        } catch (e) {}
-      }
-
-      // 抓維基詞典的純文字抽取；origin=* 讓它允許跨域（file:// 直接雙擊打開也抓得到）
-      function wiktExtract(word, lang) {
-        var u = 'https://' + lang + '.wiktionary.org/w/api.php?action=query&format=json&prop=extracts&explaintext=1&redirects=1&origin=*&titles=' + encodeURIComponent(word);
-        return fetch(u).then(function (r) {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          return r.json();
-        }).then(function (j) {
-          var pg = (j && j.query && j.query.pages) || {};
-          var ks = Object.keys(pg);
-          var p = pg[ks[0]];
-          return (p && p.extract) || '';
-        });
-      }
-      // 只取「日语／日語／日本語」那一節（否則像「勉強」會抓到「漢語」條目，顯示成中文詞的意思）
-      function pickJaSection(extract) {
-        if (!extract) return '';
-        var lines = String(extract).split('\n'), out = [], inJa = false;
-        for (var i = 0; i < lines.length; i++) {
-          var m = lines[i].match(/^(=+)\s*(.+?)\s*=+\s*$/);
-          if (m) {
-            if (m[1].length === 2) {
-              var t = m[2].replace(/[\[\]'’]/g, '').trim();
-              if (inJa) break;                       // 下一個二級標題 = 本節結束
-              if (t === '日语' || t === '日語' || t === '日本語') inJa = true;
-            }
-            continue;                                // 標題行本身不輸出
-          }
-          if (inJa) out.push(lines[i]);
-        }
-        var txt = out.join('\n')
-          .replace(/\[\[([^\]\|]*)\|([^\]]*)\]\]/g, '$2')
-          .replace(/\[\[([^\]]*)\]\]/g, '$1')
-          .replace(/'''?/g, '')
-          .replace(/\{\{[^}]*\}\}/g, '')
-          .replace(/國際音標\(幫助\)\s*:\s*/g, '')
-          .replace(/\(\?\)\s*:\s*/g, '')
-          .replace(/\n{2,}/g, '\n')
-          .trim();
-        // 只留前 8 行，並去掉「→ 朝鮮語／泰語…」這種各語翻譯（對學日語沒幫助、又佔版面）
-        var kept = [], n = 0;
-        txt.split('\n').forEach(function (ln) {
-          ln = ln.trim();
-          if (ln === '') return;
-          if (/^\u2192\s/.test(ln)) return;
-          kept.push(ln);
-          if (++n >= 8) return;
-        });
-        return kept.join('\n');
-      }
-
-      var dpState = { word: '', reading: '', sentence: '', index: null, texts: [], loan: '' };
-      var dpInflight = {};
-      function dpEl(id) { return document.getElementById(id); }
-
-      function openDictPanel(word, opts) {
-        opts = opts || {};
-        word = String(word == null ? '' : word).trim();
-        if (!word) return;
-        var ov = (typeof userReadingOverrides !== 'undefined' && userReadingOverrides && userReadingOverrides[word]) ? userReadingOverrides[word] : '';
-        if (!ov && typeof READING_OVERRIDES !== 'undefined') ov = READING_OVERRIDES[word] || '';
-        dpState = {
-          word: word,
-          reading: opts.reading || ov || '',
-          sentence: opts.sentence || '',
-          index: (opts.index != null && opts.index !== '') ? opts.index : null,
-          texts: [],
-          loan: (typeof LOANWORDS !== 'undefined' && LOANWORDS[word]) ? LOANWORDS[word] : ''
-        };
-        var panel = dpEl('dictPanel');
-        if (!panel) { showGlobalStatus('查詞面板還沒準備好，重整一下頁面试试 ♪'); return; }
-        panel.hidden = false;
-        dpEl('dpWord').textContent = word;
-        var rd = dpEl('dpReading');
-        rd.textContent = dpState.reading ? ('讀音：' + dpState.reading) : '';
-        dpEl('dpBody').innerHTML = '<div class="dict-loading">正在查「' + escapeHtml(word) + '」…</div>';
-        dpEl('dpSource').innerHTML = '';
-        // 先別渲染「查不到」：等詞真的回來（或超時）再決定，避免一下出現一下消失的閃動
-        dpFetch();
-      }
-      function dpRender() {
-        var body = dpEl('dpBody');
-        if (!body) return;
-        var html = '';
-        if (dpState.loan) {
-          html += '<div class="dict-sec"><div class="dict-sec-h">英文原詞</div><div class="dict-en">' + escapeHtml(dpState.loan) + '</div></div>';
-        }
-        if (dpState.texts.length) {
-          html += '<div class="dict-sec"><div class="dict-sec-h">詞典釋義</div><div class="dict-zh">' + dpState.texts.map(escapeHtml).join('<br />') + '</div></div>';
-        }
-        if (!html) {
-          html = '<div class="dict-none">詞典還沒收這個詞（外來語、專有名詞常這樣）。<br />已知的讀音：' + (dpState.reading ? escapeHtml(dpState.reading) : '—') + '</div>';
-        }
-        body.innerHTML = html;
-      }
-      function dpApply(res) {
-        res = res || {};
-        dpState.texts = [];
-        if (res.zh) dpState.texts.push(String(res.zh).slice(0, 700).trim());
-        if (res.ja) dpState.texts.push(String(res.ja).slice(0, 700).trim());
-        dpRender();
-        var s = dpEl('dpSource');
-        if (s) {
-          s.textContent = '詞典來源：維基詞典' + (dpState.texts.length > 1 ? '（中文＋日文）' : '（中文）')
-            + ' · 查過的會存本機，下次秒開';
-        }
-      }
-      function dpFetch() {
-        var w = dpState.word;
-        if (!w) return;
-        var cached = dpCacheGet(w);
-        if (cached) { dpApply(cached); return; }
-        if (dpInflight[w]) return;
-        dpInflight[w] = 1;
-        // 8 秒沒回就知道是被擋了／沒網路，別讓使用者一直看「正在查」
-        var timer = setTimeout(function () {
-          dpInflight[w] = 0;
-          if (dpState.word !== w) return;
-          dpRender();
-          var s = dpEl('dpSource');
-          if (s) s.textContent = '詞典抓不到（可能無網路／被擋）';
-        }, 8000);
-        wiktExtract(w, 'zh')
-          .then(function (ex) { return { zh: ex ? pickJaSection(ex) : '', ja: '' }; })
-          .catch(function () { return { zh: '', ja: '' }; })
-          .then(function (r) {
-            if (r.zh) { dpCacheSet(w, { zh: r.zh }); dpApply({ zh: r.zh }); return; }
-            // 中文詞典沒這詞 → 再補抓日文維基，至少拿得到讀音／詞性
-            return wiktExtract(w, 'ja').then(function (ex) {
-              var ja = ex ? pickJaSection(ex) : '';
-              if (ja) dpCacheSet(w, { ja: ja });
-              dpApply({ zh: '', ja: ja });
-            }).catch(function () { dpApply({}); });
-          })
-          .then(function () { clearTimeout(timer); dpInflight[w] = 0; });
-      }
-
-      function dpAddToVocab() {
-        var txt = '';
-        if (dpState.loan) txt += dpState.loan;
-        if (dpState.texts.length) txt += (txt ? '\n' : '') + dpState.texts.join('\n');
-        if (!txt) txt = dpState.word;
-        var idx = dpState.index, sent = dpState.sentence, ok = false;
-        try {
-          if (idx != null && AppState.processedSubtitles[idx] !== undefined) {
-            upsertVocabEntry(idx, txt); ok = true;
-          } else if (sent) {
-            var k = noteKey(currentSourceFileName(), sent);
-            var now = new Date().toISOString();
-            vocabMap[k] = {
-              key: k, note: txt, sentence: sent, sentenceZh: '',
-              sourceFile: currentSourceFileName(), time: '', category: '',
-              createdAt: now, updatedAt: now
-            };
-            persistVocabBookDebounced(); ok = true;
-          }
-        } catch (e) { ok = false; }
-        if (ok) { updateNoteCount(); showGlobalStatus('已加入生詞本：' + dpState.word + ' ♡'); }
-        else showGlobalStatus('這個詞沒有來源句，先點字幕裡的句子再查詞就能加入生詞本 ♪', 2600);
-      }
-
-      function initDictPanel() {
-        var panel = dpEl('dictPanel');
-        if (!panel) return;
-        var bd = dpEl('dictPanelBackdrop');
-        if (bd) bd.addEventListener('click', function () { panel.hidden = true; });
-        var cb = dpEl('dictCloseBtn');
-        if (cb) cb.addEventListener('click', function () { panel.hidden = true; });
-        document.addEventListener('keydown', function (e) {
-          if ((e.key === 'Escape' || e.keyCode === 27) && panel.hidden === false) panel.hidden = true;
-        });
-        var sp = dpEl('dpSpeak');
-        if (sp) sp.addEventListener('click', function () {
-          var tmp = document.createElement('button');
-          tmp.setAttribute('data-text', dpState.word);
-          window.speakText(tmp);
-        });
-        var cp = dpEl('dpCopy');
-        if (cp) cp.addEventListener('click', function () {
-          var t = dpState.word + (dpState.reading ? ' ' + dpState.reading : '');
-          try { navigator.clipboard.writeText(t); showGlobalStatus('已複製：' + t); }
-          catch (e) { showGlobalStatus('複製失敗，手動選一下吧'); }
-        });
-        var av = dpEl('dpAddVocab');
-        if (av) av.addEventListener('click', dpAddToVocab);
-      }
-
-      initDictPanel();
         window.speakText = function(btn) {
            const text = btn.getAttribute('data-text');
            if (!text) return;
@@ -1854,6 +1640,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
 
             if (!file1Data.subtitles.length && !file2Data.subtitles.length) {
                 document.getElementById('subtitles').innerHTML = '';
+                document.getElementById('subtitles').scrollTop = 0; _feedGuard = 0;
                 document.getElementById('fileInfo').style.display = 'none';
                 AppState.processedSubtitles = []; AppState.filteredData = []; AppState.renderedCount = 0;
                 AppState.notesData = {}; AppState.currentFileName = '';
@@ -1918,7 +1705,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         
         // ==================== 渲染与无限滚动 ====================
         // ============ 音訊播放器：貼連結直接播 ＋ 與字幕對時 ============
-        var MP = { hls: null, mode: 'none', token: 0, ab: { a: -1, b: -1 } };
+        var MP = { hls: null, mode: 'none', token: 0, audioDelaySec: 0, stopped: false }; // audioDelaySec：音訊偏移，負＝字幕提前、正＝字幕延後（±1s ～ ±1min）
         // 現在只育一颗「音訊」元素：mpAudio。<video> 已整顆拿掉，字幕聯動照舊走 currentTime。
         function medEl() { return document.getElementById('mpAudio'); }
         function medErr(msg) { var e = document.getElementById('mpErr'); if (e) e.textContent = msg || ''; }
@@ -1947,22 +1734,53 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         }
         function openMediaPanel() {
             document.getElementById('mediaPanel').hidden = false;
+            try { refreshMini(); } catch (e) { }
             try { dzFillPickers(); } catch (e) { }
             // 明講「已經幫你選好」，不然兩個選單看起來像空的（上面只有灰色字），
             // 用户以为没选好就直接按播放 → 卡在「先選好線路與集數」。
             var _ls = document.getElementById('mpDzLine'), _es = document.getElementById('mpDzEp');
             if (_ls && _es && _ls.value && _es.value) {
+                var _sp = document.getElementById('mpStatus');
+                if (_sp && _sp.textContent) return;  // 已經有狀態（連上了／播放器msg）就別洗掉
                 var _n = 0; try { _n = dzSeedList().length; } catch (e) { }
                 medStatus('已幫你選好：' + _ls.value + ' / ' + _es.value
                     + (_n ? '（內建 ' + _n + ' 條，播放器已內建、不必連網）' : '')
                     + ' → 按「▶ 常用劇集」就能播 ♪');
             }
         }
-        function closeMediaPanel() { document.getElementById('mediaPanel').hidden = true; }
-        // ---------------- 播放器核心：直接播 → 換本機代抓 → 解析網頁 ----------------
-        function setStage() {
-            var st = document.getElementById('mpStage'); if (st) st.classList.add('show');
+        function closeMediaPanel() {
+            document.getElementById('mediaPanel').hidden = true;
+            try { refreshMini(); } catch (e) { }
         }
+        // ---------------- 播放器核心：直接播 → 換本機代抓 → 解析網頁 ----------------
+        // 「收起／展開播放器」已經拿掉了：播放器就固定在「🎵 音訊」面板裡，而面具可以被關掉；
+        // 關掉面具時播放器整組跟著不見，外面只靠頭部 🎵 音鈕的紅點提示「聲音還在播」。
+        function openStage() {
+            var st = document.getElementById('mpStage'); if (st) st.classList.add('show');
+            MP.stopped = false;
+            soundDotOn(); refreshMini();
+        }
+        // 【已停用】小工具列（mp-mini 提示條 + 「■ 停止」）整組拿掉了：
+        // 播放／暫停／停止直接看播放器上那條 <audio controls> 就夠，這個 refreshMini 留著只是空殼給原呼叫點用。
+        function refreshMini() { }
+        // 停止＝暫停 + 收掉播放器 + 滅紅點；現在沒有獨立按鈕入口，暫停／停止直接用播放器上那條
+        // <audio controls>（自帶播放／暫停／音量），這裡留著是給日後接回按鈕或其他分支用。
+        function stopPlayback() {
+            var vv = medEl(); if (vv) { try { vv.pause(); } catch (e) { } }
+            var st = document.getElementById('mpStage'); if (st) st.classList.remove('show');
+            MP.stopped = true;
+            soundDotOn(); refreshMini();
+            medStatus('已停止播放。要再聽就重新按「▶ 常用劇集」，或按「📁 本機音檔」。');
+        }
+        // 頭部 🎵 音鈕紅點：面具關掉、播放器收起時，這裡是唯一提示「聲音還在播」的地方
+        function soundDotOn() {
+            var b = document.getElementById('mediaLinkBtn'); if (!b) return;
+            var v = medEl(), on = false;
+            try { on = !!(v && v.currentSrc || (v && v.src)) && !v.paused && !v.ended; } catch (e) { on = false; }
+            b.classList.toggle('media-sound-on', on);
+            b.title = on ? '🎵 音訊：聲音正在播（播放器收起中）— 點這裡打開音訊面板' : '🎵 音訊：點這裡打開音訊面板';
+        }
+        function setStage() { openStage(); }
         function onPlayFail(url, reason) {
             var whyMap = {
                 network: '伺服器連不到這個檔案（404／403／防盜鏈，不給外來播放器用）',
@@ -2025,7 +1843,12 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 settled = true; clearTimeout(watch);
                 medStatus('▶ 連上了，開始播♪ 字幕會自己跟著亮起來（按句前的 ⏱ 可跳到任何一句）。', 'good');
                 showFix('');
-                setTimeout(function () { if (tk === MP.token) closeMediaPanel(); }, 900);
+                setTimeout(function () {
+                    if (tk !== MP.token) return;
+                    // 播放器住在「🎵 音訊」面板裡：關面具 = 播放器收起來，
+                    // 外面只靠頭部 🎵 音鈕的紅點提示「聲音還在播」（小工具列已整組拿掉，功能重複）。
+                    closeMediaPanel(); refreshMini();
+                }, 900);
             }
             function fail(reason) {
                 if (tk !== MP.token || settled) return;
@@ -2728,7 +2551,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var st0 = subSec(sub.startTime);
             if (st0 < 0) return;
             if (!v) return;
-            try { v.currentTime = st0; } catch (e) { }
+            try { v.currentTime = Math.max(0, st0 + MP.audioDelaySec); } catch (e) { }
             if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () { }); }
             markPlaying(idx);
         };
@@ -2749,24 +2572,32 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             row.classList.add('is-playing');
             var follow = document.getElementById('mpFollow');
             if (!follow || follow.checked) {
-                try { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { }
+                // 只把字幕框（#subtitles）内部滚到該句，不動整頁——頭部、引導區、🎵 音鈕都留在原位
+                try {
+                    var box = document.getElementById('subtitles');
+                    if (box) {
+                        var rt = row.getBoundingClientRect(), bt = box.getBoundingClientRect();
+                        var delta = (rt.top - bt.top) - (box.clientHeight - rt.height) / 2;
+                        var top = box.scrollTop + delta;
+                        if (typeof box.scrollTo === 'function') box.scrollTo({ top: top, behavior: 'smooth' });
+                        else box.scrollTop = top;
+                    }
+                } catch (e) { }
             }
         }
         function mediaTick() {
             var v = medEl();
             if (MP.mode === 'yt') {
                 if (typeof MP.ytTime !== 'number' || MP.ytTime < 0 || !AppState.processedSubtitles.length) return;
-                mediaTickAt(MP.ytTime); return;
+                mediaTickAt(MP.ytTime - MP.audioDelaySec); return;
             }
             if (!v || !v.src) return;
             var t = v.currentTime;
             if (typeof t !== 'number' || isNaN(t)) return;
-            // A-B 反覆：進到 B 就跳回 A（練單句非常好用）
-            if (MP.ab.b > MP.ab.a && t >= MP.ab.b && !v.paused) {
-                try { v.currentTime = MP.ab.a; var p = v.play(); if (p && p.catch) p.catch(function () { }); } catch (e) { }
-                return;
-            }
-            mediaTickAt(t);
+                        // 音訊偏移：字幕查表時間 = 音訊位置 − N
+                        //   N > 0（字幕延後 N 秒亮，聲音比字幕慢）→ 查表往回退
+                        //   N < 0（字幕提前 |N| 秒亮，聲音比字幕快）→ 查表往前推
+            mediaTickAt(t - MP.audioDelaySec);
         }
         function mediaTickAt(t) {
             var list = AppState.processedSubtitles, found = -1;
@@ -2797,13 +2628,15 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 });
                 v.addEventListener('error', function () { if (errLocked()) return; medStatus('⚠ 這個檔案讀不到（可能是網頁不是媒體檔，或連結失效）。', 'bad'); });
             }
-            // 播放器下方控制列：速度 / 前後10秒 / A-B 反覆
-            var stage = document.getElementById('mpStage');
-            var scb = document.getElementById('mpStageClose');
-            if (stage && scb) scb.addEventListener('click', function () {
-                stage.classList.remove('show');
-                var vv = medEl(); if (vv) { try { vv.pause(); } catch (e) { } }
-            });
+            // 播放器下方控制列：速度 / 前後10秒 / 音訊偏移（負=字幕提前、正=字幕延後）
+            // 頭部 🎵 音鈕的紅點還是要照著真實播放狀態跑（play / pause / ended）
+            (function () {
+                var v4 = medEl(); if (!v4) return;
+                var dotUpd = function () { try { soundDotOn(); } catch (e) { } };
+                v4.addEventListener('play', dotUpd);
+                v4.addEventListener('pause', dotUpd);
+                v4.addEventListener('ended', dotUpd);
+            })();
             var rateBtns = document.querySelectorAll('.mp-ctl button[data-playrate]');
             Array.prototype.forEach.call(rateBtns, function (b) {
                 b.addEventListener('click', function () {
@@ -2818,23 +2651,21 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 try { vv.currentTime = Math.max(0, vv.currentTime + d); } catch (e) { }
                 if (vv.paused) { try { var p = vv.play(); if (p && p.catch) p.catch(function () { }); } catch (e2) { } }
             }
+            // 「🎵 音訊偏移」下拉：負值＝字幕提前、正值＝字幕延後，範圍 ±1 秒 ～ ±1 分鐘
+            var dsel = document.getElementById('mpDelaySel');
+            if (dsel) dsel.addEventListener('change', function () {
+                var n = Math.max(-60, Math.min(60, parseFloat(this.value) || 0));
+                MP.audioDelaySec = n;
+                try { localStorage.setItem('xiaoye_media_delay_v1', String(n)); } catch (e) { }
+                medStatus(n < 0
+                    ? ('✅ 字幕提前 ' + (-n) + ' 秒：字幕會早 ' + (-n) + ' 秒亮（聲音比字幕快就選這個）。')
+                    : (n > 0
+                        ? ('✅ 字幕延後 ' + n + ' 秒：字幕會晚 ' + n + ' 秒亮（聲音比字幕慢就選這個）。')
+                        : '✅ 不偏移（字幕直接用原時間碼）。'), '');
+            });
             var b10 = document.getElementById('mpBack10'); if (b10) b10.addEventListener('click', function () { nudge(-10); });
             var f10 = document.getElementById('mpFwd10'); if (f10) f10.addEventListener('click', function () { nudge(10); });
-            var ab = document.getElementById('mpAB');
-            if (ab) ab.addEventListener('click', function () {
-                var vv = medEl(); if (!vv) return;
-                var t = vv.currentTime || 0;
-                if (MP.ab.b > MP.ab.a) { MP.ab.a = -1; MP.ab.b = -1; }
-                else if (MP.ab.a < 0) MP.ab.a = t;
-                else { MP.ab.b = t; if (MP.ab.b - MP.ab.a < 0.4) { MP.ab.b = -1; } }
-                ab.classList.toggle('on', MP.ab.b > MP.ab.a);
-                var info = document.getElementById('mpABInfo');
-                if (info) info.textContent = (MP.ab.b > MP.ab.a)
-                    ? ('A ' + MP.ab.a.toFixed(1) + 's → B ' + MP.ab.b.toFixed(1) + 's（第三次按取消）')
-                    : '先按一次定起點 A，再按一次定終點 B';
-                try { localStorage.setItem('xiaoye_media_ab_v1', JSON.stringify(MP.ab)); } catch (e3) { }
-            });
-            var bp = document.getElementById('mediaLinkBtn');
+                        var bp = document.getElementById('mediaLinkBtn');
             if (bp) bp.addEventListener('click', openMediaPanel);
             var cb = document.getElementById('mpCloseBtn');
             if (cb) cb.addEventListener('click', closeMediaPanel);
@@ -2862,10 +2693,17 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             });
             var pb = document.getElementById('mpPickBtn');
             if (pb) pb.addEventListener('click', function () { var f = document.getElementById('mpFile'); if (f) f.click(); });
-            // 上次記的 A-B 區間沿用（直連結那一格已拿掉，不再做「上次的音訊還在」提示）
+            // 上次記的音訊偏移沿用（−1 秒 ～ ±1 分鐘，負＝提前、正＝延後）
             try {
-                var sav = localStorage.getItem('xiaoye_media_ab_v1');
-                if (sav) { var abv = JSON.parse(sav); if (abv && abv.a >= 0) { MP.ab.a = abv.a; MP.ab.b = abv.b; var aby = document.getElementById('mpAB'); if (aby) aby.classList.toggle('on', MP.ab.b > MP.ab.a); } }
+                var dvs = localStorage.getItem('xiaoye_media_delay_v1');
+                if (dvs !== null && dvs !== '') {
+                    var dv = parseFloat(dvs);
+                    if (dv >= -60 && dv <= 60) {
+                        MP.audioDelaySec = dv;
+                        var dsel0 = document.getElementById('mpDelaySel');
+                        if (dsel0) dsel0.value = String(dv);
+                    }
+                }
             } catch (e2) { }
         })();
 
@@ -2886,7 +2724,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                   <div class="japanese-text">${jp}</div>
                   ${sub.chinese ? `<div class="chinese-text">${highlightZh}</div>` : ''}
                   <div class="row-actions"><button class="action-btn" data-text="${escapeHtml(sub.japanese || sub.originalText)}" onclick="speakText(this)" title="朗读这句">🔊</button></div>
-<div class="row-actions"><button class="action-btn seek-btn" data-idx="${originalIndex}" onclick="seekToSubtitle(Number(this.getAttribute('data-idx')))" title="把音頻跳到這句">⏱</button><button class="action-btn look-btn" data-jptext="${escapeHtml(jpText)}" data-sent="${escapeHtml(jpText)}" data-idx="${originalIndex}" onclick="dictSearch(this.getAttribute('data-jptext'), { sentence: this.getAttribute('data-sent'), index: Number(this.getAttribute('data-idx')) })" title="一鍵查詞：在頁面裡查这一句（不跳外站）">🔍</button><button class="action-btn" data-text="${escapeHtml(sub.japanese || sub.originalText)}" onclick="speakText(this)" title="朗读这句">🔊</button></div>
+<div class="row-actions"><button class="action-btn seek-btn" data-idx="${originalIndex}" onclick="seekToSubtitle(Number(this.getAttribute('data-idx')))" title="把音頻跳到這句">⏱</button><button class="action-btn" data-text="${escapeHtml(sub.japanese || sub.originalText)}" onclick="speakText(this)" title="朗读这句">🔊</button></div>
                 </div>
                 <div class="note-area"><div class="note-container">
                   <textarea class="note-box ${noteClasses}" data-index="${originalIndex}" placeholder="✏️ 写点笔记…（自动帮你存好）">${escapeHtml(noteContent)}</textarea>
@@ -2961,9 +2799,29 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             container.querySelectorAll(`.row:nth-child(n+${AppState.renderedCount + 1}) .note-box`).forEach(autoResizeTextarea);
             
             AppState.renderedCount += nextBatch.length;
+            // 字幕改成框內滾動後，整頁滾動不再能帶出新的批次，所以在框底接力補載
+            setTimeout(feedSubtitlesIfNearBottom, 0);
+        }
+        var _feedGuard = 0;
+        function feedSubtitlesIfNearBottom() {
+            var _box = document.getElementById('subtitles');
+            if (!_box || _feedGuard > 40) return;
+            if (_box.scrollTop + _box.clientHeight >= _box.scrollHeight - 500) {
+                _feedGuard++;
+                renderNextBatch();
+            }
         }
 
-        // 建立无限滚动触发器 (Intersection Observer)
+        // 字幕框內滑到接近底部，就補下一批（rootMargin 的整頁版繼續留著，這裡是框內版）
+        (function initSubBoxFeed() {
+            var _box = document.getElementById('subtitles');
+            if (!_box) return;
+            _box.addEventListener('scroll', function () {
+                if (_box.scrollTop + _box.clientHeight >= _box.scrollHeight - 400) renderNextBatch();
+            }, { passive: true });
+        })();
+
+        // 建立無限滾動觸發器 (Intersection Observer)
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
                 renderNextBatch();
@@ -3325,9 +3183,9 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             }
 
             document.getElementById('subtitles').addEventListener('click', function (e) {
-                                var rt = e.target.closest('rt');          // 只點擊「注音」本身才開啟修改
+                var rt = e.target.closest('rt');          // 只點擊「注音」本身才開啟修改
                 if (!rt) {
-                    var ww = e.target.closest('.wf-word');   // 點「詞身」→ 內建查詞（與注音顯示無關，隱藏注音時也能查）
+                    var ww = e.target.closest('.wf-word');   // 點「詞身」→ 查詞（內建詞典／維基詞典）
                     if (ww) {
                         e.stopPropagation(); e.preventDefault();
                         var rtEl = ww.querySelector('rt');
@@ -3349,6 +3207,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 var w = rt.closest('.wf-word');
                 if (!w) return;
                 e.stopPropagation();
+                var _dc = document.getElementById('dictPanel'); if (_dc) _dc.hidden = true;   // 點注音時先把查詞面板收掉
                 openEditor(w);
             });
             saveBtn.addEventListener('click', save);
@@ -3368,6 +3227,230 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 if (e.key === 'Escape' && editor.classList.contains('show')) closeEditor();
             });
         })();
+
+
+      var DICT_SKIP = /^(は|が|を|に|へ|で|と|も|や|の|し|て|た|だ|です|ます|か|ね|よ|ば|わ|ぞ|な|から|まで|より|ながら|ですね|ですよ|ですから)$/;
+      // 查詞來源固定為維基詞典（中文／日文兩段），查過的存本機快取，斷網也看得到
+      try { localStorage.removeItem('xiaoye_dict_source_v1'); } catch (e) {}
+      window.dictSearch = function (text, opts) {
+        opts = opts || {};
+        var raw = String(text == null ? '' : text).trim();
+        if (!raw) { showGlobalStatus('先點字幕裡的任何單詞，小野幫你查 ♪'); return; }
+        if (DICT_SKIP.test(raw)) { showGlobalStatus('「' + raw + '」是助詞／語尾，不用查 ♪', 2400); return; }
+        // 一律走內建詞典：直接在頁面裡顯示釋義，不開新分頁、不跳外站
+        openDictPanel(raw, opts);
+      };
+
+      // ---- 內建查詞快取：存本機 60 天，查過的第二次秒開，斷網也看得到 ----
+      var DP_CACHE_KEY = 'xiaoye_dict_cache_v1';
+      var DP_TTL = 60 * 24 * 3600 * 1000;
+      function dpCacheLoad() {
+        try { return JSON.parse(localStorage.getItem(DP_CACHE_KEY) || '{}') || {}; } catch (e) { return {}; }
+      }
+      function dpCacheGet(w) {
+        try {
+          var c = dpCacheLoad(), e = c[w];
+          if (e && e.t && (Date.now() - e.t) < DP_TTL) return e.d || {};
+        } catch (e2) {}
+        return null;
+      }
+      function dpCacheSet(w, d) {
+        try {
+          var c = dpCacheLoad();
+          c[w] = { t: Date.now(), d: d };
+          var ks = Object.keys(c);
+          if (ks.length > 400) {   // 別把 localStorage 塞爆，逾 400 條就砍最舊的
+            ks.sort(function (a, b) { return c[a].t - c[b].t; });
+            for (var i = 0; i < ks.length - 400; i++) delete c[ks[i]];
+          }
+          localStorage.setItem(DP_CACHE_KEY, JSON.stringify(c));
+        } catch (e) {}
+      }
+
+      // 抓維基詞典的純文字抽取；origin=* 讓它允許跨域（file:// 直接雙擊打開也抓得到）
+      function wiktExtract(word, lang) {
+        var u = 'https://' + lang + '.wiktionary.org/w/api.php?action=query&format=json&prop=extracts&explaintext=1&redirects=1&origin=*&titles=' + encodeURIComponent(word);
+        return fetch(u).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        }).then(function (j) {
+          var pg = (j && j.query && j.query.pages) || {};
+          var ks = Object.keys(pg);
+          var p = pg[ks[0]];
+          return (p && p.extract) || '';
+        });
+      }
+      // 只取「日语／日語／日本語」那一節（否則像「勉強」會抓到「漢語」條目，顯示成中文詞的意思）
+      function pickJaSection(extract) {
+        if (!extract) return '';
+        var lines = String(extract).split('\n'), out = [], inJa = false;
+        for (var i = 0; i < lines.length; i++) {
+          var m = lines[i].match(/^(=+)\s*(.+?)\s*=+\s*$/);
+          if (m) {
+            if (m[1].length === 2) {
+              var t = m[2].replace(/[\[\]'’]/g, '').trim();
+              if (inJa) break;                       // 下一個二級標題 = 本節結束
+              if (t === '日语' || t === '日語' || t === '日本語') inJa = true;
+            }
+            continue;                                // 標題行本身不輸出
+          }
+          if (inJa) out.push(lines[i]);
+        }
+        var txt = out.join('\n')
+          .replace(/\[\[([^\]\|]*)\|([^\]]*)\]\]/g, '$2')
+          .replace(/\[\[([^\]]*)\]\]/g, '$1')
+          .replace(/'''?/g, '')
+          .replace(/\{\{[^}]*\}\}/g, '')
+          .replace(/國際音標\(幫助\)\s*:\s*/g, '')
+          .replace(/\(\?\)\s*:\s*/g, '')
+          .replace(/\n{2,}/g, '\n')
+          .trim();
+        // 只留前 8 行，並去掉「→ 朝鮮語／泰語…」這種各語翻譯（對學日語沒幫助、又佔版面）
+        var kept = [], n = 0;
+        txt.split('\n').forEach(function (ln) {
+          ln = ln.trim();
+          if (ln === '') return;
+          if (/^\u2192\s/.test(ln)) return;
+          kept.push(ln);
+          if (++n >= 8) return;
+        });
+        return kept.join('\n');
+      }
+
+      var dpState = { word: '', reading: '', sentence: '', index: null, texts: [], loan: '' };
+      var dpInflight = {};
+      function dpEl(id) { return document.getElementById(id); }
+
+      function openDictPanel(word, opts) {
+        opts = opts || {};
+        word = String(word == null ? '' : word).trim();
+        if (!word) return;
+        var ov = (typeof userReadingOverrides !== 'undefined' && userReadingOverrides && userReadingOverrides[word]) ? userReadingOverrides[word] : '';
+        if (!ov && typeof READING_OVERRIDES !== 'undefined') ov = READING_OVERRIDES[word] || '';
+        dpState = {
+          word: word,
+          reading: opts.reading || ov || '',
+          sentence: opts.sentence || '',
+          index: (opts.index != null && opts.index !== '') ? opts.index : null,
+          texts: [],
+          loan: (typeof LOANWORDS !== 'undefined' && LOANWORDS[word]) ? LOANWORDS[word] : ''
+        };
+        var panel = dpEl('dictPanel');
+        if (!panel) { showGlobalStatus('查詞面板還沒準備好，重整一下頁面试试 ♪'); return; }
+        panel.hidden = false;
+        dpEl('dpWord').textContent = word;
+        var rd = dpEl('dpReading');
+        rd.textContent = dpState.reading ? ('讀音：' + dpState.reading) : '';
+        dpEl('dpBody').innerHTML = '<div class="dict-loading">正在查「' + escapeHtml(word) + '」…</div>';
+        dpEl('dpSource').innerHTML = '';
+        // 先別渲染「查不到」：等詞真的回來（或超時）再決定，避免一下出現一下消失的閃動
+        dpFetch();
+      }
+      function dpRender() {
+        var body = dpEl('dpBody');
+        if (!body) return;
+        var html = '';
+        if (dpState.loan) {
+          html += '<div class="dict-sec"><div class="dict-sec-h">英文原詞</div><div class="dict-en">' + escapeHtml(dpState.loan) + '</div></div>';
+        }
+        if (dpState.texts.length) {
+          html += '<div class="dict-sec"><div class="dict-sec-h">詞典釋義</div><div class="dict-zh">' + dpState.texts.map(escapeHtml).join('<br />') + '</div></div>';
+        }
+        if (!html) {
+          html = '<div class="dict-none">詞典還沒收這個詞（外來語、專有名詞常這樣）。<br />已知的讀音：' + (dpState.reading ? escapeHtml(dpState.reading) : '—') + '</div>';
+        }
+        body.innerHTML = html;
+      }
+      function dpApply(res) {
+        res = res || {};
+        dpState.texts = [];
+        if (res.zh) dpState.texts.push(String(res.zh).slice(0, 700).trim());
+        if (res.ja) dpState.texts.push(String(res.ja).slice(0, 700).trim());
+        dpRender();
+        var s = dpEl('dpSource');
+        if (s) s.textContent = '詞典來源：維基詞典' + (dpState.texts.length > 1 ? '（中文＋日文）' : '（中文）') + ' · 查過的會存本機，下次秒開';
+      }
+      function dpFetch() {
+        var w = dpState.word;
+        if (!w) return;
+        var cached = dpCacheGet(w);
+        if (cached) { dpApply(cached); return; }
+        if (dpInflight[w]) return;
+        dpInflight[w] = 1;
+        // 8 秒沒回就知道是被擋了／沒網路，別讓使用者一直看「正在查」
+        var timer = setTimeout(function () {
+          dpInflight[w] = 0;
+          if (dpState.word !== w) return;
+          dpRender();
+          var s = dpEl('dpSource');
+          if (s) s.textContent = '詞典抓不到（可能無網路／被擋）';
+        }, 8000);
+        wiktExtract(w, 'zh')
+          .then(function (ex) { return { zh: ex ? pickJaSection(ex) : '', ja: '' }; })
+          .catch(function () { return { zh: '', ja: '' }; })
+          .then(function (r) {
+            if (r.zh) { dpCacheSet(w, { zh: r.zh }); dpApply({ zh: r.zh }); return; }
+            // 中文詞典沒這詞 → 再補抓日文維基，至少拿得到讀音／詞性
+            return wiktExtract(w, 'ja').then(function (ex) {
+              var ja = ex ? pickJaSection(ex) : '';
+              if (ja) dpCacheSet(w, { ja: ja });
+              dpApply({ zh: '', ja: ja });
+            }).catch(function () { dpApply({}); });
+          })
+          .then(function () { clearTimeout(timer); dpInflight[w] = 0; });
+      }
+
+      function dpAddToVocab() {
+        var txt = '';
+        if (dpState.loan) txt += dpState.loan;
+        if (dpState.texts.length) txt += (txt ? '\n' : '') + dpState.texts.join('\n');
+        if (!txt) txt = dpState.word;
+        var idx = dpState.index, sent = dpState.sentence, ok = false;
+        try {
+          if (idx != null && AppState.processedSubtitles[idx] !== undefined) {
+            upsertVocabEntry(idx, txt); ok = true;
+          } else if (sent) {
+            var k = noteKey(currentSourceFileName(), sent);
+            var now = new Date().toISOString();
+            vocabMap[k] = {
+              key: k, note: txt, sentence: sent, sentenceZh: '',
+              sourceFile: currentSourceFileName(), time: '', category: '',
+              createdAt: now, updatedAt: now
+            };
+            persistVocabBookDebounced(); ok = true;
+          }
+        } catch (e) { ok = false; }
+        if (ok) { updateNoteCount(); showGlobalStatus('已加入生詞本：' + dpState.word + ' ♡'); }
+        else showGlobalStatus('這個詞沒有來源句，先點字幕裡的句子再查詞就能加入生詞本 ♪', 2600);
+      }
+
+      function initDictPanel() {
+        var panel = dpEl('dictPanel');
+        if (!panel) return;
+        var bd = dpEl('dictPanelBackdrop');
+        if (bd) bd.addEventListener('click', function () { panel.hidden = true; });
+        var cb = dpEl('dictCloseBtn');
+        if (cb) cb.addEventListener('click', function () { panel.hidden = true; });
+        document.addEventListener('keydown', function (e) {
+          if ((e.key === 'Escape' || e.keyCode === 27) && panel.hidden === false) panel.hidden = true;
+        });
+        var sp = dpEl('dpSpeak');
+        if (sp) sp.addEventListener('click', function () {
+          var tmp = document.createElement('button');
+          tmp.setAttribute('data-text', dpState.word);
+          window.speakText(tmp);
+        });
+        var cp = dpEl('dpCopy');
+        if (cp) cp.addEventListener('click', function () {
+          var t = dpState.word + (dpState.reading ? ' ' + dpState.reading : '');
+          try { navigator.clipboard.writeText(t); showGlobalStatus('已複製：' + t); }
+          catch (e) { showGlobalStatus('複製失敗，手動選一下吧'); }
+        });
+        var av = dpEl('dpAddVocab');
+        if (av) av.addEventListener('click', dpAddToVocab);
+      }
+
+      initDictPanel();
 
         // PDF 汇出：笔记讲义 / 全文讲义
         const triggerPrint = (htmlStr) => {
@@ -3530,7 +3613,6 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
               + sentence + zh + srsBar
               + '<div class="vocab-meta"><span class="vocab-file">📁 ' + escapeHtml(en.sourceFile || '未知文件') + time + '</span>'
               + '<span><select class="vocab-cat" data-catkey="' + escapeHtml(key) + '">' + opts + '</select>'
-                            + '<button class="vocab-look" type="button" data-look="' + escapeHtml(en.note) + '" title="用字典查这个单词">🔎 查词</button>'
               + '<button class="vocab-jump" type="button" data-jump="' + escapeHtml(key) + '">跳到来源</button>'
               + '<button class="vocab-del" type="button" data-del="' + escapeHtml(key) + '">删除</button></span></div>'
               + '</div>';
@@ -3648,8 +3730,6 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (srsOk) { srsGrade(srsOk, 2); renderVocabBook(); return; }
             if (srsNo) { srsGrade(srsNo, 0); renderVocabBook(); return; }
             var delKey = e.target.getAttribute('data-del');
-                        var lookTxt = e.target.getAttribute('data-look');
-            if (lookTxt) { e.stopPropagation(); window.dictSearch(lookTxt); return; }
             var jumpKey = e.target.getAttribute('data-jump');
             if (delKey) {
               deleteVocabEntry(delKey);
