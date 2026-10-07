@@ -193,8 +193,8 @@
           .bilingual-btn, .toggle-notes-btn { font-size: 11px; padding: 6px 10px; }
           main { padding-top: calc(var(--header-height) + 16px); padding-bottom: 180px; }
           .subtitle { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 6px; padding: 8px 10px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); border: 1px solid rgba(0, 0, 0, 0.08); }
-          .text-box { width: auto; flex: 1; min-width: 0; padding: 6px 10px; padding-right: 40px; height: auto; min-height: 34px; font-size: 16px; }
-          .row-actions { top: 12px; transform: none; right: 8px; }
+          .text-box { width: auto; flex: 1; min-width: 0; padding: 6px 10px; padding-right: 10px; height: auto; min-height: 34px; font-size: 16px; }
+          .row-actions { position: static; transform: none; right: auto; top: auto; width: 100%; justify-content: flex-end; margin-top: 6px; opacity: 1; }
           .note-area { width: 100%; flex-basis: 100%; flex: none; display: none; }
           .subtitle.has-written-note .note-area,
           .subtitle.note-open .note-area { display: flex; }
@@ -2763,7 +2763,6 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 <div class="text-box">
                   <div class="japanese-text">${jp}</div>
                   ${sub.chinese ? `<div class="chinese-text">${highlightZh}</div>` : ''}
-                  <div class="row-actions"><button class="action-btn" data-text="${escapeHtml(sub.japanese || sub.originalText)}" onclick="speakText(this)" title="朗读这句">🔊</button></div>
 <div class="row-actions"><button class="action-btn seek-btn" data-idx="${originalIndex}" onclick="seekToSubtitle(Number(this.getAttribute('data-idx')))" title="把音頻跳到這句">⏱</button><button class="action-btn" data-text="${escapeHtml(sub.japanese || sub.originalText)}" onclick="speakText(this)" title="朗读这句">🔊</button></div>
                 </div>
                 <div class="note-area"><div class="note-container">
