@@ -548,11 +548,12 @@
         .vocab-cat-input:focus { outline: none; border-color: var(--vermillion); }
         .vocab-cat-addbtn { border: 1px solid var(--vermillion); background: #fff; color: var(--vermillion); border-radius: 8px; padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
         .vocab-cat-addbtn:hover { background: var(--vermillion); color: #fff; }
-        .vocab-list { flex: 1; overflow-y: auto; padding: 24px 26px 46px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px 20px; align-items: stretch; align-content: start; }
+        .vocab-list { flex: 1; overflow-y: auto; padding: 22px 24px 44px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 16px; align-items: stretch; align-content: start; }
         .vocab-group-head { grid-column: 1 / -1; position: sticky; top: 0; background: #fffdf9; padding: 10px 2px 6px; font-size: 14px; font-weight: 700; color: #7c6f56; border-bottom: 2px solid var(--gold); margin-top: 6px; z-index: 1; }
         .vocab-group-head:first-child { margin-top: 0; }
-        @media (max-width: 900px) { .vocab-list { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 560px) { .vocab-list { grid-template-columns: 1fr; } }
+        @media (max-width: 1100px) { .vocab-list { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 760px) { .vocab-list { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .vocab-list { grid-template-columns: 1fr; } }
         .vocab-empty { text-align: center; color: #a89e8e; padding: 40px 0; line-height: 1.9; font-size: 14px; }
         .vocab-item { background: #fffaf0; border: 1px solid #f0e6d4; border-left: 4px solid var(--vermillion); border-radius: 14px; padding: 18px 20px 15px; min-width: 0; display: flex; flex-direction: column; row-gap: 10px; }
         /* 單詞：放大、加粗、專用清晰字型，一眼認得出是哪個字 */
