@@ -548,17 +548,21 @@
         .vocab-cat-input:focus { outline: none; border-color: var(--vermillion); }
         .vocab-cat-addbtn { border: 1px solid var(--vermillion); background: #fff; color: var(--vermillion); border-radius: 8px; padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
         .vocab-cat-addbtn:hover { background: var(--vermillion); color: #fff; }
-        .vocab-list { flex: 1; overflow-y: auto; padding: 22px 24px 44px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 16px; align-items: stretch; align-content: start; }
-        .vocab-group-head { grid-column: 1 / -1; position: sticky; top: 0; background: #fffdf9; padding: 10px 2px 6px; font-size: 14px; font-weight: 700; color: #7c6f56; border-bottom: 2px solid var(--gold); margin-top: 6px; z-index: 1; }
+        .vocab-list { flex: 1; overflow-y: auto; padding: 22px 24px 44px; display: flex; flex-direction: column; gap: 14px; align-items: stretch; }
+        .vocab-group-head { position: sticky; top: 0; background: #fffdf9; padding: 10px 2px 6px; font-size: 14px; font-weight: 700; color: #7c6f56; border-bottom: 2px solid var(--gold); margin-top: 6px; z-index: 1; }
         .vocab-group-head:first-child { margin-top: 0; }
-        @media (max-width: 1100px) { .vocab-list { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 760px) { .vocab-list { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .vocab-list { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) {
+          .vocab-item { flex-direction: column; gap: 10px; }
+          .vocab-left { flex-basis: auto; }
+        }
         .vocab-empty { text-align: center; color: #a89e8e; padding: 40px 0; line-height: 1.9; font-size: 14px; }
-        .vocab-item { background: #fffaf0; border: 1px solid #f0e6d4; border-left: 4px solid var(--vermillion); border-radius: 14px; padding: 18px 20px 15px; min-width: 0; display: flex; flex-direction: column; row-gap: 10px; }
+        .vocab-item { background: #fffaf0; border: 1px solid #f0e6d4; border-left: 4px solid var(--vermillion); border-radius: 14px; padding: 16px 20px; min-width: 0; display: flex; flex-direction: row; align-items: flex-start; gap: 20px; }
         /* 單詞：放大、加粗、專用清晰字型，一眼認得出是哪個字 */
         /* 卡片內各區塊不要被 flex 收縮：已被 min-height 壓過一次，結果整段文字跑出卡外 */
         .vocab-item > * { flex-shrink: 0; }
+        .vocab-left { flex: 0 0 220px; min-width: 0; }
+        .vocab-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+        .vocab-item > .vocab-body { flex-shrink: 1; }
         /* ===== 音訊播放器（只播聲音，沒有畫面） ===== */
         /* 播放器現在住在「🎵 音訊」面板裡，不再是浮在字幕上面的浮動層 */
         .mp-stage { display: none; margin-top: 10px; padding: 10px 12px; border: 1px solid #e6d9c2; border-radius: 10px; background: #fffdf5; }
@@ -647,12 +651,12 @@
         .row .subtitle.is-playing { background: #ffeecd; box-shadow: inset 5px 0 0 #c9a15f, 0 0 0 1px #e8d3a6; border-radius: 6px; }
         .vocab-item .vocab-word {
             font-family: var(--vb-font);
-            font-size: calc(27px * var(--vb-scale));
+            font-size: calc(19px * var(--vb-scale));
             font-weight: 800;
-            line-height: 1.3;
+            line-height: 1.2;
             letter-spacing: .5px;
             color: #a8181f;
-            margin: 2px 0 5px;
+            margin: 1px 0 3px;
             word-break: break-word;
             overflow-wrap: anywhere;
         }
@@ -666,22 +670,20 @@
 
         .vocab-item .vocab-gloss {
             font-family: var(--vb-font-zh);
-            font-size: calc(17px * var(--vb-scale));
+            font-size: calc(18px * var(--vb-scale));
             font-weight: 600;
-            line-height: 1.75;
+            line-height: 1.5;
             color: #453f37;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             word-break: break-word;
         }
-        .vocab-item .vocab-sentence { font-family: var(--vb-font); font-size: calc(17px * var(--vb-scale)); color: #232c38; line-height: 1.85; margin-bottom: 8px; word-break: break-word; }
-        .vocab-item .vocab-zh { font-family: var(--vb-font-zh); font-size: calc(15px * var(--vb-scale)); line-height: 1.75; color: #5a544b; margin-bottom: 9px; word-break: break-word; }
+        .vocab-item .vocab-sentence { font-family: var(--vb-font); font-size: calc(18px * var(--vb-scale)); color: #232c38; line-height: 1.6; margin-bottom: 5px; word-break: break-word; }
+        .vocab-item .vocab-zh { font-family: var(--vb-font-zh); font-size: calc(16px * var(--vb-scale)); line-height: 1.55; color: #5a544b; margin-bottom: 5px; word-break: break-word; }
         .vocab-item .vocab-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13.5px; color: #7a7266; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
         .vocab-item .vocab-file { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .vocab-cat { border: 1px solid #e3d8c2; background: #fff; color: #7c6f56; border-radius: 6px; padding: 3px 6px; font-size: 12px; cursor: pointer; margin-right: 4px; }
         .vocab-del { border: none; background: #f3ede1; color: #a8866f; border-radius: 6px; padding: 3px 9px; cursor: pointer; font-size: 12px; }
         .vocab-del:hover { background: #f0d9d0; color: #b02430; }
-        .vocab-jump { border: none; background: #eef3f1; color: #2c7a7b; border-radius: 6px; padding: 3px 9px; cursor: pointer; font-size: 12px; margin-right: 4px; }
-        .vocab-jump:hover { background: #d9ebe8; }
         /* 記憶曲線（間隔重複）四舍五入的進度條 */
         .vocab-srs { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #7a7266; }
         .vocab-dots { display: inline-flex; gap: 4px; }
@@ -3732,7 +3734,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var word = lines.shift().trim();
             var h = '<div class="vocab-word">' + escapeHtml(word) + '</div>';
             if (lines.length) h += '<div class="vocab-gloss">' + lines.map(escapeHtml).join('<br>') + '</div>';
-            return h;
+            return '<div class="vocab-left">' + h + '</div>';
           }
 
           function cardHtml(en) {
@@ -3756,11 +3758,12 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
               + '</div>';
             return '<div class="vocab-item" data-key="' + escapeHtml(key) + '">'
               + wordBlockHtml(en.note)
+              + '<div class="vocab-body">'
               + sentence + zh + srsBar
               + '<div class="vocab-meta"><span class="vocab-file">📁 ' + escapeHtml(en.sourceFile || '未知文件') + time + '</span>'
               + '<span><select class="vocab-cat" data-catkey="' + escapeHtml(key) + '">' + opts + '</select>'
-              + '<button class="vocab-jump" type="button" data-jump="' + escapeHtml(key) + '">跳到来源</button>'
               + '<button class="vocab-del" type="button" data-del="' + escapeHtml(key) + '">删除</button></span></div>'
+              + '</div>'
               + '</div>';
           }
 
@@ -3876,12 +3879,9 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (srsOk) { srsGrade(srsOk, 2); renderVocabBook(); return; }
             if (srsNo) { srsGrade(srsNo, 0); renderVocabBook(); return; }
             var delKey = e.target.getAttribute('data-del');
-            var jumpKey = e.target.getAttribute('data-jump');
             if (delKey) {
               deleteVocabEntry(delKey);
               renderVocabBook();
-            } else if (jumpKey) {
-              jumpToSource(jumpKey);
             }
           });
 
