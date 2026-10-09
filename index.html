@@ -37,7 +37,7 @@
           z-index: 999; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
         }
         
-        .header-left { display: flex; flex-direction: column; gap: 4px; }
+        .header-left { display: flex; flex-direction: row; align-items: center; gap: 12px; }
         .header-left h1 { margin: 0; font-size: 24px; }
         .header-left p { margin: 0; font-size: 12px; opacity: 0.9; }
         
@@ -64,6 +64,47 @@
         .clear-btn:hover { transform: scale(1.2); }
         
         .action-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+        /* ===== ⚙ 設定鈕（頭部左上） ===== */
+        #settingsBtn { position: relative; flex: none; width: 32px; height: 32px; border-radius: 8px;
+          display: inline-flex; align-items: center; justify-content: center;
+          border: none; background: transparent; color: var(--vermillion, #b02430);
+          font-size: 17px; cursor: pointer; margin-left: auto;
+          transition: background .18s ease, transform .18s ease; }
+        #settingsBtn:hover { background: rgba(176,36,48,.10); transform: scale(1.06); }
+        #settingsBtn.media-sound-on::after { content: ''; position: absolute; top: 2px; right: 2px;
+          width: 9px; height: 9px; border-radius: 50%; background: #ff4d4f; box-shadow: 0 0 5px rgba(255,77,79,.95); }
+
+        /* ===== 設定抽屜（左側滑出） ===== */
+        #settingsBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,.35); opacity: 0;
+          pointer-events: none; transition: opacity .2s ease; z-index: 2998; }
+        #settingsBackdrop.show { opacity: 1; pointer-events: auto; }
+        #settingsDrawer { position: fixed; top: 0; left: 0; bottom: 0; width: 260px; max-width: 84vw;
+          background: #fffdf9; box-shadow: 8px 0 28px rgba(0,0,0,.22); transform: translateX(-105%);
+          transition: transform .25s ease; z-index: 2999; display: flex; flex-direction: column; }
+        #settingsDrawer.open { transform: none; }
+        .settings-head { display: flex; align-items: center; justify-content: space-between;
+          padding: 16px 18px; background: var(--vermillion, #b02430); color: #fff;
+          border-bottom: 3px solid var(--gold, #c9a15f); }
+        .settings-title { font-size: 16px; font-weight: 800; letter-spacing: 2px; }
+        .settings-close { border: none; background: rgba(255,255,255,.18); color: #fff; width: 34px; height: 34px;
+          border-radius: 50%; font-size: 16px; cursor: pointer; transition: background .18s ease; }
+        .settings-close:hover { background: rgba(255,255,255,.35); }
+        .settings-body { flex: 1; overflow-y: auto; }
+        .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+          padding: 17px 18px; border-bottom: 1px solid #f0e6d4; }
+        .settings-label { font-size: 13px; font-weight: 600; color: var(--ink, #3c3530); }
+        .settings-switch { position: relative; display: inline-block; width: 48px; height: 27px; flex: none; }
+        .settings-switch input { opacity: 0; width: 0; height: 0; }
+        .settings-slider { position: absolute; inset: 0; border-radius: 27px; background: #d8cfbf;
+          transition: background .2s ease; cursor: pointer; }
+        .settings-slider::before { content: ''; position: absolute; left: 3px; top: 3px; width: 21px; height: 21px;
+          border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .2s ease; }
+        .settings-switch input:checked + .settings-slider { background: var(--vermillion, #b02430); }
+        .settings-switch input:checked + .settings-slider::before { transform: translateX(21px); }
+        .settings-open-btn { border: 1px solid var(--gold, #c9a15f); background: #fff; color: var(--vermillion, #b02430);
+          border-radius: 8px; padding: 6px 16px; cursor: pointer; font-size: 13px; font-weight: 700; transition: background .18s ease; }
+        .settings-open-btn:hover { background: #f7efe0; }
         .offset-control { display: none; align-items: center; gap: 8px; padding: 4px 10px; background: #faf3e6; border: 1px solid #e6ddc8; border-radius: 8px; font-size: 12px; color: #6b6357; }
         .offset-control.show { display: flex; }
         .offset-control .offset-label { white-space: nowrap; font-weight: 600; color: #7c5f28; }
@@ -192,27 +233,27 @@
           .search-box { flex: 1; min-width: 120px; width: auto; font-size: 12px; }
           .bilingual-btn, .toggle-notes-btn { font-size: 11px; padding: 6px 10px; }
           main { padding-top: calc(var(--header-height) + 16px); padding-bottom: 180px; }
-          .subtitle { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 6px; padding: 8px 10px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); border: 1px solid rgba(0, 0, 0, 0.08); }
+          .subtitle { display: grid; grid-template-columns: auto 1fr; gap: 6px; align-items: start; padding: 8px 10px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06); border: 1px solid rgba(0, 0, 0, 0.08); }
           .text-box { width: auto; flex: 1; min-width: 0; padding: 6px 10px; padding-right: 10px; height: auto; min-height: 34px; font-size: 16px; }
           .row-actions { position: static; transform: none; right: auto; top: auto; width: 100%; justify-content: flex-end; margin-top: 6px; opacity: 1; }
-          .note-area { width: 100%; flex-basis: 100%; flex: none; display: none; }
+          .note-area { grid-column: 2; display: none; }
           .subtitle.has-written-note .note-area,
           .subtitle.note-open .note-area { display: flex; }
           .note-container { width: 100%; flex: none; }
-          .note-box { width: 100%; min-height: 36px; max-height: 140px; overflow-y: auto !important; }
+          .note-box { width: 100%; min-height: 18px; max-height: 70px; overflow-y: auto !important; }
         }
         
         @media (max-width: 600px) {
-          :root { --header-height: 214px; }
-          #subtitles { max-height: calc(100vh - 260px); }
+          :root { --header-height: 174px; }
+          #subtitles { max-height: calc(100vh - 220px); }
           .file-search-container { flex-direction: row; gap: 6px; }
           .file-buttons-wrapper { width: 100%; flex: none; gap: 6px; }
           .file-item { width: calc(50% - 3px); justify-content: space-between; }
           .custom-file-upload { flex: 1; max-width: none; justify-content: center; padding: 6px; }
           .file-name-text { font-size: 11px; max-width: 70px; }
           .clear-btn { font-size: 18px; }
-          .action-group { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
-          .search-box { grid-column: 1 / -1; width: 100%; flex: none; }
+          .action-group { width: 100%; display: flex; gap: 5px; }
+          .search-box { width: 100%; flex: 1; min-width: 0; }
           .action-group .bilingual-btn, .action-group .toggle-notes-btn { flex: none; width: 100%; min-width: 0; padding: 7px 2px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
           main { padding-top: calc(var(--header-height) + 12px); }
         }
@@ -841,13 +882,47 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
 
             <div class="action-group" data-page-node-id="BWYc5XSWoYrehLZ2u4wq9G">
                 <input id="searchBox" class="search-box" type="text" placeholder="搜寻关键字" data-page-node-id="YX8HkWuYm03cBmVxJTje3k" />
+                <button id="settingsBtn" type="button" title="设置（笔记／双语／注音／音讯）"><svg class="gear-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
+                <div id="settingsKeepers" style="display:none">
                 <button id="toggleNotesBtn" class="toggle-notes-btn" data-page-node-id="Bue79v2SKhcXGCvm4BKH71">隐藏笔记</button>
                 <button id="bilingualBtn" class="bilingual-btn" data-page-node-id="4Bknm7rNDPRogzOnMVlPHh">单语显示</button>
                 <button id="furiganaBtn" class="bilingual-btn" data-page-node-id="QvV7DzEHEYuQQhDCGlwGxO">隐藏注音</button>
                 <button id="mediaLinkBtn" class="bilingual-btn" title="貼上音訊連結，對著字幕播放">🎵 音訊</button>
+                </div>
             </div>
         </div>
     </header>
+
+    <!-- 设置抽屉：笔记 / 双语 / 注音 / 音讯 -->
+    <div id="settingsBackdrop"></div>
+    <aside id="settingsDrawer" aria-label="设置">
+      <div class="settings-head">
+        <span class="settings-title">设置</span>
+        <button id="settingsCloseBtn" class="settings-close" type="button" title="关闭">✕</button>
+      </div>
+      <div class="settings-body">
+        <div class="settings-row">
+          <span class="settings-label">笔记</span>
+          <label class="settings-switch"><input type="checkbox" id="swNotes"><span class="settings-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">双语显示</span>
+          <label class="settings-switch"><input type="checkbox" id="swBilingual"><span class="settings-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">注音（振假名）</span>
+          <label class="settings-switch"><input type="checkbox" id="swFurigana"><span class="settings-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">词典</span>
+          <label class="settings-switch"><input type="checkbox" id="swDict"><span class="settings-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">🎵 音讯面板</span>
+          <button id="settingsAudioBtn" class="settings-open-btn" type="button">开启</button>
+        </div>
+      </div>
+    </aside>
 
     <div class="progress-container" id="progressContainer" data-page-node-id="MPrsdSvD8MwJC2Q4M4HEI2">
         <div class="progress-bar" id="progressBar" data-page-node-id="XcwHpBAqYJAkQrfQtKiQZQ"></div>
@@ -1064,6 +1139,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             mergeOffsetSec: 0,        // 方案2：中文檔整體時間偏移（秒），用於對齊日文档
             notesVisible: true,
             furiganaEnabled: true, // 新增：是否显示平假名注音
+            dictEnabled: true,        // 新增：設定抽屜「词典」開關（預設開，關閉後點詞身不彈詞典）
             renderedCount: 0, // 无限滚动的计数器
             currentUtterance: null,
             currentQuery: ''        // 当前搜寻关键字
@@ -1819,6 +1895,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var v = medEl(), on = false;
             try { on = !!(v && v.currentSrc || (v && v.src)) && !v.paused && !v.ended; } catch (e) { on = false; }
             b.classList.toggle('media-sound-on', on);
+            var gear = document.getElementById('settingsBtn'); if (gear) gear.classList.toggle('media-sound-on', on);
             b.title = on ? '🎵 音訊：聲音正在播（播放器收起中）— 點這裡打開音訊面板' : '🎵 音訊：點這裡打開音訊面板';
         }
         function setStage() { openStage(); }
@@ -2819,6 +2896,36 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (dnR) dnR.addEventListener('click', function () { mpDelaySet(0); });
                         var bp = document.getElementById('mediaLinkBtn');
             if (bp) bp.addEventListener('click', openMediaPanel);
+            // ==================== ⚙ 設定抽屜 ====================
+            (function () {
+              var drawer = document.getElementById('settingsDrawer');
+              var backdrop = document.getElementById('settingsBackdrop');
+              if (!drawer || !backdrop) return;
+              function syncSwitches() {
+                var sn = document.getElementById('swNotes'), sb = document.getElementById('swBilingual'), sf = document.getElementById('swFurigana');
+                if (sn) sn.checked = !!AppState.notesVisible;
+                if (sb) sb.checked = !!AppState.bilingualEnabled;
+                if (sf) sf.checked = !!AppState.furiganaEnabled;
+                var sd = document.getElementById('swDict');
+                if (sd) sd.checked = !!AppState.dictEnabled;
+              }
+              function openSettings() { syncSwitches(); drawer.classList.add('open'); backdrop.classList.add('show'); }
+              function closeSettings() { drawer.classList.remove('open'); backdrop.classList.remove('show'); }
+              document.getElementById('settingsBtn').addEventListener('click', openSettings);
+              document.getElementById('settingsCloseBtn').addEventListener('click', closeSettings);
+              backdrop.addEventListener('click', closeSettings);
+              document.addEventListener('keydown', function (e) { if (e.key === 'Escape' || e.keyCode === 27) closeSettings(); });
+              var sn = document.getElementById('swNotes');
+              if (sn) sn.addEventListener('change', function () { var b = document.getElementById('toggleNotesBtn'); if (b) b.click(); this.checked = !!AppState.notesVisible; });
+              var sb = document.getElementById('swBilingual');
+              if (sb) sb.addEventListener('change', function () { var b = document.getElementById('bilingualBtn'); if (b) b.click(); this.checked = !!AppState.bilingualEnabled; });
+              var sf = document.getElementById('swFurigana');
+              if (sf) sf.addEventListener('change', function () { var b = document.getElementById('furiganaBtn'); if (b) b.click(); this.checked = !!AppState.furiganaEnabled; });
+              var sd = document.getElementById('swDict');
+              if (sd) sd.addEventListener('change', function () { AppState.dictEnabled = this.checked; this.checked = !!AppState.dictEnabled; });
+              var sa = document.getElementById('settingsAudioBtn');
+              if (sa) sa.addEventListener('click', function () { closeSettings(); var b = document.getElementById('mediaLinkBtn'); if (b) b.click(); });
+            })();
             var cb = document.getElementById('mpCloseBtn');
             if (cb) cb.addEventListener('click', closeMediaPanel);
             var bd = document.getElementById('mpBackdrop');
@@ -3344,8 +3451,10 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                             var sub0 = AppState.processedSubtitles[wIdx];
                             wSent = sub0.japanese || sub0.originalText || '';
                         }
-                        window.dictSearch(ww.getAttribute('data-surface') || ww.textContent,
-                            { reading: rtEl ? rtEl.textContent : '', sentence: wSent, index: wIdx });
+                        if (AppState.dictEnabled) {
+                            window.dictSearch(ww.getAttribute('data-surface') || ww.textContent,
+                                { reading: rtEl ? rtEl.textContent : '', sentence: wSent, index: wIdx });
+                        }
                     }
                     return;
                 }
