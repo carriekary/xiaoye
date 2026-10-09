@@ -3374,6 +3374,9 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         window.addEventListener('resize', () => {
           if (AppState.notesVisible) document.querySelectorAll('.note-box').forEach(autoResizeTextarea);
         });
+        window.addEventListener('beforeunload', function (e) {
+          e.preventDefault(); e.returnValue = ''; return '';
+        });
 
         const exportMenu = document.getElementById('exportMenu');
         document.getElementById('mainExportBtn').addEventListener('click', e => { e.stopPropagation(); exportMenu.classList.toggle('show'); });
