@@ -147,8 +147,8 @@
           font-weight: 600;
         }
 
-        main { padding: calc(var(--header-height) + 12px) var(--container-padding) 140px; max-width: var(--max-width); margin: 0 auto; }
-        #subtitles { display: block; max-height: calc(100vh - 150px); overflow-y: auto; }
+        main { padding: calc(var(--header-height) + 12px) var(--container-padding) 12px; max-width: var(--max-width); margin: 0 auto; }
+        #subtitles { display: block; position: relative; max-height: calc(100vh - 150px); overflow-y: auto; scrollbar-gutter: stable; }
         
         .row { display: block; margin: 3px 0; transition: opacity 0.2s ease; }
         .subtitle {
@@ -192,6 +192,7 @@
           width: 100%; min-height: 34px; padding: 8px 12px; border-radius: 6px;
           border: 1px solid #ddd; background: #fff; font-size: 13px; line-height: 1.4; color: #333;
           resize: none; font-family: inherit; transition: all 0.2s ease; overflow-y: auto;
+          max-height: 100px;
           display: block;
         }
         .note-box.has-content { border-color: #ff9800; background: #fff8e1; color: #e65100; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
@@ -473,15 +474,16 @@
           background: var(--vermillion) !important;
           border-radius: 0;
         }
-        .loading { background: #fffdf9; border-radius: 6px; border: 2px dashed var(--gold); font-weight: 700; text-align: center; }
+        .loading { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 5;
+          max-width: min(440px, 92%); background: #fffdf9; border-radius: 6px; border: 2px dashed var(--gold);
+          font-weight: 700; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
 
-        /* --- 卷轴 --- */
-        ::-webkit-scrollbar { width: 12px; height: 12px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb {
-          background: var(--gold);
-          border-radius: 999px; border: 3px solid transparent; background-clip: padding-box;
-        }
+        /* --- 细滚动条（可见、方便看位置，且不挡字幕）--- */
+        html { scrollbar-width: thin; scrollbar-color: var(--gold) transparent; }
+        *::-webkit-scrollbar { width: 8px; height: 8px; }
+        *::-webkit-scrollbar-track { background: transparent; }
+        *::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 999px; }
+        *::-webkit-scrollbar-thumb:hover { background: #b8914f; }
 
         /* --- 撒花特效 --- */
         .cute-fx { position: fixed; inset: 0; pointer-events: none; z-index: 9997; overflow: hidden; }
