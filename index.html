@@ -923,6 +923,10 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
           <label class="settings-switch"><input type="checkbox" id="swDict"><span class="settings-slider"></span></label>
         </div>
         <div class="settings-row">
+          <span class="settings-label">阅读模式</span>
+          <label class="settings-switch"><input type="checkbox" id="swReading"><span class="settings-slider"></span></label>
+        </div>
+        <div class="settings-row">
           <span class="settings-label">🎵 音讯面板</span>
           <button id="settingsAudioBtn" class="settings-open-btn" type="button">开启</button>
         </div>
@@ -1145,6 +1149,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             notesVisible: true,
             furiganaEnabled: true, // 新增：是否显示平假名注音
             dictEnabled: true,        // 新增：設定抽屜「词典」開關（預設開，關閉後點詞身不彈詞典）
+            readingMode: false,      // 新增：設定抽屜「阅读模式」總開關（開=暫時關閉 笔记/注音/词典）
             renderedCount: 0, // 无限滚动的计数器
             currentUtterance: null,
             currentQuery: ''        // 当前搜寻关键字
@@ -2995,6 +3000,8 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 if (sf) sf.checked = !!AppState.furiganaEnabled;
                 var sd = document.getElementById('swDict');
                 if (sd) sd.checked = !!AppState.dictEnabled;
+                var sr = document.getElementById('swReading');
+                if (sr) sr.checked = !!AppState.readingMode;
               }
               function openSettings() { syncSwitches(); drawer.classList.add('open'); backdrop.classList.add('show'); }
               function closeSettings() { drawer.classList.remove('open'); backdrop.classList.remove('show'); }
@@ -3010,6 +3017,27 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
               if (sf) sf.addEventListener('change', function () { var b = document.getElementById('furiganaBtn'); if (b) b.click(); this.checked = !!AppState.furiganaEnabled; });
               var sd = document.getElementById('swDict');
               if (sd) sd.addEventListener('change', function () { AppState.dictEnabled = this.checked; this.checked = !!AppState.dictEnabled; });
+              var sr = document.getElementById('swReading');
+              if (sr) sr.addEventListener('change', function () {
+                var notesBtn = document.getElementById('toggleNotesBtn');
+                var furiganaBtn = document.getElementById('furiganaBtn');
+                if (this.checked) {
+                  AppState._savedNotes = AppState.notesVisible;
+                  AppState._savedFurigana = AppState.furiganaEnabled;
+                  AppState._savedDict = AppState.dictEnabled;
+                  if (notesBtn && AppState.notesVisible) notesBtn.click();
+                  if (furiganaBtn && AppState.furiganaEnabled) furiganaBtn.click();
+                  AppState.dictEnabled = false;
+                  AppState.readingMode = true;
+                } else {
+                  if (notesBtn && AppState.notesVisible !== !!AppState._savedNotes) notesBtn.click();
+                  if (furiganaBtn && AppState.furiganaEnabled !== !!AppState._savedFurigana) furiganaBtn.click();
+                  AppState.dictEnabled = !!AppState._savedDict;
+                  AppState.readingMode = false;
+                }
+                this.checked = AppState.readingMode;
+                syncSwitches();
+              });
               var sa = document.getElementById('settingsAudioBtn');
               if (sa) sa.addEventListener('click', function () { closeSettings(); var b = document.getElementById('mediaLinkBtn'); if (b) b.click(); });
             })();
