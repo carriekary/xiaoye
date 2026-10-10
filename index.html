@@ -610,18 +610,18 @@
         .vocab-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
         .vocab-item > .vocab-body { flex-shrink: 1; }
         /* ===== 音訊播放器（只播聲音，沒有畫面） ===== */
-        /* 播放器現在住在「🎵 音訊」面板裡，不再是浮在字幕上面的浮動層 */
+        /* 播放器现在住在「🎵 音讯」面板里，不再是浮在字幕上面的浮动层 */
         .mp-stage { display: none; margin-top: 10px; padding: 10px 12px; border: 1px solid #e6d9c2; border-radius: 10px; background: #fffdf5; }
         @media (max-width: 600px) {
         }
         .mp-stage.show { display: block; }
         .mp-audio { display: block; width: 100%; margin-top: 2px; }
-        /* 播放器下面的小控制列：速度 / 音訊偏移（提前·延後） */
+        /* 播放器下面的小控制列：速度 / 音讯偏移（提前·延后） */
         .mp-ctl { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 5px; padding: 6px 8px; background: #fffdf8; border: 1px solid #e6d9c2; border-radius: 8px; }
         .mp-ctl button { font-family: inherit; font-size: 12px; padding: 4px 9px; border: 1px solid #ddcdb0; border-radius: 6px; background: #faf5ec; color: #4a4458; cursor: pointer; }
         .mp-ctl button:hover { background: #f2e6cf; }
         .mp-ctl button.on { background: #c9a15f; color: #fff; border-color: #c9a15f; }
-        .mp-ctl .sep { width: 1px; height: 18px; background: #e0d3b8; margin: 0 3px; }
+        .mp-speeds { display: flex; flex-wrap: wrap; gap: 5px; flex: 1 1 auto; justify-content: space-between; align-items: center; }
         .mp-ctl .mp-delay { display: flex; align-items: center; gap: 6px; flex: 1 1 250px; min-width: 210px; font-size: 11.5px; color: #8a7f70; white-space: nowrap; }
         .mp-ctl .mp-delay-cap { flex: 0 0 auto; }
         .mp-ctl input.mp-delay-range { flex: 1 1 0; min-width: 90px; height: 20px; margin: 0; padding: 0; background: transparent; -webkit-appearance: none; appearance: none; cursor: pointer; }
@@ -665,7 +665,7 @@
         .media-panel.closed .mp-backdrop { display: none; }
         .media-panel.closed .media-card { display: none; }
         .media-card { position: relative; width: min(580px, 92vw); max-height: 88vh; overflow-y: auto; background: #fffdf8; border: 2px solid #e2cfa8; border-radius: 14px; padding: 18px 20px; box-shadow: 0 18px 50px rgba(0,0,0,.28); }
-        /* 頭部 🎵 音鈕：聲音還在播（播放器收起／面具關掉時）就亮紅點，點它叫回音訊面板 */
+        /* 头部 🎵 音钮：声音还在播（播放器收起／面具关掉时）就亮红点，点它叫回音讯面板 */
         #mediaLinkBtn { position: relative; }
         #mediaLinkBtn.media-sound-on { border-color: var(--vermillion) !important; color: var(--vermillion); }
         #mediaLinkBtn.media-sound-on::after { content: ""; position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; border-radius: 50%; background: #c0392b; animation: mpDotPulse 1.6s ease-out infinite; }
@@ -681,7 +681,7 @@
         .mp-helperbar[hidden] { display: none; }
         .mp-probebar { margin-top: 7px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; font-size: 12px; color: #1c5a86; background: #eaf3fb; border: 1px solid #bcd9ee; border-radius: 8px; padding: 6px 9px; }
         .mp-probebar[hidden] { display: none; }
-        /* --- 小螢幕：音訊面板跟播放器排好，不再擠成一團 --- */
+        /* --- 小萤幕：音讯面板跟播放器排好，不再挤成一团 --- */
         @media (max-width: 600px) {
           .media-card { padding: 14px 14px; }
           .mp-title { font-size: 15.5px; }
@@ -814,7 +814,7 @@
 
     <!-- ===== hls.js（整套內建于本檔，離線自帶） =====
          .m3u8 一定得靠它。以前要從 jsdelivr / unpkg / cdnjs 三個 CDN 抓其中一個，
-         那個域名一被擋就連「常用劇集」也播不了；上傳 GitHub Pages 後更是多一跳不可控。
+         那个域名一被挡就连「常用剧集」也播不了；上传 GitHub Pages 后更是多一跳不可控。
          內建之後本檔自包含，唯一外部連線只剩音訊源本身。
          這段不含任何 Liquid 模板標記，Jekyll 不會當模板修剪（已掃過）。 -->
     <script>/*! hls.js v1.x | MIT License | https://github.com/video-dev/hls.js */
@@ -892,7 +892,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 <button id="toggleNotesBtn" class="toggle-notes-btn" data-page-node-id="Bue79v2SKhcXGCvm4BKH71">隐藏笔记</button>
                 <button id="bilingualBtn" class="bilingual-btn" data-page-node-id="4Bknm7rNDPRogzOnMVlPHh">单语显示</button>
                 <button id="furiganaBtn" class="bilingual-btn" data-page-node-id="QvV7DzEHEYuQQhDCGlwGxO">隐藏注音</button>
-                <button id="mediaLinkBtn" class="bilingual-btn" title="貼上音訊連結，對著字幕播放">🎵 音訊</button>
+                <button id="mediaLinkBtn" class="bilingual-btn" title="贴上音讯连结，对著字幕播放">🎵 音讯</button>
                 </div>
             </div>
         </div>
@@ -1094,35 +1094,36 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         <div class="mp-backdrop" id="mpBackdrop"></div>
         <div class="media-card">
             <button class="dict-card-close" type="button" id="mpCloseBtn" title="关闭">×</button>
-            <div class="mp-title">🎵 用音訊對著字幕</div>
+            <div class="mp-title">🎵 用音讯对著字幕</div>
                 
             <div class="mp-row" style="margin-top:9px;">
-                <select id="mpDzShow" class="mp-input" style="flex:0 0 132px;" hidden title="常用劇集：選劇">
-                    <option value="">劇名</option>
+                <select id="mpDzShow" class="mp-input" style="flex:0 0 132px;" hidden title="常用剧集：选剧">
+                    <option value="">剧名</option>
                 </select>
-                <select id="mpDzLine" class="mp-input" style="flex:0 0 122px;" title="常用劇集：選線路">
-                    <option value="">線路</option>
+                <select id="mpDzLine" class="mp-input" style="flex:0 0 122px;" title="常用剧集：选线路">
+                    <option value="">线路</option>
                 </select>
-                <select id="mpDzEp" class="mp-input" style="flex:0 0 122px;" title="常用劇集：選集數">
-                    <option value="">集數</option>
+                <select id="mpDzEp" class="mp-input" style="flex:0 0 122px;" title="常用剧集：选集数">
+                    <option value="">集数</option>
                 </select>
-                <button type="button" class="mp-btn ghost" id="mpDzGo">▶ 播放劇集</button>
-                <button type="button" class="mp-btn ghost" id="mpPickBtn">📁 本機音檔</button>
-                <label style="font-size:12.5px;color:#6b6156;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="mpFollow" checked /> 跟著播放自動捲</label>
+                <button type="button" class="mp-btn ghost" id="mpDzGo">▶ 播放剧集</button>
+                <button type="button" class="mp-btn ghost" id="mpPickBtn">📁 本机音档</button>
+                <label style="font-size:12.5px;color:#6b6156;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="mpFollow" checked /> 跟著播放自动卷</label>
             </div>
             <input id="mpFile" type="file" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac,.mp4,.webm,.mkv,.m4v" style="display: none;" />
 
         <div class="mp-stage" id="mpStage">
         <audio id="mpAudio" class="mp-audio" controls preload="metadata"></audio>
         <div class="mp-ctl" id="mpCtl">
+        <div class="mp-speeds">
         <button type="button" data-playrate="0.5">0.5×</button>
         <button type="button" data-playrate="0.75">0.75×</button>
         <button type="button" data-playrate="1" class="on">1×</button>
         <button type="button" data-playrate="1.25">1.25×</button>
         <button type="button" data-playrate="1.5">1.5×</button>
         <button type="button" data-playrate="2">2×</button>
-        <span class="sep"></span>
-        <div class="mp-delay" id="mpDelayBox" title="音訊與字幕對齊用：向左拉＝字幕提前（聲音比字幕快，字幕會早 N 秒亮）；向右拉＝字幕延後（聲音比字幕慢，字幕會晚 N 秒亮）。可拖曳、按方向鍵，或用右邊◀▶每次 1 秒微調，範圍 ±1 秒 ～ ±1 分鐘。"><span class="mp-delay-cap">🎵 音訊偏移</span><input type="range" class="mp-delay-range" id="mpDelaySel" min="-60" max="60" step="1" value="0" aria-label="音訊偏移（秒）：向左字幕提前，向右字幕延後" /><span class="mp-delay-val" id="mpDelayVal">不偏移</span><button type="button" class="mp-delay-nudge" id="mpDelayNudgeA" title="字幕提前 1 秒">◀</button><button type="button" class="mp-delay-nudge" id="mpDelayNudgeB" title="字幕延後 1 秒">▶</button><button type="button" class="mp-delay-reset" id="mpDelayReset" title="歸零（不偏移）">↺</button></div>
+        </div>
+        <div class="mp-delay" id="mpDelayBox" title="音讯与字幕对齐用：向左拉＝字幕提前（声音比字幕快，字幕会早 N 秒亮）；向右拉＝字幕延后（声音比字幕慢，字幕会晚 N 秒亮）。可拖曳、按方向键，或用右边◀▶每次 1 秒微调，范围 ±1 秒 ～ ±1 分钟。"><span class="mp-delay-cap">🎵 音讯偏移</span><input type="range" class="mp-delay-range" id="mpDelaySel" min="-60" max="60" step="1" value="0" aria-label="音讯偏移（秒）：向左字幕提前，向右字幕延后" /><span class="mp-delay-val" id="mpDelayVal">不偏移</span><button type="button" class="mp-delay-nudge" id="mpDelayNudgeA" title="字幕提前 1 秒">◀</button><button type="button" class="mp-delay-nudge" id="mpDelayNudgeB" title="字幕延后 1 秒">▶</button><button type="button" class="mp-delay-reset" id="mpDelayReset" title="归零（不偏移）">↺</button></div>
         </div>
         <div class="mp-status" id="mpStatus"></div>
         </div>
@@ -1821,7 +1822,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         
         // ==================== 渲染与无限滚动 ====================
         // ============ 音訊播放器：貼連結直接播 ＋ 與字幕對時 ============
-        var MP = { hls: null, mode: 'none', token: 0, audioDelaySec: 0, stopped: false }; // audioDelaySec：音訊偏移，負＝字幕提前、正＝字幕延後（±1s ～ ±1min）
+        var MP = { hls: null, mode: 'none', token: 0, audioDelaySec: 0, stopped: false }; // audioDelaySec：音讯偏移，负＝字幕提前、正＝字幕延后（±1s ～ ±1min）
         // 現在只育一颗「音訊」元素：mpAudio。<video> 已整顆拿掉，字幕聯動照舊走 currentTime。
         function medEl() { return document.getElementById('mpAudio'); }
         function medErr(msg) { var e = document.getElementById('mpErr'); if (e) e.textContent = msg || ''; }
@@ -1833,12 +1834,12 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var e = document.getElementById('mpFixBox'); if (!e) return;
             e.innerHTML = html || ''; e.hidden = !html;
         }
-        // 直連結判定的副檔名（把 ?token=... 這類簽章參數先去掉再判）
+        // 直连结判定的副档名（把 ?token=... 这类签章参数先去掉再判）
         function isMediaUrl(u) {
             var s = String(u || '').split('?')[0].split('#')[0];
             return /\.(mp4|m4a|mp3|m3u8|webm|ogg|oga|aac|flac|wav|mov|mkv)$/i.test(s);
         }
-        // 字幕時間可能是 "00:00:06,000" 這種字串，統統轉成秒數
+        // 字幕时间可能是 "00:00:06,000" 这种字串，统统转成秒数
         function subSec(t) {
             if (typeof t === 'number') return t;
             if (t === '' || t === undefined || t === null) return -1;
@@ -1852,20 +1853,20 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var _mp = document.getElementById('mediaPanel'); _mp.classList.remove('closed'); _mp.hidden = false; try { unparkAudio(); } catch (e) {}
             try { refreshMini(); } catch (e) { }
             try { dzFillPickers(); } catch (e) { }
-            // 明講「已經幫你選好」，不然兩個選單看起來像空的（上面只有灰色字），
-            // 用户以为没选好就直接按播放 → 卡在「先選好線路與集數」。
+            // 明讲「已经帮你选好」，不然两个选单看起来像空的（上面只有灰色字），
+            // 用户以为没选好就直接按播放 → 卡在「先选好线路与集数」。
             var _ls = document.getElementById('mpDzLine'), _es = document.getElementById('mpDzEp');
             if (_ls && _es && _ls.value && _es.value) {
                 var _sp = document.getElementById('mpStatus');
-                if (_sp && _sp.textContent) return;  // 已經有狀態（連上了／播放器msg）就別洗掉
+                if (_sp && _sp.textContent) return;  // 已经有状态（连上了／播放器msg）就别洗掉
                 var _n = 0; try { _n = dzSeedList().length; } catch (e) { }
-                medStatus('已幫你選好：' + _ls.value + ' / ' + _es.value
-                    + (_n ? '（內建 ' + _n + ' 條，播放器已內建、不必連網）' : '')
-                    + ' → 按「▶ 播放劇集」就能播 ♪');
+                medStatus('已帮你选好：' + _ls.value + ' / ' + _es.value
+                    + (_n ? '（内建 ' + _n + ' 条，播放器已内建、不必连网）' : '')
+                    + ' → 按「▶ 播放剧集」就能播 ♪');
             }
         }
-        // 關面具時把 <audio> 移出隱藏面板、放到螢幕外（仍渲染，不用 display:none），
-        // 避免手機瀏覽器把隱藏中的音訊暫停 → 自動捲才會一直跟。
+        // 关面具时把 <audio> 移出隐藏面板、放到萤幕外（仍渲染，不用 display:none），
+        // 避免手机浏览器把隐藏中的音讯暂停 → 自动卷才会一直跟。
         function parkAudio() {
             var a = document.getElementById('mpAudio'), h = document.getElementById('mpAudioHolder');
             if (a && h && a.parentNode !== h) { try { h.appendChild(a); } catch (e) { } }
@@ -1879,54 +1880,54 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             try { parkAudio(); } catch (e) { }
             try { refreshMini(); } catch (e) { }
         }
-        // ---------------- 播放器核心：直接播 → 換本機代抓 → 解析網頁 ----------------
-        // 「收起／展開播放器」已經拿掉了：播放器就固定在「🎵 音訊」面板裡，而面具可以被關掉；
-        // 關掉面具時播放器整組跟著不見，外面只靠頭部 🎵 音鈕的紅點提示「聲音還在播」。
+        // ---------------- 播放器核心：直接播 → 换本机代抓 → 解析网页 ----------------
+        // 「收起／展开播放器」已经拿掉了：播放器就固定在「🎵 音讯」面板里，而面具可以被关掉；
+        // 关掉面具时播放器整组跟著不见，外面只靠头部 🎵 音钮的红点提示「声音还在播」。
         function openStage() {
             var st = document.getElementById('mpStage'); if (st) st.classList.add('show');
             MP.stopped = false;
             soundDotOn(); refreshMini();
         }
-        // 【已停用】小工具列（mp-mini 提示條 + 「■ 停止」）整組拿掉了：
-        // 播放／暫停／停止直接看播放器上那條 <audio controls> 就夠，這個 refreshMini 留著只是空殼給原呼叫點用。
+        // 【已停用】小工具列（mp-mini 提示条 + 「■ 停止」）整组拿掉了：
+        // 播放／暂停／停止直接看播放器上那条 <audio controls> 就够，这个 refreshMini 留著只是空壳给原呼叫点用。
         function refreshMini() { }
-        // 停止＝暫停 + 收掉播放器 + 滅紅點；現在沒有獨立按鈕入口，暫停／停止直接用播放器上那條
-        // <audio controls>（自帶播放／暫停／音量），這裡留著是給日後接回按鈕或其他分支用。
+        // 停止＝暂停 + 收掉播放器 + 灭红点；现在没有独立按钮入口，暂停／停止直接用播放器上那条
+        // <audio controls>（自带播放／暂停／音量），这里留著是给日后接回按钮或其他分支用。
         function stopPlayback() {
             var vv = medEl(); if (vv) { try { vv.pause(); } catch (e) { } }
             var st = document.getElementById('mpStage'); if (st) st.classList.remove('show');
             MP.stopped = true;
             soundDotOn(); refreshMini();
-            medStatus('已停止播放。要再聽就重新按「▶ 播放劇集」，或按「📁 本機音檔」。');
+            medStatus('已停止播放。要再听就重新按「▶ 播放剧集」，或按「📁 本机音档」。');
         }
-        // 頭部 🎵 音鈕紅點：面具關掉、播放器收起時，這裡是唯一提示「聲音還在播」的地方
+        // 头部 🎵 音钮红点：面具关掉、播放器收起时，这里是唯一提示「声音还在播」的地方
         function soundDotOn() {
             var b = document.getElementById('mediaLinkBtn'); if (!b) return;
             var v = medEl(), on = false;
             try { on = !!(v && v.currentSrc || (v && v.src)) && !v.paused && !v.ended; } catch (e) { on = false; }
             b.classList.toggle('media-sound-on', on);
             var gear = document.getElementById('settingsBtn'); if (gear) gear.classList.toggle('media-sound-on', on);
-            b.title = on ? '🎵 音訊：聲音正在播（播放器收起中）— 點這裡打開音訊面板' : '🎵 音訊：點這裡打開音訊面板';
+            b.title = on ? '🎵 音讯：声音正在播（播放器收起中）— 点这里打开音讯面板' : '🎵 音讯：点这里打开音讯面板';
         }
         function setStage() { openStage(); }
         function onPlayFail(url, reason) {
             var whyMap = {
-                network: '伺服器連不到這個檔案（404／403／防盜鏈，不給外來播放器用）',
-                format: '這不是可直接播放的媒體檔（多半貼到「網頁」網址，不是 .mp4／.m4a 檔）',
-                other: '播放器讀不到這個檔案',
-                blocked: '被瀏覽器擋下來',
-                slow: '等太久都沒反應（外面連不過來）'
+                network: '伺服器连不到这个档案（404／403／防盗链，不给外来播放器用）',
+                format: '这不是可直接播放的媒体档（多半贴到「网页」网址，不是 .mp4／.m4a 档）',
+                other: '播放器读不到这个档案',
+                blocked: '被浏览器挡下来',
+                slow: '等太久都没反应（外面连不过来）'
             };
-            var why = whyMap[reason] || '讀不到這個檔案';
+            var why = whyMap[reason] || '读不到这个档案';
             medErr('❌ 播不了：' + why);
             medStatus('❌ ' + why, 'bad');
-            showFix('<b>那就自己來一次，兩步就好</b><br />'
-                + '① 按「📁 本機音檔」，直接播你電腦裡的 mp3／m4a／wav，最穩。<br />'
-                + '② 或用「常用劇集」：在選單裡選線路＋集數 →「▶ 播放劇集」（內建的劇不用自己找連結）。');
+            showFix('<b>那就自己来一次，两步就好</b><br />'
+                + '① 按「📁 本机音档」，直接播你电脑里的 mp3／m4a／wav，最稳。<br />'
+                + '② 或用「常用剧集」：在选单里选线路＋集数 →「▶ 播放剧集」（内建的剧不用自己找连结）。');
         }
-        // .m3u8 一定得靠 hls.js。以前只挂 cdn.jsdelivr.net 一個來源，
-        // 該域名在用戶那邊被擋／慢，等在他點完播放之後才發現整條死掉。
-        // 現在依序試三個來源，一個失敗就換下一個，全部失敗才給「改用 mp4/m4a」。
+        // .m3u8 一定得靠 hls.js。以前只挂 cdn.jsdelivr.net 一个来源，
+        // 该域名在用户那边被挡／慢，等在他点完播放之后才发现整条死掉。
+        // 现在依序试三个来源，一个失败就换下一个，全部失败才给「改用 mp4/m4a」。
         var HLS_SRC = [
             'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js',
             'https://unpkg.com/hls.js@1/dist/hls.min.js',
@@ -1934,7 +1935,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         ];
         function loadHlsScript(tk, cb) {
             if (window.Hls && window.Hls.isSupported && window.Hls.isSupported()) return cb();
-            medStatus('正在載入 HLS 播放器…');
+            medStatus('正在载入 HLS 播放器…');
             var n = 0;
             function next() {
                 var sc = document.createElement('script');
@@ -1943,13 +1944,13 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                     if (tk !== MP.token) return;
                     if (window.Hls && window.Hls.isSupported && window.Hls.isSupported()) cb();
                     else if (n + 1 < HLS_SRC.length) { n++; next(); }
-                    else medErr('HLS 播放器讀不到（三個來源都不行）：換一條線路或集數，或按「📁 本機音檔」。');
+                    else medErr('HLS 播放器读不到（三个来源都不行）：换一条线路或集数，或按「📁 本机音档」。');
                 };
                 sc.onerror = function () {
                     if (tk !== MP.token) return;
                     n++;
-                    if (n < HLS_SRC.length) { medStatus('HLS 播放器換一個來源重試…'); next(); }
-                    else medErr('HLS 播放器載入失敗（三個來源都被擋）：換一條線路或集數，或按「📁 本機音檔」。');
+                    if (n < HLS_SRC.length) { medStatus('HLS 播放器换一个来源重试…'); next(); }
+                    else medErr('HLS 播放器载入失败（三个来源都被挡）：换一条线路或集数，或按「📁 本机音档」。');
                 };
                 document.head.appendChild(sc);
             }
@@ -1959,8 +1960,8 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             o = o || {};
             var v = medEl(); if (!v) return;
             var tk = ++MP.token;
-            // 上一首若是 m3u8（HLS），playlist 還黏在播放器上；不先拆掉，
-            // Hls 會一直把 src 拉回它自己的 blob，換成本機檔或 mp4 時會換不過去。
+            // 上一首若是 m3u8（HLS），playlist 还黏在播放器上；不先拆掉，
+            // Hls 会一直把 src 拉回它自己的 blob，换成本机档或 mp4 时会换不过去。
             try { if (MP.hls) { MP.hls.destroy(); } } catch (e) { }
             MP.hls = null;
             MP.mode = 'file'; MP.src = url;
@@ -1969,22 +1970,22 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             function ok() {
                 if (tk !== MP.token || settled) return;
                 settled = true; clearTimeout(watch);
-                medStatus('▶ 連上了，開始播♪ 字幕會自己跟著亮起來（按句前的 ⏱ 可跳到任何一句）。', 'good');
+                medStatus('▶ 开始播♪ 字幕会自己跟著亮起来（按句前的数字可跳到任何一句）。', 'good');
                 showFix('');
                 setTimeout(function () {
                     if (tk !== MP.token) return;
-                    // 播放器住在「🎵 音訊」面板裡：關面具 = 播放器收起來，
-                    // 外面只靠頭部 🎵 音鈕的紅點提示「聲音還在播」（小工具列已整組拿掉，功能重複）。
+                    // 播放器住在「🎵 音讯」面板里：关面具 = 播放器收起来，
+                    // 外面只靠头部 🎵 音钮的红点提示「声音还在播」（小工具列已整组拿掉，功能重复）。
                     closeMediaPanel(); refreshMini();
                 }, 900);
             }
             function fail(reason) {
                 if (tk !== MP.token || settled) return;
                 settled = true; clearTimeout(watch);
-                if (o.isProxy) { medErr('❌ 本機代抓也抓不到這個檔案（很可能是會員限定／需登入／連結已過期）。'); showFix(''); return; }
+                if (o.isProxy) { medErr('❌ 本机代抓也抓不到这个档案（很可能是会员限定／需登入／连结已过期）。'); showFix(''); return; }
                 onPlayFail(url, reason);
             }
-            medStatus('正在連上媒體檔…（第一次載入比較慢，別急）');
+            medStatus('正在连上媒体档…（第一次载入比较慢，别急）');
             v.oncanplay = ok; v.onloadeddata = ok;
             v.onerror = function () {
                 var c = v.error ? v.error.code : 0;
@@ -1993,7 +1994,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (/\.m3u8(\?|#|$)/i.test(url)) {
                 loadHlsScript(tk, function () {
                     if (tk !== MP.token) return;
-                    if (!(window.Hls && window.Hls.isSupported && window.Hls.isSupported())) { medErr('這個瀏覽器不支援 .m3u8（HLS）。'); return; }
+                    if (!(window.Hls && window.Hls.isSupported && window.Hls.isSupported())) { medErr('这个浏览器不支援 .m3u8（HLS）。'); return; }
                     try { if (MP.hls) MP.hls.destroy(); } catch (e) { }
                     MP.hls = new window.Hls({ lowLatencyMode: false });
                     MP.hls.loadSource(url); MP.hls.attachMedia(v);
@@ -2013,7 +2014,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 try { var p = v.play(); } catch (e) { p = null; }
                 if (p && p.catch) p.catch(function (err) {
                     var n = err && err.name;
-                    if (n === 'NotAllowedError') medStatus('🔇 瀏覽器擋了自動播放：點一下播放器畫面（或按控制列的 ▶）就能開始播。', 'bad');
+                    if (n === 'NotAllowedError') medStatus('🔇 浏览器挡了自动播放：点一下播放器画面（或按控制列的 ▶）就能开始播。', 'bad');
                     else fail('blocked');
                 });
                 watch = setTimeout(function () { if (!settled && tk === MP.token) fail('slow'); }, 20000);
@@ -2024,10 +2025,10 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             MP.token++;
             medErr(''); showFix(''); medStatus('');
             MP.proxyTried = false; MP.pageUrl = opt.pageUrl || '';
-            if (!url) { medErr('沒給音訊。'); return; }
+            if (!url) { medErr('没给音讯。'); return; }
             if (ytVideoId(url)) { ytUnsupported(url); return; }
-            // 入口現在只有兩個：常用劇集（dzPickPlay）、本機音檔（initMediaUI）。
-            // 以前「貼 player.php?id= 就查表直播」與「🔎 幫我找」都隨直連結那一格一起拿掉了。
+            // 入口现在只有两个：常用剧集（dzPickPlay）、本机音档（initMediaUI）。
+            // 以前「贴 player.php?id= 就查表直播」与「🔎 帮我找」都随直连结那一格一起拿掉了。
             tryDirect(url, {});
         }
         function doHls(url) { tryDirect(url, {}); }
@@ -2037,706 +2038,706 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         // 之後再貼同一個 id 時完全不需要本機小幫手（m3u8 自己有 CORS，可以直接播）。
         var DZ_SEED = {
             "72081": { name: "G弦上的你和我", list: [
-                { label: "線路1／第01集", url: "https://v6.wsyzym3u8.com/202410/06/JXmYJtqynY12/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v12.wsyzym3u8.com/202410/06/aX31hLahvn8/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v2.wsyzym3u8.com/202410/06/d57upfWHPr10/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v6.wsyzym3u8.com/202410/06/pmKfR6v5ur12/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v8.wsyzym3u8.com/202410/06/HHcdzAHZb514/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v8.wsyzym3u8.com/202410/06/5g7GBjjHpT14/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v6.wsyzym3u8.com/202410/06/yXjU8BURkD12/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v4.wsyzym3u8.com/202410/06/977KLEk6wb15/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v9.wsyzym3u8.com/202410/06/KPnug40Mb918/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v8.wsyzym3u8.com/202410/06/ef8vYhJkcp14/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://cdn6.ryplay6.com/20240910/14125_059065e0/index.m3u8" },
-                { label: "線路2／第02集", url: "https://cdn6.ryplay6.com/20240910/14129_03e12555/index.m3u8" },
-                { label: "線路2／第03集", url: "https://cdn6.ryplay6.com/20240910/14130_ef78a09d/index.m3u8" },
-                { label: "線路2／第04集", url: "https://cdn6.ryplay6.com/20240910/14136_c8bc9e84/index.m3u8" },
-                { label: "線路2／第05集", url: "https://cdn6.ryplay6.com/20240910/14137_35142ccc/index.m3u8" },
-                { label: "線路2／第06集", url: "https://cdn6.ryplay6.com/20240910/14142_d544043c/index.m3u8" },
-                { label: "線路2／第07集", url: "https://cdn6.ryplay6.com/20240910/14146_8c75a276/index.m3u8" },
-                { label: "線路2／第08集", url: "https://cdn6.ryplay6.com/20240910/14147_312d26e3/index.m3u8" },
-                { label: "線路2／第09集", url: "https://cdn6.ryplay6.com/20240910/14152_8364bc2e/index.m3u8" },
-                { label: "線路2／第10集", url: "https://cdn6.ryplay6.com/20240910/14153_7db6d883/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v6.qqqrst.com/yyv6/202410/06/JXmYJtqynY12/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v6.qqqrst.com/yyv6/202410/06/aX31hLahvn8/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v2.qqqrst.com/yyv2/202410/06/d57upfWHPr10/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v6.qqqrst.com/yyv6/202410/06/pmKfR6v5ur12/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v2.qqqrst.com/yyv2/202410/06/HHcdzAHZb514/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v2.qqqrst.com/yyv2/202410/06/5g7GBjjHpT14/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v6.qqqrst.com/yyv6/202410/06/yXjU8BURkD12/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v4.qqqrst.com/yyv4/202410/06/977KLEk6wb15/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.qqqrst.com/yyv3/202410/06/KPnug40Mb918/video/index.m3u8" }
+                { label: "线路1／第01集", url: "https://v6.wsyzym3u8.com/202410/06/JXmYJtqynY12/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v12.wsyzym3u8.com/202410/06/aX31hLahvn8/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v2.wsyzym3u8.com/202410/06/d57upfWHPr10/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v6.wsyzym3u8.com/202410/06/pmKfR6v5ur12/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v8.wsyzym3u8.com/202410/06/HHcdzAHZb514/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v8.wsyzym3u8.com/202410/06/5g7GBjjHpT14/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v6.wsyzym3u8.com/202410/06/yXjU8BURkD12/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v4.wsyzym3u8.com/202410/06/977KLEk6wb15/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v9.wsyzym3u8.com/202410/06/KPnug40Mb918/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v8.wsyzym3u8.com/202410/06/ef8vYhJkcp14/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://cdn6.ryplay6.com/20240910/14125_059065e0/index.m3u8" },
+                { label: "线路2／第02集", url: "https://cdn6.ryplay6.com/20240910/14129_03e12555/index.m3u8" },
+                { label: "线路2／第03集", url: "https://cdn6.ryplay6.com/20240910/14130_ef78a09d/index.m3u8" },
+                { label: "线路2／第04集", url: "https://cdn6.ryplay6.com/20240910/14136_c8bc9e84/index.m3u8" },
+                { label: "线路2／第05集", url: "https://cdn6.ryplay6.com/20240910/14137_35142ccc/index.m3u8" },
+                { label: "线路2／第06集", url: "https://cdn6.ryplay6.com/20240910/14142_d544043c/index.m3u8" },
+                { label: "线路2／第07集", url: "https://cdn6.ryplay6.com/20240910/14146_8c75a276/index.m3u8" },
+                { label: "线路2／第08集", url: "https://cdn6.ryplay6.com/20240910/14147_312d26e3/index.m3u8" },
+                { label: "线路2／第09集", url: "https://cdn6.ryplay6.com/20240910/14152_8364bc2e/index.m3u8" },
+                { label: "线路2／第10集", url: "https://cdn6.ryplay6.com/20240910/14153_7db6d883/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v6.qqqrst.com/yyv6/202410/06/JXmYJtqynY12/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v6.qqqrst.com/yyv6/202410/06/aX31hLahvn8/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v2.qqqrst.com/yyv2/202410/06/d57upfWHPr10/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v6.qqqrst.com/yyv6/202410/06/pmKfR6v5ur12/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v2.qqqrst.com/yyv2/202410/06/HHcdzAHZb514/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v2.qqqrst.com/yyv2/202410/06/5g7GBjjHpT14/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v6.qqqrst.com/yyv6/202410/06/yXjU8BURkD12/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v4.qqqrst.com/yyv4/202410/06/977KLEk6wb15/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.qqqrst.com/yyv3/202410/06/KPnug40Mb918/video/index.m3u8" }
             ] },
-            "138594": { name: "重啟人生", list: [
-                { label: "線路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/5kkz4gXju82/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/pz7tLf92EP2/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/0rRz1y7CcT2/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/ABsRHmmcrQ2/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/kQt0Di6AUZ2/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/HfjuwHkUn22/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/YBs7mhWgrt2/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/ZhSG5XMFWb2/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/dxgxfEm2752/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v3.wsyzym3u8.com/202308/24/sbaR6hnCJx2/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/5kkz4gXju82/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/pz7tLf92EP2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/0rRz1y7CcT2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ABsRHmmcrQ2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/kQt0Di6AUZ2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/HfjuwHkUn22/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/YBs7mhWgrt2/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ZhSG5XMFWb2/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/dxgxfEm2752/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/sbaR6hnCJx2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/5kkz4gXju82/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/pz7tLf92EP2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/0rRz1y7CcT2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/ABsRHmmcrQ2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/kQt0Di6AUZ2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/HfjuwHkUn22/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/YBs7mhWgrt2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/ZhSG5XMFWb2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/dxgxfEm2752/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/sbaR6hnCJx2/video/index.m3u8" }
+            "138594": { name: "重启人生", list: [
+                { label: "线路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/5kkz4gXju82/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/pz7tLf92EP2/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/0rRz1y7CcT2/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/ABsRHmmcrQ2/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/kQt0Di6AUZ2/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/HfjuwHkUn22/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/YBs7mhWgrt2/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/ZhSG5XMFWb2/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/dxgxfEm2752/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v3.wsyzym3u8.com/202308/24/sbaR6hnCJx2/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/5kkz4gXju82/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/pz7tLf92EP2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/0rRz1y7CcT2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ABsRHmmcrQ2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/kQt0Di6AUZ2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/HfjuwHkUn22/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/YBs7mhWgrt2/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ZhSG5XMFWb2/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/dxgxfEm2752/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/sbaR6hnCJx2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/5kkz4gXju82/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/pz7tLf92EP2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/0rRz1y7CcT2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/ABsRHmmcrQ2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/kQt0Di6AUZ2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/HfjuwHkUn22/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/YBs7mhWgrt2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/ZhSG5XMFWb2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/dxgxfEm2752/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/sbaR6hnCJx2/video/index.m3u8" }
             ] },
             "121523": { name: "昨日的美食", list: [
-                { label: "線路1／第01集", url: "https://cdn6.ryplay6.com/20240909/13135_8f231f2f/index.m3u8" },
-                { label: "線路1／第02集", url: "https://cdn6.ryplay6.com/20240909/13136_bddfb0c2/index.m3u8" },
-                { label: "線路1／第03集", url: "https://cdn6.ryplay6.com/20240909/13137_9774bfb5/index.m3u8" },
-                { label: "線路1／第04集", url: "https://cdn6.ryplay6.com/20240909/13140_193571e0/index.m3u8" },
-                { label: "線路1／第05集", url: "https://cdn6.ryplay6.com/20240909/13141_a12c9c3d/index.m3u8" },
-                { label: "線路1／第06集", url: "https://cdn6.ryplay6.com/20240909/13148_4769a823/index.m3u8" },
-                { label: "線路1／第07集", url: "https://cdn6.ryplay6.com/20240909/13149_2b1db7ef/index.m3u8" },
-                { label: "線路1／第08集", url: "https://cdn6.ryplay6.com/20240909/13156_c377f294/index.m3u8" },
-                { label: "線路1／第09集", url: "https://cdn6.ryplay6.com/20240909/13157_d9347085/index.m3u8" },
-                { label: "線路1／第10集", url: "https://cdn6.ryplay6.com/20240909/13162_7f1f53fd/index.m3u8" },
-                { label: "線路1／第11集", url: "https://cdn6.ryplay6.com/20240909/13163_adf5cdef/index.m3u8" },
-                { label: "線路1／第12集", url: "https://cdn6.ryplay6.com/20240909/13169_5e0a8d76/index.m3u8" },
-                { label: "線路1／第13集", url: "https://cdn6.ryplay6.com/20240909/13174_aed057cd/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/XiuXqv3U572/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/Ksw2awaUBZ2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/MVYbwEnLmF2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/WZbagSTEbq2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/FABPnYcMtr2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/KsX7hHN6CY2/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.wsyzym3u8.com/202308/24/9sDJYSyjyX2/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.wsyzym3u8.com/202308/24/Ac23JAavQh2/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.wsyzym3u8.com/202308/24/Uxx7P3aciy2/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v3.wsyzym3u8.com/202308/24/qKAzJFxtar2/video/index.m3u8" },
-                { label: "線路2／第11集", url: "https://v3.wsyzym3u8.com/202308/24/yfRXpT27zJ2/video/index.m3u8" },
-                { label: "線路2／第12集", url: "https://v3.wsyzym3u8.com/202308/24/uQL7yd3rrF2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/XiuXqv3U572/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Ksw2awaUBZ2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/MVYbwEnLmF2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/WZbagSTEbq2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/FABPnYcMtr2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/KsX7hHN6CY2/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/9sDJYSyjyX2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Ac23JAavQh2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Uxx7P3aciy2/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/qKAzJFxtar2/video/index.m3u8" },
-                { label: "線路3／第11集", url: "https://v3.ppqrrs.com/wjv3/202308/24/yfRXpT27zJ2/video/index.m3u8" },
-                { label: "線路3／第12集", url: "https://v3.ppqrrs.com/wjv3/202308/24/uQL7yd3rrF2/video/index.m3u8" },
-                { label: "線路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/XiuXqv3U572/video/index.m3u8" },
-                { label: "線路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/Ksw2awaUBZ2/video/index.m3u8" },
-                { label: "線路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/MVYbwEnLmF2/video/index.m3u8" },
-                { label: "線路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/WZbagSTEbq2/video/index.m3u8" },
-                { label: "線路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/FABPnYcMtr2/video/index.m3u8" },
-                { label: "線路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/KsX7hHN6CY2/video/index.m3u8" },
-                { label: "線路4／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/9sDJYSyjyX2/video/index.m3u8" },
-                { label: "線路4／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/Ac23JAavQh2/video/index.m3u8" },
-                { label: "線路4／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/Uxx7P3aciy2/video/index.m3u8" },
-                { label: "線路4／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/qKAzJFxtar2/video/index.m3u8" },
-                { label: "線路4／第11集", url: "https://v3.qqqrst.com/yyv3/202308/24/yfRXpT27zJ2/video/index.m3u8" },
-                { label: "線路4／第12集", url: "https://v3.qqqrst.com/yyv3/202308/24/uQL7yd3rrF2/video/index.m3u8" }
+                { label: "线路1／第01集", url: "https://cdn6.ryplay6.com/20240909/13135_8f231f2f/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn6.ryplay6.com/20240909/13136_bddfb0c2/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn6.ryplay6.com/20240909/13137_9774bfb5/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn6.ryplay6.com/20240909/13140_193571e0/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn6.ryplay6.com/20240909/13141_a12c9c3d/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn6.ryplay6.com/20240909/13148_4769a823/index.m3u8" },
+                { label: "线路1／第07集", url: "https://cdn6.ryplay6.com/20240909/13149_2b1db7ef/index.m3u8" },
+                { label: "线路1／第08集", url: "https://cdn6.ryplay6.com/20240909/13156_c377f294/index.m3u8" },
+                { label: "线路1／第09集", url: "https://cdn6.ryplay6.com/20240909/13157_d9347085/index.m3u8" },
+                { label: "线路1／第10集", url: "https://cdn6.ryplay6.com/20240909/13162_7f1f53fd/index.m3u8" },
+                { label: "线路1／第11集", url: "https://cdn6.ryplay6.com/20240909/13163_adf5cdef/index.m3u8" },
+                { label: "线路1／第12集", url: "https://cdn6.ryplay6.com/20240909/13169_5e0a8d76/index.m3u8" },
+                { label: "线路1／第13集", url: "https://cdn6.ryplay6.com/20240909/13174_aed057cd/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/XiuXqv3U572/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/Ksw2awaUBZ2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/MVYbwEnLmF2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/WZbagSTEbq2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/FABPnYcMtr2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/KsX7hHN6CY2/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.wsyzym3u8.com/202308/24/9sDJYSyjyX2/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.wsyzym3u8.com/202308/24/Ac23JAavQh2/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.wsyzym3u8.com/202308/24/Uxx7P3aciy2/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v3.wsyzym3u8.com/202308/24/qKAzJFxtar2/video/index.m3u8" },
+                { label: "线路2／第11集", url: "https://v3.wsyzym3u8.com/202308/24/yfRXpT27zJ2/video/index.m3u8" },
+                { label: "线路2／第12集", url: "https://v3.wsyzym3u8.com/202308/24/uQL7yd3rrF2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/XiuXqv3U572/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Ksw2awaUBZ2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/MVYbwEnLmF2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/WZbagSTEbq2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/FABPnYcMtr2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/KsX7hHN6CY2/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/9sDJYSyjyX2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Ac23JAavQh2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Uxx7P3aciy2/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/qKAzJFxtar2/video/index.m3u8" },
+                { label: "线路3／第11集", url: "https://v3.ppqrrs.com/wjv3/202308/24/yfRXpT27zJ2/video/index.m3u8" },
+                { label: "线路3／第12集", url: "https://v3.ppqrrs.com/wjv3/202308/24/uQL7yd3rrF2/video/index.m3u8" },
+                { label: "线路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/XiuXqv3U572/video/index.m3u8" },
+                { label: "线路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/Ksw2awaUBZ2/video/index.m3u8" },
+                { label: "线路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/MVYbwEnLmF2/video/index.m3u8" },
+                { label: "线路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/WZbagSTEbq2/video/index.m3u8" },
+                { label: "线路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/FABPnYcMtr2/video/index.m3u8" },
+                { label: "线路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/KsX7hHN6CY2/video/index.m3u8" },
+                { label: "线路4／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/9sDJYSyjyX2/video/index.m3u8" },
+                { label: "线路4／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/Ac23JAavQh2/video/index.m3u8" },
+                { label: "线路4／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/Uxx7P3aciy2/video/index.m3u8" },
+                { label: "线路4／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/qKAzJFxtar2/video/index.m3u8" },
+                { label: "线路4／第11集", url: "https://v3.qqqrst.com/yyv3/202308/24/yfRXpT27zJ2/video/index.m3u8" },
+                { label: "线路4／第12集", url: "https://v3.qqqrst.com/yyv3/202308/24/uQL7yd3rrF2/video/index.m3u8" }
             ] },
             "108264": { name: "昨日的美食第二季", list: [
-                { label: "線路1／第01集", url: "https://v3.wsyzym3u8.com/202310/07/xCqEP3yR7L2/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v3.wsyzym3u8.com/202310/14/qCEbjtB0QN2/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v3.wsyzym3u8.com/202310/21/hcTExRV4E62/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v3.wsyzym3u8.com/202310/28/sByyxXzRPM2/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v3.wsyzym3u8.com/202311/04/9bSfc3vhJK2/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v3.wsyzym3u8.com/202311/11/vEnMnXr6582/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v3.wsyzym3u8.com/202311/18/8pFWEimJ1Y2/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v3.wsyzym3u8.com/202311/25/TkMHbPmxnU2/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v3.wsyzym3u8.com/202312/02/QseP1dE84c2/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v3.wsyzym3u8.com/202312/09/MLvstGCJaM2/video/index.m3u8" },
-                { label: "線路1／第11集", url: "https://v3.wsyzym3u8.com/202312/16/7rqWmHepWT2/video/index.m3u8" },
-                { label: "線路1／第12集", url: "https://v3.wsyzym3u8.com/202312/23/17fApKC2CQ2/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://cdn6.ryplay6.com/20240909/13131_3fd27274/index.m3u8" },
-                { label: "線路2／第02集", url: "https://cdn6.ryplay6.com/20240909/13132_fc94ec5b/index.m3u8" },
-                { label: "線路2／第03集", url: "https://cdn6.ryplay6.com/20240909/13134_a650cbec/index.m3u8" },
-                { label: "線路2／第04集", url: "https://cdn6.ryplay6.com/20240909/13133_64e5e946/index.m3u8" },
-                { label: "線路2／第05集", url: "https://cdn6.ryplay6.com/20240909/13138_12701055/index.m3u8" },
-                { label: "線路2／第06集", url: "https://cdn6.ryplay6.com/20240909/13139_817431c9/index.m3u8" },
-                { label: "線路2／第07集", url: "https://cdn6.ryplay6.com/20240909/13145_34ead27f/index.m3u8" },
-                { label: "線路2／第08集", url: "https://cdn6.ryplay6.com/20240909/13146_688cc819/index.m3u8" },
-                { label: "線路2／第09集", url: "https://cdn6.ryplay6.com/20240909/13147_186e83dc/index.m3u8" },
-                { label: "線路2／第10集", url: "https://cdn6.ryplay6.com/20240909/13153_8a5ca526/index.m3u8" },
-                { label: "線路2／第11集", url: "https://cdn6.ryplay6.com/20240909/13154_f12e2832/index.m3u8" },
-                { label: "線路2／第12集", url: "https://cdn6.ryplay6.com/20240909/13155_18285d3a/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.qqqrst.com/yyv3/202310/07/xCqEP3yR7L2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.qqqrst.com/yyv3/202310/14/qCEbjtB0QN2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.qqqrst.com/yyv3/202310/21/hcTExRV4E62/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.qqqrst.com/yyv3/202310/28/sByyxXzRPM2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.qqqrst.com/yyv3/202311/04/9bSfc3vhJK2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.qqqrst.com/yyv3/202311/11/vEnMnXr6582/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.qqqrst.com/yyv3/202311/18/8pFWEimJ1Y2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.qqqrst.com/yyv3/202311/25/TkMHbPmxnU2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.qqqrst.com/yyv3/202312/02/QseP1dE84c2/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.qqqrst.com/yyv3/202312/09/MLvstGCJaM2/video/index.m3u8" },
-                { label: "線路3／第11集", url: "https://v3.qqqrst.com/yyv3/202312/16/7rqWmHepWT2/video/index.m3u8" },
-                { label: "線路3／第12集", url: "https://v3.qqqrst.com/yyv3/202312/23/17fApKC2CQ2/video/index.m3u8" },
-                { label: "線路4／第01集", url: "https://v3.ppqrrs.com/wjv3/202310/07/xCqEP3yR7L2/video/index.m3u8" },
-                { label: "線路4／第02集", url: "https://v3.ppqrrs.com/wjv3/202310/14/qCEbjtB0QN2/video/index.m3u8" },
-                { label: "線路4／第03集", url: "https://v3.ppqrrs.com/wjv3/202310/21/hcTExRV4E62/video/index.m3u8" },
-                { label: "線路4／第04集", url: "https://v3.ppqrrs.com/wjv3/202310/28/sByyxXzRPM2/video/index.m3u8" },
-                { label: "線路4／第05集", url: "https://v3.ppqrrs.com/wjv3/202311/04/9bSfc3vhJK2/video/index.m3u8" },
-                { label: "線路4／第06集", url: "https://v3.ppqrrs.com/wjv3/202311/11/vEnMnXr6582/video/index.m3u8" },
-                { label: "線路4／第07集", url: "https://v3.ppqrrs.com/wjv3/202311/18/8pFWEimJ1Y2/video/index.m3u8" },
-                { label: "線路4／第08集", url: "https://v3.ppqrrs.com/wjv3/202311/25/TkMHbPmxnU2/video/index.m3u8" },
-                { label: "線路4／第09集", url: "https://v3.ppqrrs.com/wjv3/202312/02/QseP1dE84c2/video/index.m3u8" },
-                { label: "線路4／第10集", url: "https://v3.ppqrrs.com/wjv3/202312/09/MLvstGCJaM2/video/index.m3u8" },
-                { label: "線路4／第11集", url: "https://v3.ppqrrs.com/wjv3/202312/16/7rqWmHepWT2/video/index.m3u8" },
-                { label: "線路4／第12集", url: "https://v3.ppqrrs.com/wjv3/202312/23/17fApKC2CQ2/video/index.m3u8" }
+                { label: "线路1／第01集", url: "https://v3.wsyzym3u8.com/202310/07/xCqEP3yR7L2/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v3.wsyzym3u8.com/202310/14/qCEbjtB0QN2/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v3.wsyzym3u8.com/202310/21/hcTExRV4E62/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v3.wsyzym3u8.com/202310/28/sByyxXzRPM2/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v3.wsyzym3u8.com/202311/04/9bSfc3vhJK2/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v3.wsyzym3u8.com/202311/11/vEnMnXr6582/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v3.wsyzym3u8.com/202311/18/8pFWEimJ1Y2/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v3.wsyzym3u8.com/202311/25/TkMHbPmxnU2/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v3.wsyzym3u8.com/202312/02/QseP1dE84c2/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v3.wsyzym3u8.com/202312/09/MLvstGCJaM2/video/index.m3u8" },
+                { label: "线路1／第11集", url: "https://v3.wsyzym3u8.com/202312/16/7rqWmHepWT2/video/index.m3u8" },
+                { label: "线路1／第12集", url: "https://v3.wsyzym3u8.com/202312/23/17fApKC2CQ2/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://cdn6.ryplay6.com/20240909/13131_3fd27274/index.m3u8" },
+                { label: "线路2／第02集", url: "https://cdn6.ryplay6.com/20240909/13132_fc94ec5b/index.m3u8" },
+                { label: "线路2／第03集", url: "https://cdn6.ryplay6.com/20240909/13134_a650cbec/index.m3u8" },
+                { label: "线路2／第04集", url: "https://cdn6.ryplay6.com/20240909/13133_64e5e946/index.m3u8" },
+                { label: "线路2／第05集", url: "https://cdn6.ryplay6.com/20240909/13138_12701055/index.m3u8" },
+                { label: "线路2／第06集", url: "https://cdn6.ryplay6.com/20240909/13139_817431c9/index.m3u8" },
+                { label: "线路2／第07集", url: "https://cdn6.ryplay6.com/20240909/13145_34ead27f/index.m3u8" },
+                { label: "线路2／第08集", url: "https://cdn6.ryplay6.com/20240909/13146_688cc819/index.m3u8" },
+                { label: "线路2／第09集", url: "https://cdn6.ryplay6.com/20240909/13147_186e83dc/index.m3u8" },
+                { label: "线路2／第10集", url: "https://cdn6.ryplay6.com/20240909/13153_8a5ca526/index.m3u8" },
+                { label: "线路2／第11集", url: "https://cdn6.ryplay6.com/20240909/13154_f12e2832/index.m3u8" },
+                { label: "线路2／第12集", url: "https://cdn6.ryplay6.com/20240909/13155_18285d3a/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.qqqrst.com/yyv3/202310/07/xCqEP3yR7L2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.qqqrst.com/yyv3/202310/14/qCEbjtB0QN2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.qqqrst.com/yyv3/202310/21/hcTExRV4E62/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.qqqrst.com/yyv3/202310/28/sByyxXzRPM2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.qqqrst.com/yyv3/202311/04/9bSfc3vhJK2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.qqqrst.com/yyv3/202311/11/vEnMnXr6582/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.qqqrst.com/yyv3/202311/18/8pFWEimJ1Y2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.qqqrst.com/yyv3/202311/25/TkMHbPmxnU2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.qqqrst.com/yyv3/202312/02/QseP1dE84c2/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.qqqrst.com/yyv3/202312/09/MLvstGCJaM2/video/index.m3u8" },
+                { label: "线路3／第11集", url: "https://v3.qqqrst.com/yyv3/202312/16/7rqWmHepWT2/video/index.m3u8" },
+                { label: "线路3／第12集", url: "https://v3.qqqrst.com/yyv3/202312/23/17fApKC2CQ2/video/index.m3u8" },
+                { label: "线路4／第01集", url: "https://v3.ppqrrs.com/wjv3/202310/07/xCqEP3yR7L2/video/index.m3u8" },
+                { label: "线路4／第02集", url: "https://v3.ppqrrs.com/wjv3/202310/14/qCEbjtB0QN2/video/index.m3u8" },
+                { label: "线路4／第03集", url: "https://v3.ppqrrs.com/wjv3/202310/21/hcTExRV4E62/video/index.m3u8" },
+                { label: "线路4／第04集", url: "https://v3.ppqrrs.com/wjv3/202310/28/sByyxXzRPM2/video/index.m3u8" },
+                { label: "线路4／第05集", url: "https://v3.ppqrrs.com/wjv3/202311/04/9bSfc3vhJK2/video/index.m3u8" },
+                { label: "线路4／第06集", url: "https://v3.ppqrrs.com/wjv3/202311/11/vEnMnXr6582/video/index.m3u8" },
+                { label: "线路4／第07集", url: "https://v3.ppqrrs.com/wjv3/202311/18/8pFWEimJ1Y2/video/index.m3u8" },
+                { label: "线路4／第08集", url: "https://v3.ppqrrs.com/wjv3/202311/25/TkMHbPmxnU2/video/index.m3u8" },
+                { label: "线路4／第09集", url: "https://v3.ppqrrs.com/wjv3/202312/02/QseP1dE84c2/video/index.m3u8" },
+                { label: "线路4／第10集", url: "https://v3.ppqrrs.com/wjv3/202312/09/MLvstGCJaM2/video/index.m3u8" },
+                { label: "线路4／第11集", url: "https://v3.ppqrrs.com/wjv3/202312/16/7rqWmHepWT2/video/index.m3u8" },
+                { label: "线路4／第12集", url: "https://v3.ppqrrs.com/wjv3/202312/23/17fApKC2CQ2/video/index.m3u8" }
             ] },
-            "68059": { name: "住宅區的兩人", list: [
-                { label: "線路1／第01集", url: "https://v4.wsyzym3u8.com/202409/11/EBzTsjyjXh15/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v8.wsyzym3u8.com/202409/11/WxMH5qqUaG14/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v4.wsyzym3u8.com/202409/17/ye2p4bNFCL15/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v9.wsyzym3u8.com/202409/26/v9NwXaYct518/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v9.wsyzym3u8.com/202410/02/SrnKiVXXDw18/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v2.wsyzym3u8.com/202410/10/hcrXfJYAAn10/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v3.wsyzym3u8.com/202410/17/V464yQQKpe2/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v3.wsyzym3u8.com/202410/25/nqC1unftWL20/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v5.wsyzym3u8.com/202410/30/GRT2WfhkQD22/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v5.wsyzym3u8.com/202411/06/BbdkfBCAsv20/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://cdn8.ryplay8.com/20240928/8794_072c3ce4/index.m3u8" },
-                { label: "線路2／第02集", url: "https://cdn8.ryplay8.com/20240928/8796_ce711232/index.m3u8" },
-                { label: "線路2／第03集", url: "https://cdn8.ryplay8.com/20240928/8798_886ab37c/index.m3u8" },
-                { label: "線路2／第04集", url: "https://cdn8.ryplay8.com/20240928/8801_63e90ef8/index.m3u8" },
-                { label: "線路2／第05集", url: "https://cdn8.ryplay8.com/20241009/12856_8f0d1345/index.m3u8" },
-                { label: "線路2／第06集", url: "https://cdn8.ryplay8.com/20241010/13085_983a823d/index.m3u8" },
-                { label: "線路2／第07集", url: "https://cdn8.ryplay8.com/20241017/14048_b6fc8062/index.m3u8" },
-                { label: "線路2／第08集", url: "https://cdn8.ryplay8.com/20241025/14556_37cb6607/index.m3u8" },
-                { label: "線路2／第09集", url: "https://cdn8.ryplay8.com/20241030/14737_6b5447a8/index.m3u8" },
-                { label: "線路2／第10集", url: "https://cdn8.ryplay8.com/20241106/15018_48c59ce4/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v10.qqqrst.com/yyv10/202409/11/EBzTsjyjXh15/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v8.qqqrst.com/yyv8/202409/11/WxMH5qqUaG14/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v10.qqqrst.com/yyv10/202409/17/ye2p4bNFCL15/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v9.qqqrst.com/yyv9/202409/26/v9NwXaYct518/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v9.qqqrst.com/yyv9/202410/02/SrnKiVXXDw18/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v2.qqqrst.com/yyv2/202410/10/hcrXfJYAAn10/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.qqqrst.com/yyv3/202410/17/V464yQQKpe2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.qqqrst.com/yyv3/202410/25/nqC1unftWL20/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v5.qqqrst.com/yyv5/202410/30/GRT2WfhkQD22/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v5.qqqrst.com/yyv5/202411/06/BbdkfBCAsv20/video/index.m3u8" },
-                { label: "線路4／第01集", url: "https://v10.ppqrrs.com/wjv10/202409/11/httmbh0C2682/video/index.m3u8" },
-                { label: "線路4／第02集", url: "https://v5.ppqrrs.com/wjv5/202409/11/2jX9CsPiw677/video/index.m3u8" },
-                { label: "線路4／第03集", url: "https://v2.ppqrrs.com/wjv2/202409/17/VMaA0JkDUm74/video/index.m3u8" },
-                { label: "線路4／第04集", url: "https://v5.ppqrrs.com/wjv5/202409/26/QJpxjccPGw77/video/index.m3u8" },
-                { label: "線路4／第05集", url: "https://v4.ppqrrs.com/wjv4/202410/02/AW5YWD9iTY76/video/index.m3u8" },
-                { label: "線路4／第06集", url: "https://v1.ppqrrs.com/wjv1/202410/10/fsUzHKvQdZ85/video/index.m3u8" },
-                { label: "線路4／第07集", url: "https://v4.ppqrrs.com/wjv4/202410/17/EBhs1D4icQ76/video/index.m3u8" },
-                { label: "線路4／第08集", url: "https://v4.ppqrrs.com/wjv4/202410/25/TAXswRiQSf76/video/index.m3u8" },
-                { label: "線路4／第09集", url: "https://v11.ppqrrs.com/wjv11/202410/30/0b5WwwV7E283/video/index.m3u8" },
-                { label: "線路4／第10集", url: "https://v10.ppqrrs.com/wjv10/202411/06/WgVYipgv5H82/video/index.m3u8" }
+            "68059": { name: "住宅区的两人", list: [
+                { label: "线路1／第01集", url: "https://v4.wsyzym3u8.com/202409/11/EBzTsjyjXh15/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v8.wsyzym3u8.com/202409/11/WxMH5qqUaG14/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v4.wsyzym3u8.com/202409/17/ye2p4bNFCL15/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v9.wsyzym3u8.com/202409/26/v9NwXaYct518/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v9.wsyzym3u8.com/202410/02/SrnKiVXXDw18/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v2.wsyzym3u8.com/202410/10/hcrXfJYAAn10/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v3.wsyzym3u8.com/202410/17/V464yQQKpe2/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v3.wsyzym3u8.com/202410/25/nqC1unftWL20/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v5.wsyzym3u8.com/202410/30/GRT2WfhkQD22/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v5.wsyzym3u8.com/202411/06/BbdkfBCAsv20/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://cdn8.ryplay8.com/20240928/8794_072c3ce4/index.m3u8" },
+                { label: "线路2／第02集", url: "https://cdn8.ryplay8.com/20240928/8796_ce711232/index.m3u8" },
+                { label: "线路2／第03集", url: "https://cdn8.ryplay8.com/20240928/8798_886ab37c/index.m3u8" },
+                { label: "线路2／第04集", url: "https://cdn8.ryplay8.com/20240928/8801_63e90ef8/index.m3u8" },
+                { label: "线路2／第05集", url: "https://cdn8.ryplay8.com/20241009/12856_8f0d1345/index.m3u8" },
+                { label: "线路2／第06集", url: "https://cdn8.ryplay8.com/20241010/13085_983a823d/index.m3u8" },
+                { label: "线路2／第07集", url: "https://cdn8.ryplay8.com/20241017/14048_b6fc8062/index.m3u8" },
+                { label: "线路2／第08集", url: "https://cdn8.ryplay8.com/20241025/14556_37cb6607/index.m3u8" },
+                { label: "线路2／第09集", url: "https://cdn8.ryplay8.com/20241030/14737_6b5447a8/index.m3u8" },
+                { label: "线路2／第10集", url: "https://cdn8.ryplay8.com/20241106/15018_48c59ce4/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v10.qqqrst.com/yyv10/202409/11/EBzTsjyjXh15/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v8.qqqrst.com/yyv8/202409/11/WxMH5qqUaG14/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v10.qqqrst.com/yyv10/202409/17/ye2p4bNFCL15/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v9.qqqrst.com/yyv9/202409/26/v9NwXaYct518/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v9.qqqrst.com/yyv9/202410/02/SrnKiVXXDw18/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v2.qqqrst.com/yyv2/202410/10/hcrXfJYAAn10/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.qqqrst.com/yyv3/202410/17/V464yQQKpe2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.qqqrst.com/yyv3/202410/25/nqC1unftWL20/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v5.qqqrst.com/yyv5/202410/30/GRT2WfhkQD22/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v5.qqqrst.com/yyv5/202411/06/BbdkfBCAsv20/video/index.m3u8" },
+                { label: "线路4／第01集", url: "https://v10.ppqrrs.com/wjv10/202409/11/httmbh0C2682/video/index.m3u8" },
+                { label: "线路4／第02集", url: "https://v5.ppqrrs.com/wjv5/202409/11/2jX9CsPiw677/video/index.m3u8" },
+                { label: "线路4／第03集", url: "https://v2.ppqrrs.com/wjv2/202409/17/VMaA0JkDUm74/video/index.m3u8" },
+                { label: "线路4／第04集", url: "https://v5.ppqrrs.com/wjv5/202409/26/QJpxjccPGw77/video/index.m3u8" },
+                { label: "线路4／第05集", url: "https://v4.ppqrrs.com/wjv4/202410/02/AW5YWD9iTY76/video/index.m3u8" },
+                { label: "线路4／第06集", url: "https://v1.ppqrrs.com/wjv1/202410/10/fsUzHKvQdZ85/video/index.m3u8" },
+                { label: "线路4／第07集", url: "https://v4.ppqrrs.com/wjv4/202410/17/EBhs1D4icQ76/video/index.m3u8" },
+                { label: "线路4／第08集", url: "https://v4.ppqrrs.com/wjv4/202410/25/TAXswRiQSf76/video/index.m3u8" },
+                { label: "线路4／第09集", url: "https://v11.ppqrrs.com/wjv11/202410/30/0b5WwwV7E283/video/index.m3u8" },
+                { label: "线路4／第10集", url: "https://v10.ppqrrs.com/wjv10/202411/06/WgVYipgv5H82/video/index.m3u8" }
             ] },
-            "138586": { name: "惡女～誰說工作不酷的？～", list: [
-                { label: "線路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/GKeF1jyVmm2/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/jHu9WDMkPv2/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/kqNDnABqk12/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/EET0BhaVTY2/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/A2yGnaJNUu2/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/6jDzXrc0y32/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/Qi456vhdGV2/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/zvJgvEFwnf2/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/uXNdrMvr2U2/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v3.wsyzym3u8.com/202308/24/6JAq7KEna72/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/GKeF1jyVmm2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/jHu9WDMkPv2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/kqNDnABqk12/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/EET0BhaVTY2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/A2yGnaJNUu2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/6jDzXrc0y32/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Qi456vhdGV2/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/zvJgvEFwnf2/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/uXNdrMvr2U2/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/6JAq7KEna72/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/GKeF1jyVmm2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/jHu9WDMkPv2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/kqNDnABqk12/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/EET0BhaVTY2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/A2yGnaJNUu2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/6jDzXrc0y32/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/Qi456vhdGV2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/zvJgvEFwnf2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/uXNdrMvr2U2/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/6JAq7KEna72/video/index.m3u8" }
+            "138586": { name: "恶女～谁说工作不酷的？～", list: [
+                { label: "线路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/GKeF1jyVmm2/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/jHu9WDMkPv2/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/kqNDnABqk12/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/EET0BhaVTY2/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/A2yGnaJNUu2/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/6jDzXrc0y32/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/Qi456vhdGV2/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/zvJgvEFwnf2/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/uXNdrMvr2U2/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v3.wsyzym3u8.com/202308/24/6JAq7KEna72/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/GKeF1jyVmm2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/jHu9WDMkPv2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/kqNDnABqk12/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/EET0BhaVTY2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/A2yGnaJNUu2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/6jDzXrc0y32/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Qi456vhdGV2/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/zvJgvEFwnf2/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/uXNdrMvr2U2/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/6JAq7KEna72/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/GKeF1jyVmm2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/jHu9WDMkPv2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/kqNDnABqk12/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/EET0BhaVTY2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/A2yGnaJNUu2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/6jDzXrc0y32/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/Qi456vhdGV2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/zvJgvEFwnf2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/uXNdrMvr2U2/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/6JAq7KEna72/video/index.m3u8" }
             ] },
-            "73617": { name: "逃避雖可恥但有用", list: [
-                { label: "線路1／第01集", url: "https://v6.wsyzym3u8.com/202409/26/P8xbGNSv7J12/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v6.wsyzym3u8.com/202409/26/Bf2246iuRu12/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v6.wsyzym3u8.com/202409/26/jJmYQz85zT12/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v11.wsyzym3u8.com/202409/26/ARDcqRep763/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v11.wsyzym3u8.com/202409/26/d3gi9HyDuh3/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v2.wsyzym3u8.com/202409/26/A9Tvm4dEqe10/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v11.wsyzym3u8.com/202409/26/2Zv3Rx6rEv3/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v6.wsyzym3u8.com/202409/26/u9UGvTxNV712/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v4.wsyzym3u8.com/202409/26/UMfpueM5hB15/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v11.wsyzym3u8.com/202409/26/0kD2PPynCJ3/video/index.m3u8" },
-                { label: "線路1／第11集", url: "https://v11.wsyzym3u8.com/202409/26/a40bMH1ZmZ3/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://cdn6.ryplay6.com/20240905/8985_63aa4009/index.m3u8" },
-                { label: "線路2／第02集", url: "https://cdn6.ryplay6.com/20240905/8986_20a98f03/index.m3u8" },
-                { label: "線路2／第03集", url: "https://cdn6.ryplay6.com/20240905/8989_763e8bbe/index.m3u8" },
-                { label: "線路2／第04集", url: "https://cdn6.ryplay6.com/20240905/8990_5ce52304/index.m3u8" },
-                { label: "線路2／第05集", url: "https://cdn6.ryplay6.com/20240905/8993_ff344ec2/index.m3u8" },
-                { label: "線路2／第06集", url: "https://cdn6.ryplay6.com/20240905/8996_23153ec4/index.m3u8" },
-                { label: "線路2／第07集", url: "https://cdn6.ryplay6.com/20240905/9000_b321080a/index.m3u8" },
-                { label: "線路2／第08集", url: "https://cdn6.ryplay6.com/20240905/9001_01448e64/index.m3u8" },
-                { label: "線路2／第09集", url: "https://cdn6.ryplay6.com/20240905/9008_9790a4c2/index.m3u8" },
-                { label: "線路2／第10集", url: "https://cdn6.ryplay6.com/20240905/9014_7dc26190/index.m3u8" },
-                { label: "線路2／第11集", url: "https://cdn6.ryplay6.com/20240905/9025_d2e92b24/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v6.qqqrst.com/yyv6/202409/26/P8xbGNSv7J12/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v6.qqqrst.com/yyv6/202409/26/Bf2246iuRu12/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v6.qqqrst.com/yyv6/202409/26/jJmYQz85zT12/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v11.qqqrst.com/yyv11/202409/26/ARDcqRep763/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v11.qqqrst.com/yyv11/202409/26/d3gi9HyDuh3/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v2.qqqrst.com/yyv2/202409/26/A9Tvm4dEqe10/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v11.qqqrst.com/yyv11/202409/26/2Zv3Rx6rEv3/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v6.qqqrst.com/yyv6/202409/26/u9UGvTxNV712/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v10.qqqrst.com/yyv10/202409/26/UMfpueM5hB15/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v11.qqqrst.com/yyv11/202409/26/0kD2PPynCJ3/video/index.m3u8" },
-                { label: "線路3／第11集", url: "https://v11.qqqrst.com/yyv11/202409/26/a40bMH1ZmZ3/video/index.m3u8" }
+            "73617": { name: "逃避虽可耻但有用", list: [
+                { label: "线路1／第01集", url: "https://v6.wsyzym3u8.com/202409/26/P8xbGNSv7J12/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v6.wsyzym3u8.com/202409/26/Bf2246iuRu12/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v6.wsyzym3u8.com/202409/26/jJmYQz85zT12/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v11.wsyzym3u8.com/202409/26/ARDcqRep763/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v11.wsyzym3u8.com/202409/26/d3gi9HyDuh3/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v2.wsyzym3u8.com/202409/26/A9Tvm4dEqe10/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v11.wsyzym3u8.com/202409/26/2Zv3Rx6rEv3/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v6.wsyzym3u8.com/202409/26/u9UGvTxNV712/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v4.wsyzym3u8.com/202409/26/UMfpueM5hB15/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v11.wsyzym3u8.com/202409/26/0kD2PPynCJ3/video/index.m3u8" },
+                { label: "线路1／第11集", url: "https://v11.wsyzym3u8.com/202409/26/a40bMH1ZmZ3/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://cdn6.ryplay6.com/20240905/8985_63aa4009/index.m3u8" },
+                { label: "线路2／第02集", url: "https://cdn6.ryplay6.com/20240905/8986_20a98f03/index.m3u8" },
+                { label: "线路2／第03集", url: "https://cdn6.ryplay6.com/20240905/8989_763e8bbe/index.m3u8" },
+                { label: "线路2／第04集", url: "https://cdn6.ryplay6.com/20240905/8990_5ce52304/index.m3u8" },
+                { label: "线路2／第05集", url: "https://cdn6.ryplay6.com/20240905/8993_ff344ec2/index.m3u8" },
+                { label: "线路2／第06集", url: "https://cdn6.ryplay6.com/20240905/8996_23153ec4/index.m3u8" },
+                { label: "线路2／第07集", url: "https://cdn6.ryplay6.com/20240905/9000_b321080a/index.m3u8" },
+                { label: "线路2／第08集", url: "https://cdn6.ryplay6.com/20240905/9001_01448e64/index.m3u8" },
+                { label: "线路2／第09集", url: "https://cdn6.ryplay6.com/20240905/9008_9790a4c2/index.m3u8" },
+                { label: "线路2／第10集", url: "https://cdn6.ryplay6.com/20240905/9014_7dc26190/index.m3u8" },
+                { label: "线路2／第11集", url: "https://cdn6.ryplay6.com/20240905/9025_d2e92b24/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v6.qqqrst.com/yyv6/202409/26/P8xbGNSv7J12/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v6.qqqrst.com/yyv6/202409/26/Bf2246iuRu12/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v6.qqqrst.com/yyv6/202409/26/jJmYQz85zT12/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v11.qqqrst.com/yyv11/202409/26/ARDcqRep763/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v11.qqqrst.com/yyv11/202409/26/d3gi9HyDuh3/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v2.qqqrst.com/yyv2/202409/26/A9Tvm4dEqe10/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v11.qqqrst.com/yyv11/202409/26/2Zv3Rx6rEv3/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v6.qqqrst.com/yyv6/202409/26/u9UGvTxNV712/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v10.qqqrst.com/yyv10/202409/26/UMfpueM5hB15/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v11.qqqrst.com/yyv11/202409/26/0kD2PPynCJ3/video/index.m3u8" },
+                { label: "线路3／第11集", url: "https://v11.qqqrst.com/yyv11/202409/26/a40bMH1ZmZ3/video/index.m3u8" }
             ] },
-            "112979": { name: "這是戀愛！不良少年與白手杖女孩", list: [
-                { label: "線路1／第01集", url: "https://cdn8.ryplay8.com/20240924/6659_b7d28d95/index.m3u8" },
-                { label: "線路1／第02集", url: "https://cdn8.ryplay8.com/20240924/6663_a7db6cbd/index.m3u8" },
-                { label: "線路1／第03集", url: "https://cdn8.ryplay8.com/20240924/6667_6023ac8e/index.m3u8" },
-                { label: "線路1／第04集", url: "https://cdn8.ryplay8.com/20240924/6673_70d988c7/index.m3u8" },
-                { label: "線路1／第05集", url: "https://cdn8.ryplay8.com/20240924/6674_358454cc/index.m3u8" },
-                { label: "線路1／第06集", url: "https://cdn8.ryplay8.com/20240924/6678_ebbb40ac/index.m3u8" },
-                { label: "線路1／第07集", url: "https://cdn8.ryplay8.com/20240924/6682_5a6cbfd0/index.m3u8" },
-                { label: "線路1／第08集", url: "https://cdn8.ryplay8.com/20240924/6686_36c01ec0/index.m3u8" },
-                { label: "線路1／第09集", url: "https://cdn8.ryplay8.com/20240924/6690_c954d8d4/index.m3u8" },
-                { label: "線路1／第10集", url: "https://cdn8.ryplay8.com/20240924/6692_5d1f6eca/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/QHZPQMhJyR2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/PHD9xTiPjv2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/EF3XemvGc12/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/1LCAQeFQ3K2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/QtJEinZu322/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/ghhvXZ6x5T2/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.wsyzym3u8.com/202308/24/TTpYx6F0rc2/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.wsyzym3u8.com/202308/24/V3sVFW0wtY2/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.wsyzym3u8.com/202308/24/6XaMWVFkCe2/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v3.wsyzym3u8.com/202308/24/MShjeAyutu2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/QHZPQMhJyR2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/PHD9xTiPjv2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/EF3XemvGc12/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/1LCAQeFQ3K2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/QtJEinZu322/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ghhvXZ6x5T2/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/TTpYx6F0rc2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/V3sVFW0wtY2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/6XaMWVFkCe2/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/MShjeAyutu2/video/index.m3u8" },
-                { label: "線路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/QHZPQMhJyR2/video/index.m3u8" },
-                { label: "線路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/PHD9xTiPjv2/video/index.m3u8" },
-                { label: "線路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/EF3XemvGc12/video/index.m3u8" },
-                { label: "線路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/1LCAQeFQ3K2/video/index.m3u8" },
-                { label: "線路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/QtJEinZu322/video/index.m3u8" },
-                { label: "線路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/ghhvXZ6x5T2/video/index.m3u8" },
-                { label: "線路4／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/TTpYx6F0rc2/video/index.m3u8" },
-                { label: "線路4／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/V3sVFW0wtY2/video/index.m3u8" },
-                { label: "線路4／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/6XaMWVFkCe2/video/index.m3u8" },
-                { label: "線路4／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/MShjeAyutu2/video/index.m3u8" }
+            "112979": { name: "这是恋爱！不良少年与白手杖女孩", list: [
+                { label: "线路1／第01集", url: "https://cdn8.ryplay8.com/20240924/6659_b7d28d95/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn8.ryplay8.com/20240924/6663_a7db6cbd/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn8.ryplay8.com/20240924/6667_6023ac8e/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn8.ryplay8.com/20240924/6673_70d988c7/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn8.ryplay8.com/20240924/6674_358454cc/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn8.ryplay8.com/20240924/6678_ebbb40ac/index.m3u8" },
+                { label: "线路1／第07集", url: "https://cdn8.ryplay8.com/20240924/6682_5a6cbfd0/index.m3u8" },
+                { label: "线路1／第08集", url: "https://cdn8.ryplay8.com/20240924/6686_36c01ec0/index.m3u8" },
+                { label: "线路1／第09集", url: "https://cdn8.ryplay8.com/20240924/6690_c954d8d4/index.m3u8" },
+                { label: "线路1／第10集", url: "https://cdn8.ryplay8.com/20240924/6692_5d1f6eca/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/QHZPQMhJyR2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/PHD9xTiPjv2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/EF3XemvGc12/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/1LCAQeFQ3K2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/QtJEinZu322/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/ghhvXZ6x5T2/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.wsyzym3u8.com/202308/24/TTpYx6F0rc2/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.wsyzym3u8.com/202308/24/V3sVFW0wtY2/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.wsyzym3u8.com/202308/24/6XaMWVFkCe2/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v3.wsyzym3u8.com/202308/24/MShjeAyutu2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/QHZPQMhJyR2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/PHD9xTiPjv2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/EF3XemvGc12/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/1LCAQeFQ3K2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/QtJEinZu322/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ghhvXZ6x5T2/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/TTpYx6F0rc2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/V3sVFW0wtY2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/6XaMWVFkCe2/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/MShjeAyutu2/video/index.m3u8" },
+                { label: "线路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/QHZPQMhJyR2/video/index.m3u8" },
+                { label: "线路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/PHD9xTiPjv2/video/index.m3u8" },
+                { label: "线路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/EF3XemvGc12/video/index.m3u8" },
+                { label: "线路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/1LCAQeFQ3K2/video/index.m3u8" },
+                { label: "线路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/QtJEinZu322/video/index.m3u8" },
+                { label: "线路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/ghhvXZ6x5T2/video/index.m3u8" },
+                { label: "线路4／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/TTpYx6F0rc2/video/index.m3u8" },
+                { label: "线路4／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/V3sVFW0wtY2/video/index.m3u8" },
+                { label: "线路4／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/6XaMWVFkCe2/video/index.m3u8" },
+                { label: "线路4／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/MShjeAyutu2/video/index.m3u8" }
             ] },
-            "120667": { name: "我的事說來話長", list: [
-                { label: "線路1／第01集", url: "https://cdn6.ryplay6.com/20240910/14284_0c2c7269/index.m3u8" },
-                { label: "線路1／第02集", url: "https://cdn6.ryplay6.com/20240910/14287_167227dd/index.m3u8" },
-                { label: "線路1／第03集", url: "https://cdn6.ryplay6.com/20240910/14286_b98c118b/index.m3u8" },
-                { label: "線路1／第04集", url: "https://cdn6.ryplay6.com/20240910/14291_010be96f/index.m3u8" },
-                { label: "線路1／第05集", url: "https://cdn6.ryplay6.com/20240910/14288_a4dd523a/index.m3u8" },
-                { label: "線路1／第06集", url: "https://cdn6.ryplay6.com/20240910/14289_05a7e04e/index.m3u8" },
-                { label: "線路1／第07集", url: "https://cdn6.ryplay6.com/20240910/14290_2d11334f/index.m3u8" },
-                { label: "線路1／第08集", url: "https://cdn6.ryplay6.com/20240910/14297_6282be14/index.m3u8" },
-                { label: "線路1／第09集", url: "https://cdn6.ryplay6.com/20240910/14296_72077813/index.m3u8" },
-                { label: "線路1／第10集", url: "https://cdn6.ryplay6.com/20240910/14294_6e7e4ba0/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/bPsaQZ2RSr2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/VwVkza6q3G2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/yLz91cCMxd2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/HbDgNPTWdw2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/wi0kcy0KeL2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/fJrjDSBd6p2/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.wsyzym3u8.com/202308/24/9pw5QJjbT32/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.wsyzym3u8.com/202308/24/dzKQSwhqub2/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.wsyzym3u8.com/202308/24/5eTx6b02jQ2/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v3.wsyzym3u8.com/202308/24/TFtKtA1ZBP2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/bPsaQZ2RSr2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/VwVkza6q3G2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/yLz91cCMxd2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/HbDgNPTWdw2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/wi0kcy0KeL2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/fJrjDSBd6p2/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/9pw5QJjbT32/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/dzKQSwhqub2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/5eTx6b02jQ2/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/TFtKtA1ZBP2/video/index.m3u8" },
-                { label: "線路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/bPsaQZ2RSr2/video/index.m3u8" },
-                { label: "線路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/VwVkza6q3G2/video/index.m3u8" },
-                { label: "線路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/yLz91cCMxd2/video/index.m3u8" },
-                { label: "線路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/HbDgNPTWdw2/video/index.m3u8" },
-                { label: "線路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/wi0kcy0KeL2/video/index.m3u8" },
-                { label: "線路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/fJrjDSBd6p2/video/index.m3u8" },
-                { label: "線路4／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/9pw5QJjbT32/video/index.m3u8" },
-                { label: "線路4／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/dzKQSwhqub2/video/index.m3u8" },
-                { label: "線路4／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/5eTx6b02jQ2/video/index.m3u8" },
-                { label: "線路4／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/TFtKtA1ZBP2/video/index.m3u8" }
+            "120667": { name: "我的事说来话长", list: [
+                { label: "线路1／第01集", url: "https://cdn6.ryplay6.com/20240910/14284_0c2c7269/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn6.ryplay6.com/20240910/14287_167227dd/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn6.ryplay6.com/20240910/14286_b98c118b/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn6.ryplay6.com/20240910/14291_010be96f/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn6.ryplay6.com/20240910/14288_a4dd523a/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn6.ryplay6.com/20240910/14289_05a7e04e/index.m3u8" },
+                { label: "线路1／第07集", url: "https://cdn6.ryplay6.com/20240910/14290_2d11334f/index.m3u8" },
+                { label: "线路1／第08集", url: "https://cdn6.ryplay6.com/20240910/14297_6282be14/index.m3u8" },
+                { label: "线路1／第09集", url: "https://cdn6.ryplay6.com/20240910/14296_72077813/index.m3u8" },
+                { label: "线路1／第10集", url: "https://cdn6.ryplay6.com/20240910/14294_6e7e4ba0/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/bPsaQZ2RSr2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/VwVkza6q3G2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/yLz91cCMxd2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/HbDgNPTWdw2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/wi0kcy0KeL2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/fJrjDSBd6p2/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.wsyzym3u8.com/202308/24/9pw5QJjbT32/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.wsyzym3u8.com/202308/24/dzKQSwhqub2/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.wsyzym3u8.com/202308/24/5eTx6b02jQ2/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v3.wsyzym3u8.com/202308/24/TFtKtA1ZBP2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/bPsaQZ2RSr2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/VwVkza6q3G2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/yLz91cCMxd2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/HbDgNPTWdw2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/wi0kcy0KeL2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/fJrjDSBd6p2/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/9pw5QJjbT32/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/dzKQSwhqub2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/5eTx6b02jQ2/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/TFtKtA1ZBP2/video/index.m3u8" },
+                { label: "线路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/bPsaQZ2RSr2/video/index.m3u8" },
+                { label: "线路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/VwVkza6q3G2/video/index.m3u8" },
+                { label: "线路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/yLz91cCMxd2/video/index.m3u8" },
+                { label: "线路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/HbDgNPTWdw2/video/index.m3u8" },
+                { label: "线路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/wi0kcy0KeL2/video/index.m3u8" },
+                { label: "线路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/fJrjDSBd6p2/video/index.m3u8" },
+                { label: "线路4／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/9pw5QJjbT32/video/index.m3u8" },
+                { label: "线路4／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/dzKQSwhqub2/video/index.m3u8" },
+                { label: "线路4／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/5eTx6b02jQ2/video/index.m3u8" },
+                { label: "线路4／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/TFtKtA1ZBP2/video/index.m3u8" }
             ] },
-            "138449": { name: "到了30歲還是處男，似乎會變成魔法師", list: [
-                { label: "線路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/3j1SCgMe8s2/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/HFERj7gJvm2/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/1pLQd2zzVE2/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/Eku0Jw1Hw12/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/LxVd8CaADC2/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/7KUL2tT5kp2/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/rfvXWCPf3X2/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/prjsVRF9Zi2/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/7agzRbk3vD2/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v3.wsyzym3u8.com/202308/24/4Rt8wpScvz2/video/index.m3u8" },
-                { label: "線路1／第11集", url: "https://v3.wsyzym3u8.com/202308/24/WnHvCw5E4n2/video/index.m3u8" },
-                { label: "線路1／第12集", url: "https://v3.wsyzym3u8.com/202308/24/LJ6gbn5SGb2/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/3j1SCgMe8s2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/HFERj7gJvm2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/1pLQd2zzVE2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Eku0Jw1Hw12/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/LxVd8CaADC2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/7KUL2tT5kp2/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/rfvXWCPf3X2/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/prjsVRF9Zi2/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/7agzRbk3vD2/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/4Rt8wpScvz2/video/index.m3u8" },
-                { label: "線路2／第11集", url: "https://v3.ppqrrs.com/wjv3/202308/24/WnHvCw5E4n2/video/index.m3u8" },
-                { label: "線路2／第12集", url: "https://v3.ppqrrs.com/wjv3/202308/24/LJ6gbn5SGb2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/3j1SCgMe8s2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/HFERj7gJvm2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/1pLQd2zzVE2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/Eku0Jw1Hw12/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/LxVd8CaADC2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/7KUL2tT5kp2/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/rfvXWCPf3X2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/prjsVRF9Zi2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/7agzRbk3vD2/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/4Rt8wpScvz2/video/index.m3u8" },
-                { label: "線路3／第11集", url: "https://v3.qqqrst.com/yyv3/202308/24/WnHvCw5E4n2/video/index.m3u8" },
-                { label: "線路3／第12集", url: "https://v3.qqqrst.com/yyv3/202308/24/LJ6gbn5SGb2/video/index.m3u8" }
+            "138449": { name: "到了30岁还是处男，似乎会变成魔法师", list: [
+                { label: "线路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/3j1SCgMe8s2/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/HFERj7gJvm2/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/1pLQd2zzVE2/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/Eku0Jw1Hw12/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/LxVd8CaADC2/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/7KUL2tT5kp2/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/rfvXWCPf3X2/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/prjsVRF9Zi2/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/7agzRbk3vD2/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v3.wsyzym3u8.com/202308/24/4Rt8wpScvz2/video/index.m3u8" },
+                { label: "线路1／第11集", url: "https://v3.wsyzym3u8.com/202308/24/WnHvCw5E4n2/video/index.m3u8" },
+                { label: "线路1／第12集", url: "https://v3.wsyzym3u8.com/202308/24/LJ6gbn5SGb2/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/3j1SCgMe8s2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/HFERj7gJvm2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/1pLQd2zzVE2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Eku0Jw1Hw12/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/LxVd8CaADC2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/7KUL2tT5kp2/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/rfvXWCPf3X2/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/prjsVRF9Zi2/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/7agzRbk3vD2/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/4Rt8wpScvz2/video/index.m3u8" },
+                { label: "线路2／第11集", url: "https://v3.ppqrrs.com/wjv3/202308/24/WnHvCw5E4n2/video/index.m3u8" },
+                { label: "线路2／第12集", url: "https://v3.ppqrrs.com/wjv3/202308/24/LJ6gbn5SGb2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/3j1SCgMe8s2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/HFERj7gJvm2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/1pLQd2zzVE2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/Eku0Jw1Hw12/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/LxVd8CaADC2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/7KUL2tT5kp2/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/rfvXWCPf3X2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/prjsVRF9Zi2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/7agzRbk3vD2/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/4Rt8wpScvz2/video/index.m3u8" },
+                { label: "线路3／第11集", url: "https://v3.qqqrst.com/yyv3/202308/24/WnHvCw5E4n2/video/index.m3u8" },
+                { label: "线路3／第12集", url: "https://v3.qqqrst.com/yyv3/202308/24/LJ6gbn5SGb2/video/index.m3u8" }
             ] },
-            "138392": { name: "女子警察的逆襲2021", list: [
-                { label: "線路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/sCR5r7X0DN2/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/1nnBEiVPTj2/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/zeAMRbpxLc2/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/xspr4SUKih2/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/u0MxCxiGhA2/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/4xHCDMTZNJ2/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/YFwYXpn06c2/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/MDYU8ueZC52/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/JQJk0MzBaq2/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/sCR5r7X0DN2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/1nnBEiVPTj2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/zeAMRbpxLc2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/xspr4SUKih2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/u0MxCxiGhA2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/4xHCDMTZNJ2/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/YFwYXpn06c2/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/MDYU8ueZC52/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/JQJk0MzBaq2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/sCR5r7X0DN2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/1nnBEiVPTj2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/zeAMRbpxLc2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/xspr4SUKih2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/u0MxCxiGhA2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/4xHCDMTZNJ2/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/YFwYXpn06c2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/MDYU8ueZC52/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/JQJk0MzBaq2/video/index.m3u8" }
+            "138392": { name: "女子警察的逆袭2021", list: [
+                { label: "线路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/sCR5r7X0DN2/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/1nnBEiVPTj2/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/zeAMRbpxLc2/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/xspr4SUKih2/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/u0MxCxiGhA2/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/4xHCDMTZNJ2/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/YFwYXpn06c2/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/MDYU8ueZC52/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/JQJk0MzBaq2/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/sCR5r7X0DN2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/1nnBEiVPTj2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/zeAMRbpxLc2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/xspr4SUKih2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/u0MxCxiGhA2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/4xHCDMTZNJ2/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/YFwYXpn06c2/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/MDYU8ueZC52/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/JQJk0MzBaq2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/sCR5r7X0DN2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/1nnBEiVPTj2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/zeAMRbpxLc2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/xspr4SUKih2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/u0MxCxiGhA2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/4xHCDMTZNJ2/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/YFwYXpn06c2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/MDYU8ueZC52/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/JQJk0MzBaq2/video/index.m3u8" }
             ] },
-            "40254": { name: "幸福就是吃飯睡覺等待", list: [
-                { label: "線路1／第01集", url: "https://v4.wsyzym3u8.com/202504/10/xxdtP6djqn24/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v6.wsyzym3u8.com/202504/14/pgu10iPryd24/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v6.wsyzym3u8.com/202504/17/NcYvHHdwpW24/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v4.wsyzym3u8.com/202504/24/pWMtJ9pRtN22/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v5.wsyzym3u8.com/202505/01/S29W4Yb6U819/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v4.wsyzym3u8.com/202505/08/dTjwnV6wJ620/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v6.wsyzym3u8.com/202505/14/Srdz5DVQci24/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v4.wsyzym3u8.com/202505/21/Zu21upKG0u24/video/index.m3u8" },
-                { label: "線路1／特别篇", url: "https://v4.wsyzym3u8.com/202505/26/EVhSXPgNt620/video/index.m3u8" },
-                { label: "線路2／特别篇", url: "https://v4.qqqrst.com/yyv4/202505/26/EVhSXPgNt620/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v4.qqqrst.com/yyv4/202504/10/xxdtP6djqn24/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v6.qqqrst.com/yyv6/202504/14/pgu10iPryd24/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v6.qqqrst.com/yyv6/202504/17/NcYvHHdwpW24/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v4.qqqrst.com/yyv4/202504/24/pWMtJ9pRtN22/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v5.qqqrst.com/yyv5/202505/01/S29W4Yb6U819/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v4.qqqrst.com/yyv4/202505/08/dTjwnV6wJ620/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v6.qqqrst.com/yyv6/202505/14/Srdz5DVQci24/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v4.qqqrst.com/yyv4/202505/21/Zu21upKG0u24/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v6.ppqrrs.com/wjv6/202504/10/3wrS7TcsHq78/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202504/14/ZBr6KrA79Q75/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v10.ppqrrs.com/wjv10/202504/17/YPApp7ayGm82/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202504/24/atYLpkYTys75/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v11.ppqrrs.com/wjv11/202505/01/yKkNTNMLQ483/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v12.ppqrrs.com/wjv12/202505/08/bJ3XGpaeh184/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v12.ppqrrs.com/wjv12/202505/14/3ie2gSiF0T84/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v10.ppqrrs.com/wjv10/202505/21/Zp8wcdiw7382/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v10.ppqrrs.com/wjv10/202505/28/VptTS6Kiwx82/video/index.m3u8" },
-                { label: "線路3／特别篇", url: "https://v12.ppqrrs.com/wjv12/202505/26/bNjVDbNu7j84/video/index.m3u8" }
+            "40254": { name: "幸福就是吃饭睡觉等待", list: [
+                { label: "线路1／第01集", url: "https://v4.wsyzym3u8.com/202504/10/xxdtP6djqn24/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v6.wsyzym3u8.com/202504/14/pgu10iPryd24/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v6.wsyzym3u8.com/202504/17/NcYvHHdwpW24/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v4.wsyzym3u8.com/202504/24/pWMtJ9pRtN22/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v5.wsyzym3u8.com/202505/01/S29W4Yb6U819/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v4.wsyzym3u8.com/202505/08/dTjwnV6wJ620/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v6.wsyzym3u8.com/202505/14/Srdz5DVQci24/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v4.wsyzym3u8.com/202505/21/Zu21upKG0u24/video/index.m3u8" },
+                { label: "线路1／特别篇", url: "https://v4.wsyzym3u8.com/202505/26/EVhSXPgNt620/video/index.m3u8" },
+                { label: "线路2／特别篇", url: "https://v4.qqqrst.com/yyv4/202505/26/EVhSXPgNt620/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v4.qqqrst.com/yyv4/202504/10/xxdtP6djqn24/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v6.qqqrst.com/yyv6/202504/14/pgu10iPryd24/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v6.qqqrst.com/yyv6/202504/17/NcYvHHdwpW24/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v4.qqqrst.com/yyv4/202504/24/pWMtJ9pRtN22/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v5.qqqrst.com/yyv5/202505/01/S29W4Yb6U819/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v4.qqqrst.com/yyv4/202505/08/dTjwnV6wJ620/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v6.qqqrst.com/yyv6/202505/14/Srdz5DVQci24/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v4.qqqrst.com/yyv4/202505/21/Zu21upKG0u24/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v6.ppqrrs.com/wjv6/202504/10/3wrS7TcsHq78/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202504/14/ZBr6KrA79Q75/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v10.ppqrrs.com/wjv10/202504/17/YPApp7ayGm82/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202504/24/atYLpkYTys75/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v11.ppqrrs.com/wjv11/202505/01/yKkNTNMLQ483/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v12.ppqrrs.com/wjv12/202505/08/bJ3XGpaeh184/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v12.ppqrrs.com/wjv12/202505/14/3ie2gSiF0T84/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v10.ppqrrs.com/wjv10/202505/21/Zp8wcdiw7382/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v10.ppqrrs.com/wjv10/202505/28/VptTS6Kiwx82/video/index.m3u8" },
+                { label: "线路3／特别篇", url: "https://v12.ppqrrs.com/wjv12/202505/26/bNjVDbNu7j84/video/index.m3u8" }
             ] },
-            "49697": { name: "熱點", list: [
-                { label: "線路1／第01集", url: "https://v4.wsyzym3u8.com/202501/13/uCJEFAtvEc19/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v5.wsyzym3u8.com/202501/20/uuKd4Ksztq24/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v4.wsyzym3u8.com/202501/27/9k4gi9aBMh19/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v5.wsyzym3u8.com/202502/03/fPN3swsrwZ23/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v6.wsyzym3u8.com/202502/10/YRZdj7QSyt24/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v4.wsyzym3u8.com/202502/17/9uh0xEamSG21/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v4.wsyzym3u8.com/202502/24/ZxdqxwJYMp23/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v4.wsyzym3u8.com/202503/03/PLuUhmGmPH23/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v2.wsyzym3u8.com/202503/10/PQMA1kyWpT22/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v6.wsyzym3u8.com/202503/17/EEpkwzyJaf22/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v4.qqqrst.com/yyv4/202501/13/uCJEFAtvEc19/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v5.qqqrst.com/yyv5/202501/20/uuKd4Ksztq24/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v4.qqqrst.com/yyv4/202501/27/9k4gi9aBMh19/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v5.qqqrst.com/yyv5/202502/03/fPN3swsrwZ23/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v6.qqqrst.com/yyv6/202502/10/YRZdj7QSyt24/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v4.qqqrst.com/yyv4/202502/17/9uh0xEamSG21/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v4.qqqrst.com/yyv4/202502/24/ZxdqxwJYMp23/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v4.qqqrst.com/yyv4/202503/03/PLuUhmGmPH23/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v2.qqqrst.com/yyv2/202503/10/PQMA1kyWpT22/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v6.qqqrst.com/yyv6/202503/17/EEpkwzyJaf22/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v12.ppqrrs.com/wjv12/202501/13/q66tSnCNF784/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v10.ppqrrs.com/wjv10/202501/20/5w1Yf26b1a82/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202501/27/uJZdR35X9k75/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v5.ppqrrs.com/wjv5/202502/03/PVkSvHZbyM77/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v6.ppqrrs.com/wjv6/202502/10/xtAUJBa3Gs78/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v6.ppqrrs.com/wjv6/202502/17/fj3cDMc9NX78/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v10.ppqrrs.com/wjv10/202502/24/NbPdF97saQ82/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v10.ppqrrs.com/wjv10/202503/03/4r4uYxn1Qc82/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v12.ppqrrs.com/wjv12/202503/10/pf5gY4DVRM84/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v10.ppqrrs.com/wjv10/202503/17/QjvKvBtsr382/video/index.m3u8" }
+            "49697": { name: "热点", list: [
+                { label: "线路1／第01集", url: "https://v4.wsyzym3u8.com/202501/13/uCJEFAtvEc19/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v5.wsyzym3u8.com/202501/20/uuKd4Ksztq24/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v4.wsyzym3u8.com/202501/27/9k4gi9aBMh19/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v5.wsyzym3u8.com/202502/03/fPN3swsrwZ23/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v6.wsyzym3u8.com/202502/10/YRZdj7QSyt24/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v4.wsyzym3u8.com/202502/17/9uh0xEamSG21/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v4.wsyzym3u8.com/202502/24/ZxdqxwJYMp23/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v4.wsyzym3u8.com/202503/03/PLuUhmGmPH23/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v2.wsyzym3u8.com/202503/10/PQMA1kyWpT22/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v6.wsyzym3u8.com/202503/17/EEpkwzyJaf22/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v4.qqqrst.com/yyv4/202501/13/uCJEFAtvEc19/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v5.qqqrst.com/yyv5/202501/20/uuKd4Ksztq24/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v4.qqqrst.com/yyv4/202501/27/9k4gi9aBMh19/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v5.qqqrst.com/yyv5/202502/03/fPN3swsrwZ23/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v6.qqqrst.com/yyv6/202502/10/YRZdj7QSyt24/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v4.qqqrst.com/yyv4/202502/17/9uh0xEamSG21/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v4.qqqrst.com/yyv4/202502/24/ZxdqxwJYMp23/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v4.qqqrst.com/yyv4/202503/03/PLuUhmGmPH23/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v2.qqqrst.com/yyv2/202503/10/PQMA1kyWpT22/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v6.qqqrst.com/yyv6/202503/17/EEpkwzyJaf22/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v12.ppqrrs.com/wjv12/202501/13/q66tSnCNF784/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v10.ppqrrs.com/wjv10/202501/20/5w1Yf26b1a82/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202501/27/uJZdR35X9k75/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v5.ppqrrs.com/wjv5/202502/03/PVkSvHZbyM77/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v6.ppqrrs.com/wjv6/202502/10/xtAUJBa3Gs78/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v6.ppqrrs.com/wjv6/202502/17/fj3cDMc9NX78/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v10.ppqrrs.com/wjv10/202502/24/NbPdF97saQ82/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v10.ppqrrs.com/wjv10/202503/03/4r4uYxn1Qc82/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v12.ppqrrs.com/wjv12/202503/10/pf5gY4DVRM84/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v10.ppqrrs.com/wjv10/202503/17/QjvKvBtsr382/video/index.m3u8" }
             ] },
-            "138485": { name: "愛你汪汪", list: [
-                { label: "線路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/Wvn46pXwCp2/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/P1tNB2p9tQ2/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/i9afnFRDje2/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/7zN1Kvb0dB2/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/sksAjtfh9E2/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/Y2FvtgpMiC2/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/TB50VM3tBL2/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/XGQQdkNCHA2/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/Vt32hTSDpd2/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v3.wsyzym3u8.com/202308/24/JBaFpbq9cg2/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Wvn46pXwCp2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/P1tNB2p9tQ2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/i9afnFRDje2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/7zN1Kvb0dB2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/sksAjtfh9E2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Y2FvtgpMiC2/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/TB50VM3tBL2/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/XGQQdkNCHA2/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Vt32hTSDpd2/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/JBaFpbq9cg2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/Wvn46pXwCp2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/P1tNB2p9tQ2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/i9afnFRDje2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/7zN1Kvb0dB2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/sksAjtfh9E2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/Y2FvtgpMiC2/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/TB50VM3tBL2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/XGQQdkNCHA2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/Vt32hTSDpd2/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/JBaFpbq9cg2/video/index.m3u8" }
-            ] },
-
-            "136350": { name: "求婚大作戰2007", list: [
-                { label: "線路1／第01集", url: "https://cdn2.ryplay2.com/20240820/7540_e8db6026/index.m3u8" },
-                { label: "線路1／第02集", url: "https://cdn2.ryplay2.com/20240820/7542_1e3e5ca9/index.m3u8" },
-                { label: "線路1／第03集", url: "https://cdn2.ryplay2.com/20240820/7544_105c08a6/index.m3u8" },
-                { label: "線路1／第04集", url: "https://cdn2.ryplay2.com/20240820/7547_3f6e882a/index.m3u8" },
-                { label: "線路1／第05集", url: "https://cdn2.ryplay2.com/20240820/7548_cd0ab5f5/index.m3u8" },
-                { label: "線路1／第06集", url: "https://cdn2.ryplay2.com/20240820/7550_607f1646/index.m3u8" },
-                { label: "線路1／第07集", url: "https://cdn2.ryplay2.com/20240820/7552_1d7c38c5/index.m3u8" },
-                { label: "線路1／第08集", url: "https://cdn2.ryplay2.com/20240820/7555_b9595455/index.m3u8" },
-                { label: "線路1／第09集", url: "https://cdn2.ryplay2.com/20240820/7556_40ec91f4/index.m3u8" },
-                { label: "線路1／第10集", url: "https://cdn2.ryplay2.com/20240820/7559_bb1566a5/index.m3u8" },
-                { label: "線路1／第11集", url: "https://cdn2.ryplay2.com/20240820/7561_33d763e6/index.m3u8" },
-                { label: "線路1／特輯01", url: "https://cdn2.ryplay2.com/20240820/7563_0478abea/index.m3u8" }
+            "138485": { name: "爱你汪汪", list: [
+                { label: "线路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/Wvn46pXwCp2/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/P1tNB2p9tQ2/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/i9afnFRDje2/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/7zN1Kvb0dB2/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v3.wsyzym3u8.com/202308/24/sksAjtfh9E2/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v3.wsyzym3u8.com/202308/24/Y2FvtgpMiC2/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v3.wsyzym3u8.com/202308/24/TB50VM3tBL2/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v3.wsyzym3u8.com/202308/24/XGQQdkNCHA2/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v3.wsyzym3u8.com/202308/24/Vt32hTSDpd2/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v3.wsyzym3u8.com/202308/24/JBaFpbq9cg2/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Wvn46pXwCp2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/P1tNB2p9tQ2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/i9afnFRDje2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/7zN1Kvb0dB2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/sksAjtfh9E2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Y2FvtgpMiC2/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/TB50VM3tBL2/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/XGQQdkNCHA2/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Vt32hTSDpd2/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/JBaFpbq9cg2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/Wvn46pXwCp2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/P1tNB2p9tQ2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/i9afnFRDje2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/7zN1Kvb0dB2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/sksAjtfh9E2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/Y2FvtgpMiC2/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/TB50VM3tBL2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/XGQQdkNCHA2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/Vt32hTSDpd2/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/JBaFpbq9cg2/video/index.m3u8" }
             ] },
 
-            "69398": { name: "繼母與女兒的藍調", list: [
-                { label: "線路1／第01集", url: "https://v5.wsyzym3u8.com/202410/27/Gep8dPty2U23/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v2.wsyzym3u8.com/202410/27/yWGxp0mL3S21/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v5.wsyzym3u8.com/202410/27/c3ZMae4Qap22/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v5.wsyzym3u8.com/202410/27/ky8ER5dv4r23/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v5.wsyzym3u8.com/202410/27/cKWkU32Med23/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v4.wsyzym3u8.com/202410/27/1XTQySZ55C20/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v2.wsyzym3u8.com/202410/27/66sLiAjM8N21/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v2.wsyzym3u8.com/202410/27/RzTZAgqetu20/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v6.wsyzym3u8.com/202410/27/YghimGqpec20/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v5.wsyzym3u8.com/202410/27/MKp66LnAZa22/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://cdn6.ryplay6.com/20240909/12888_45e349b8/index.m3u8" },
-                { label: "線路2／第02集", url: "https://cdn6.ryplay6.com/20240909/12890_3388b60d/index.m3u8" },
-                { label: "線路2／第03集", url: "https://cdn6.ryplay6.com/20240909/12892_0b7ad74b/index.m3u8" },
-                { label: "線路2／第04集", url: "https://cdn6.ryplay6.com/20240909/12893_a7489bba/index.m3u8" },
-                { label: "線路2／第05集", url: "https://cdn6.ryplay6.com/20240909/12891_a172455c/index.m3u8" },
-                { label: "線路2／第06集", url: "https://cdn6.ryplay6.com/20240909/12894_f7918825/index.m3u8" },
-                { label: "線路2／第07集", url: "https://cdn6.ryplay6.com/20240909/12895_0a7e65b8/index.m3u8" },
-                { label: "線路2／第08集", url: "https://cdn6.ryplay6.com/20240909/12896_a67ad845/index.m3u8" },
-                { label: "線路2／第09集", url: "https://cdn6.ryplay6.com/20240909/12898_08842859/index.m3u8" },
-                { label: "線路2／第10集", url: "https://cdn6.ryplay6.com/20240909/12897_d26e1700/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v5.qqqrst.com/yyv5/202410/27/Gep8dPty2U23/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v2.qqqrst.com/yyv2/202410/27/yWGxp0mL3S21/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v5.qqqrst.com/yyv5/202410/27/c3ZMae4Qap22/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v5.qqqrst.com/yyv5/202410/27/ky8ER5dv4r23/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v5.qqqrst.com/yyv5/202410/27/cKWkU32Med23/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v4.qqqrst.com/yyv4/202410/27/1XTQySZ55C20/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v2.qqqrst.com/yyv2/202410/27/66sLiAjM8N21/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v2.qqqrst.com/yyv2/202410/27/RzTZAgqetu20/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v6.qqqrst.com/yyv6/202410/27/YghimGqpec20/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v5.qqqrst.com/yyv5/202410/27/MKp66LnAZa22/video/index.m3u8" }
+            "136350": { name: "求婚大作战2007", list: [
+                { label: "线路1／第01集", url: "https://cdn2.ryplay2.com/20240820/7540_e8db6026/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn2.ryplay2.com/20240820/7542_1e3e5ca9/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn2.ryplay2.com/20240820/7544_105c08a6/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn2.ryplay2.com/20240820/7547_3f6e882a/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn2.ryplay2.com/20240820/7548_cd0ab5f5/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn2.ryplay2.com/20240820/7550_607f1646/index.m3u8" },
+                { label: "线路1／第07集", url: "https://cdn2.ryplay2.com/20240820/7552_1d7c38c5/index.m3u8" },
+                { label: "线路1／第08集", url: "https://cdn2.ryplay2.com/20240820/7555_b9595455/index.m3u8" },
+                { label: "线路1／第09集", url: "https://cdn2.ryplay2.com/20240820/7556_40ec91f4/index.m3u8" },
+                { label: "线路1／第10集", url: "https://cdn2.ryplay2.com/20240820/7559_bb1566a5/index.m3u8" },
+                { label: "线路1／第11集", url: "https://cdn2.ryplay2.com/20240820/7561_33d763e6/index.m3u8" },
+                { label: "线路1／特辑01", url: "https://cdn2.ryplay2.com/20240820/7563_0478abea/index.m3u8" }
+            ] },
+
+            "69398": { name: "继母与女儿的蓝调", list: [
+                { label: "线路1／第01集", url: "https://v5.wsyzym3u8.com/202410/27/Gep8dPty2U23/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v2.wsyzym3u8.com/202410/27/yWGxp0mL3S21/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v5.wsyzym3u8.com/202410/27/c3ZMae4Qap22/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v5.wsyzym3u8.com/202410/27/ky8ER5dv4r23/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v5.wsyzym3u8.com/202410/27/cKWkU32Med23/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v4.wsyzym3u8.com/202410/27/1XTQySZ55C20/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v2.wsyzym3u8.com/202410/27/66sLiAjM8N21/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v2.wsyzym3u8.com/202410/27/RzTZAgqetu20/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v6.wsyzym3u8.com/202410/27/YghimGqpec20/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v5.wsyzym3u8.com/202410/27/MKp66LnAZa22/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://cdn6.ryplay6.com/20240909/12888_45e349b8/index.m3u8" },
+                { label: "线路2／第02集", url: "https://cdn6.ryplay6.com/20240909/12890_3388b60d/index.m3u8" },
+                { label: "线路2／第03集", url: "https://cdn6.ryplay6.com/20240909/12892_0b7ad74b/index.m3u8" },
+                { label: "线路2／第04集", url: "https://cdn6.ryplay6.com/20240909/12893_a7489bba/index.m3u8" },
+                { label: "线路2／第05集", url: "https://cdn6.ryplay6.com/20240909/12891_a172455c/index.m3u8" },
+                { label: "线路2／第06集", url: "https://cdn6.ryplay6.com/20240909/12894_f7918825/index.m3u8" },
+                { label: "线路2／第07集", url: "https://cdn6.ryplay6.com/20240909/12895_0a7e65b8/index.m3u8" },
+                { label: "线路2／第08集", url: "https://cdn6.ryplay6.com/20240909/12896_a67ad845/index.m3u8" },
+                { label: "线路2／第09集", url: "https://cdn6.ryplay6.com/20240909/12898_08842859/index.m3u8" },
+                { label: "线路2／第10集", url: "https://cdn6.ryplay6.com/20240909/12897_d26e1700/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v5.qqqrst.com/yyv5/202410/27/Gep8dPty2U23/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v2.qqqrst.com/yyv2/202410/27/yWGxp0mL3S21/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v5.qqqrst.com/yyv5/202410/27/c3ZMae4Qap22/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v5.qqqrst.com/yyv5/202410/27/ky8ER5dv4r23/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v5.qqqrst.com/yyv5/202410/27/cKWkU32Med23/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v4.qqqrst.com/yyv4/202410/27/1XTQySZ55C20/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v2.qqqrst.com/yyv2/202410/27/66sLiAjM8N21/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v2.qqqrst.com/yyv2/202410/27/RzTZAgqetu20/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v6.qqqrst.com/yyv6/202410/27/YghimGqpec20/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v5.qqqrst.com/yyv5/202410/27/MKp66LnAZa22/video/index.m3u8" }
             ] },
 
             "87111": { name: "勿言推理", list: [
-                { label: "線路1／第01集", url: "https://cdn8.ryplay8.com/20240930/9179_83f7068a/index.m3u8" },
-                { label: "線路1／第02集", url: "https://cdn8.ryplay8.com/20240930/9183_9fc05447/index.m3u8" },
-                { label: "線路1／第03集", url: "https://cdn8.ryplay8.com/20240930/9189_49b2418c/index.m3u8" },
-                { label: "線路1／第04集", url: "https://cdn8.ryplay8.com/20240930/9193_10b2f580/index.m3u8" },
-                { label: "線路1／第05集", url: "https://cdn8.ryplay8.com/20240930/9197_cf2652fb/index.m3u8" },
-                { label: "線路1／第06集", url: "https://cdn8.ryplay8.com/20240930/9205_03a825fc/index.m3u8" },
-                { label: "線路1／第07集", url: "https://cdn8.ryplay8.com/20240930/9210_549275bd/index.m3u8" },
-                { label: "線路1／第08集", url: "https://cdn8.ryplay8.com/20240930/9214_8f272703/index.m3u8" },
-                { label: "線路1／第09集", url: "https://cdn8.ryplay8.com/20240930/9218_2daa46ea/index.m3u8" },
-                { label: "線路1／第10集", url: "https://cdn8.ryplay8.com/20240930/9224_c319ff2d/index.m3u8" },
-                { label: "線路1／第11集", url: "https://cdn8.ryplay8.com/20240930/9228_37c233a4/index.m3u8" },
-                { label: "線路1／第12集", url: "https://cdn8.ryplay8.com/20240930/9236_f3e8cd63/index.m3u8" },
-                { label: "線路1／第13集", url: "https://cdn8.ryplay8.com/20240930/9248_d3885dd3/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/B2Vn3Dc7Az2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/yyVb6Yx2Zz2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/yLiqkUXeBU2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/3bztQCJKeg2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/ErGjdK0Y0Z2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/BJMJLUSjtE2/video/index.m3u8" },
-                { label: "線路2／第07集", url: "https://v3.wsyzym3u8.com/202308/24/9gCpwbMVjr2/video/index.m3u8" },
-                { label: "線路2／第08集", url: "https://v3.wsyzym3u8.com/202308/24/VpJBihFecZ2/video/index.m3u8" },
-                { label: "線路2／第09集", url: "https://v3.wsyzym3u8.com/202308/24/0mCFyHLctp2/video/index.m3u8" },
-                { label: "線路2／第10集", url: "https://v3.wsyzym3u8.com/202308/24/VuMeniJYWH2/video/index.m3u8" },
-                { label: "線路2／第11集", url: "https://v3.wsyzym3u8.com/202308/24/Zku6EYqjda2/video/index.m3u8" },
-                { label: "線路2／第12集", url: "https://v3.wsyzym3u8.com/202308/24/G1pMgp2KNZ2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/B2Vn3Dc7Az2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/yyVb6Yx2Zz2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/yLiqkUXeBU2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/3bztQCJKeg2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ErGjdK0Y0Z2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/BJMJLUSjtE2/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/9gCpwbMVjr2/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/VpJBihFecZ2/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/0mCFyHLctp2/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/VuMeniJYWH2/video/index.m3u8" },
-                { label: "線路3／第11集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Zku6EYqjda2/video/index.m3u8" },
-                { label: "線路3／第12集", url: "https://v3.ppqrrs.com/wjv3/202308/24/G1pMgp2KNZ2/video/index.m3u8" },
-                { label: "線路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/B2Vn3Dc7Az2/video/index.m3u8" },
-                { label: "線路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/yyVb6Yx2Zz2/video/index.m3u8" },
-                { label: "線路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/yLiqkUXeBU2/video/index.m3u8" },
-                { label: "線路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/3bztQCJKeg2/video/index.m3u8" },
-                { label: "線路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/ErGjdK0Y0Z2/video/index.m3u8" },
-                { label: "線路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/BJMJLUSjtE2/video/index.m3u8" },
-                { label: "線路4／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/9gCpwbMVjr2/video/index.m3u8" },
-                { label: "線路4／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/VpJBihFecZ2/video/index.m3u8" },
-                { label: "線路4／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/0mCFyHLctp2/video/index.m3u8" },
-                { label: "線路4／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/VuMeniJYWH2/video/index.m3u8" },
-                { label: "線路4／第11集", url: "https://v3.qqqrst.com/yyv3/202308/24/Zku6EYqjda2/video/index.m3u8" },
-                { label: "線路4／第12集", url: "https://v3.qqqrst.com/yyv3/202308/24/G1pMgp2KNZ2/video/index.m3u8" }
+                { label: "线路1／第01集", url: "https://cdn8.ryplay8.com/20240930/9179_83f7068a/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn8.ryplay8.com/20240930/9183_9fc05447/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn8.ryplay8.com/20240930/9189_49b2418c/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn8.ryplay8.com/20240930/9193_10b2f580/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn8.ryplay8.com/20240930/9197_cf2652fb/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn8.ryplay8.com/20240930/9205_03a825fc/index.m3u8" },
+                { label: "线路1／第07集", url: "https://cdn8.ryplay8.com/20240930/9210_549275bd/index.m3u8" },
+                { label: "线路1／第08集", url: "https://cdn8.ryplay8.com/20240930/9214_8f272703/index.m3u8" },
+                { label: "线路1／第09集", url: "https://cdn8.ryplay8.com/20240930/9218_2daa46ea/index.m3u8" },
+                { label: "线路1／第10集", url: "https://cdn8.ryplay8.com/20240930/9224_c319ff2d/index.m3u8" },
+                { label: "线路1／第11集", url: "https://cdn8.ryplay8.com/20240930/9228_37c233a4/index.m3u8" },
+                { label: "线路1／第12集", url: "https://cdn8.ryplay8.com/20240930/9236_f3e8cd63/index.m3u8" },
+                { label: "线路1／第13集", url: "https://cdn8.ryplay8.com/20240930/9248_d3885dd3/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/B2Vn3Dc7Az2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/yyVb6Yx2Zz2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/yLiqkUXeBU2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/3bztQCJKeg2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/ErGjdK0Y0Z2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/BJMJLUSjtE2/video/index.m3u8" },
+                { label: "线路2／第07集", url: "https://v3.wsyzym3u8.com/202308/24/9gCpwbMVjr2/video/index.m3u8" },
+                { label: "线路2／第08集", url: "https://v3.wsyzym3u8.com/202308/24/VpJBihFecZ2/video/index.m3u8" },
+                { label: "线路2／第09集", url: "https://v3.wsyzym3u8.com/202308/24/0mCFyHLctp2/video/index.m3u8" },
+                { label: "线路2／第10集", url: "https://v3.wsyzym3u8.com/202308/24/VuMeniJYWH2/video/index.m3u8" },
+                { label: "线路2／第11集", url: "https://v3.wsyzym3u8.com/202308/24/Zku6EYqjda2/video/index.m3u8" },
+                { label: "线路2／第12集", url: "https://v3.wsyzym3u8.com/202308/24/G1pMgp2KNZ2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/B2Vn3Dc7Az2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/yyVb6Yx2Zz2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/yLiqkUXeBU2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/3bztQCJKeg2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ErGjdK0Y0Z2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/BJMJLUSjtE2/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v3.ppqrrs.com/wjv3/202308/24/9gCpwbMVjr2/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v3.ppqrrs.com/wjv3/202308/24/VpJBihFecZ2/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v3.ppqrrs.com/wjv3/202308/24/0mCFyHLctp2/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v3.ppqrrs.com/wjv3/202308/24/VuMeniJYWH2/video/index.m3u8" },
+                { label: "线路3／第11集", url: "https://v3.ppqrrs.com/wjv3/202308/24/Zku6EYqjda2/video/index.m3u8" },
+                { label: "线路3／第12集", url: "https://v3.ppqrrs.com/wjv3/202308/24/G1pMgp2KNZ2/video/index.m3u8" },
+                { label: "线路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/B2Vn3Dc7Az2/video/index.m3u8" },
+                { label: "线路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/yyVb6Yx2Zz2/video/index.m3u8" },
+                { label: "线路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/yLiqkUXeBU2/video/index.m3u8" },
+                { label: "线路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/3bztQCJKeg2/video/index.m3u8" },
+                { label: "线路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/ErGjdK0Y0Z2/video/index.m3u8" },
+                { label: "线路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/BJMJLUSjtE2/video/index.m3u8" },
+                { label: "线路4／第07集", url: "https://v3.qqqrst.com/yyv3/202308/24/9gCpwbMVjr2/video/index.m3u8" },
+                { label: "线路4／第08集", url: "https://v3.qqqrst.com/yyv3/202308/24/VpJBihFecZ2/video/index.m3u8" },
+                { label: "线路4／第09集", url: "https://v3.qqqrst.com/yyv3/202308/24/0mCFyHLctp2/video/index.m3u8" },
+                { label: "线路4／第10集", url: "https://v3.qqqrst.com/yyv3/202308/24/VuMeniJYWH2/video/index.m3u8" },
+                { label: "线路4／第11集", url: "https://v3.qqqrst.com/yyv3/202308/24/Zku6EYqjda2/video/index.m3u8" },
+                { label: "线路4／第12集", url: "https://v3.qqqrst.com/yyv3/202308/24/G1pMgp2KNZ2/video/index.m3u8" }
             ] },
 
-            "134803": { name: "美麗的他", list: [
-                { label: "線路1／第01集", url: "https://cdn2.ryplay2.com/20240823/9761_2b75088f/index.m3u8" },
-                { label: "線路1／第02集", url: "https://cdn2.ryplay2.com/20240823/9768_6d43a434/index.m3u8" },
-                { label: "線路1／第03集", url: "https://cdn2.ryplay2.com/20240823/9777_eee66bbc/index.m3u8" },
-                { label: "線路1／第04集", url: "https://cdn2.ryplay2.com/20240823/9784_ccb3c39b/index.m3u8" },
-                { label: "線路1／第05集", url: "https://cdn2.ryplay2.com/20240823/9793_0a47a6b2/index.m3u8" },
-                { label: "線路1／第06集", url: "https://cdn2.ryplay2.com/20240823/9799_f83edb6e/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/4EGwi7efPz2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/STAtctxq7N2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/QCWvidYZGL2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/FXQEf0iMSG2/video/index.m3u8" },
-                { label: "線路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/ni7wpjxj0S2/video/index.m3u8" },
-                { label: "線路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/tcpAAxKYgx2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/4EGwi7efPz2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/STAtctxq7N2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/QCWvidYZGL2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/FXQEf0iMSG2/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ni7wpjxj0S2/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/tcpAAxKYgx2/video/index.m3u8" },
-                { label: "線路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/4EGwi7efPz2/video/index.m3u8" },
-                { label: "線路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/STAtctxq7N2/video/index.m3u8" },
-                { label: "線路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/QCWvidYZGL2/video/index.m3u8" },
-                { label: "線路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/FXQEf0iMSG2/video/index.m3u8" },
-                { label: "線路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/ni7wpjxj0S2/video/index.m3u8" },
-                { label: "線路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/tcpAAxKYgx2/video/index.m3u8" }
+            "134803": { name: "美丽的他", list: [
+                { label: "线路1／第01集", url: "https://cdn2.ryplay2.com/20240823/9761_2b75088f/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn2.ryplay2.com/20240823/9768_6d43a434/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn2.ryplay2.com/20240823/9777_eee66bbc/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn2.ryplay2.com/20240823/9784_ccb3c39b/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn2.ryplay2.com/20240823/9793_0a47a6b2/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn2.ryplay2.com/20240823/9799_f83edb6e/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.wsyzym3u8.com/202308/24/4EGwi7efPz2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.wsyzym3u8.com/202308/24/STAtctxq7N2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.wsyzym3u8.com/202308/24/QCWvidYZGL2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.wsyzym3u8.com/202308/24/FXQEf0iMSG2/video/index.m3u8" },
+                { label: "线路2／第05集", url: "https://v3.wsyzym3u8.com/202308/24/ni7wpjxj0S2/video/index.m3u8" },
+                { label: "线路2／第06集", url: "https://v3.wsyzym3u8.com/202308/24/tcpAAxKYgx2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/4EGwi7efPz2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/STAtctxq7N2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/QCWvidYZGL2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/FXQEf0iMSG2/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v3.ppqrrs.com/wjv3/202308/24/ni7wpjxj0S2/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v3.ppqrrs.com/wjv3/202308/24/tcpAAxKYgx2/video/index.m3u8" },
+                { label: "线路4／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/4EGwi7efPz2/video/index.m3u8" },
+                { label: "线路4／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/STAtctxq7N2/video/index.m3u8" },
+                { label: "线路4／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/QCWvidYZGL2/video/index.m3u8" },
+                { label: "线路4／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/FXQEf0iMSG2/video/index.m3u8" },
+                { label: "线路4／第05集", url: "https://v3.qqqrst.com/yyv3/202308/24/ni7wpjxj0S2/video/index.m3u8" },
+                { label: "线路4／第06集", url: "https://v3.qqqrst.com/yyv3/202308/24/tcpAAxKYgx2/video/index.m3u8" }
             ] },
 
-            "138367": { name: "美麗的他第二季", list: [
-                { label: "線路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/eeLZPHBUYp2/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/CRc6jS1F4x2/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/CT9i0iUCZL2/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/GTTEQuen6e2/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/eeLZPHBUYp2/video/index.m3u8" },
-                { label: "線路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/CRc6jS1F4x2/video/index.m3u8" },
-                { label: "線路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/CT9i0iUCZL2/video/index.m3u8" },
-                { label: "線路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/GTTEQuen6e2/video/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/eeLZPHBUYp2/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/CRc6jS1F4x2/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/CT9i0iUCZL2/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/GTTEQuen6e2/video/index.m3u8" }
+            "138367": { name: "美丽的他第二季", list: [
+                { label: "线路1／第01集", url: "https://v3.wsyzym3u8.com/202308/24/eeLZPHBUYp2/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v3.wsyzym3u8.com/202308/24/CRc6jS1F4x2/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v3.wsyzym3u8.com/202308/24/CT9i0iUCZL2/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v3.wsyzym3u8.com/202308/24/GTTEQuen6e2/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://v3.ppqrrs.com/wjv3/202308/24/eeLZPHBUYp2/video/index.m3u8" },
+                { label: "线路2／第02集", url: "https://v3.ppqrrs.com/wjv3/202308/24/CRc6jS1F4x2/video/index.m3u8" },
+                { label: "线路2／第03集", url: "https://v3.ppqrrs.com/wjv3/202308/24/CT9i0iUCZL2/video/index.m3u8" },
+                { label: "线路2／第04集", url: "https://v3.ppqrrs.com/wjv3/202308/24/GTTEQuen6e2/video/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v3.qqqrst.com/yyv3/202308/24/eeLZPHBUYp2/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v3.qqqrst.com/yyv3/202308/24/CRc6jS1F4x2/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v3.qqqrst.com/yyv3/202308/24/CT9i0iUCZL2/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v3.qqqrst.com/yyv3/202308/24/GTTEQuen6e2/video/index.m3u8" }
             ] },
 
             "65675": { name: "凪的新生活", list: [
-                { label: "線路1／第01集", url: "https://v6.wsyzym3u8.com/202409/26/cMbs6zu9eW12/video/index.m3u8" },
-                { label: "線路1／第02集", url: "https://v12.wsyzym3u8.com/202409/26/ymxWcm0QVS8/video/index.m3u8" },
-                { label: "線路1／第03集", url: "https://v12.wsyzym3u8.com/202409/26/Hf3QpvhV5C8/video/index.m3u8" },
-                { label: "線路1／第04集", url: "https://v9.wsyzym3u8.com/202409/26/aEqTxWtyxF18/video/index.m3u8" },
-                { label: "線路1／第05集", url: "https://v6.wsyzym3u8.com/202409/26/iUYNjSwXfg12/video/index.m3u8" },
-                { label: "線路1／第06集", url: "https://v11.wsyzym3u8.com/202409/26/3BSdKhXmwi3/video/index.m3u8" },
-                { label: "線路1／第07集", url: "https://v4.wsyzym3u8.com/202409/26/QNHDjemdtX15/video/index.m3u8" },
-                { label: "線路1／第08集", url: "https://v4.wsyzym3u8.com/202409/26/9bFtqX0wFr15/video/index.m3u8" },
-                { label: "線路1／第09集", url: "https://v9.wsyzym3u8.com/202409/26/C6TRWUDGmk18/video/index.m3u8" },
-                { label: "線路1／第10集", url: "https://v4.wsyzym3u8.com/202409/26/hYa28VCipZ15/video/index.m3u8" },
-                { label: "線路2／第01集", url: "https://cdn6.ryplay6.com/20240910/14326_6952c75c/index.m3u8" },
-                { label: "線路2／第02集", url: "https://cdn6.ryplay6.com/20240910/14328_332e4bfb/index.m3u8" },
-                { label: "線路2／第03集", url: "https://cdn6.ryplay6.com/20240910/14329_383fee9a/index.m3u8" },
-                { label: "線路2／第04集", url: "https://cdn6.ryplay6.com/20240910/14332_e2264bc2/index.m3u8" },
-                { label: "線路2／第05集", url: "https://cdn6.ryplay6.com/20240910/14330_b0f69c50/index.m3u8" },
-                { label: "線路2／第06集", url: "https://cdn6.ryplay6.com/20240910/14331_81d3f4c1/index.m3u8" },
-                { label: "線路2／第07集", url: "https://cdn6.ryplay6.com/20240910/14333_210f6dce/index.m3u8" },
-                { label: "線路2／第08集", url: "https://cdn6.ryplay6.com/20240910/14335_62b994ee/index.m3u8" },
-                { label: "線路2／第09集", url: "https://cdn6.ryplay6.com/20240910/14336_9d853cba/index.m3u8" },
-                { label: "線路2／第10集", url: "https://cdn6.ryplay6.com/20240910/14334_7faec42a/index.m3u8" },
-                { label: "線路3／第01集", url: "https://v6.qqqrst.com/yyv6/202409/26/cMbs6zu9eW12/video/index.m3u8" },
-                { label: "線路3／第02集", url: "https://v12.qqqrst.com/yyv12/202409/26/ymxWcm0QVS8/video/index.m3u8" },
-                { label: "線路3／第03集", url: "https://v12.qqqrst.com/yyv12/202409/26/Hf3QpvhV5C8/video/index.m3u8" },
-                { label: "線路3／第04集", url: "https://v9.qqqrst.com/yyv9/202409/26/aEqTxWtyxF18/video/index.m3u8" },
-                { label: "線路3／第05集", url: "https://v6.qqqrst.com/yyv6/202409/26/iUYNjSwXfg12/video/index.m3u8" },
-                { label: "線路3／第06集", url: "https://v11.qqqrst.com/yyv11/202409/26/3BSdKhXmwi3/video/index.m3u8" },
-                { label: "線路3／第07集", url: "https://v10.qqqrst.com/yyv10/202409/26/QNHDjemdtX15/video/index.m3u8" },
-                { label: "線路3／第08集", url: "https://v10.qqqrst.com/yyv10/202409/26/9bFtqX0wFr15/video/index.m3u8" },
-                { label: "線路3／第09集", url: "https://v9.qqqrst.com/yyv9/202409/26/C6TRWUDGmk18/video/index.m3u8" },
-                { label: "線路3／第10集", url: "https://v10.qqqrst.com/yyv10/202409/26/hYa28VCipZ15/video/index.m3u8" }
+                { label: "线路1／第01集", url: "https://v6.wsyzym3u8.com/202409/26/cMbs6zu9eW12/video/index.m3u8" },
+                { label: "线路1／第02集", url: "https://v12.wsyzym3u8.com/202409/26/ymxWcm0QVS8/video/index.m3u8" },
+                { label: "线路1／第03集", url: "https://v12.wsyzym3u8.com/202409/26/Hf3QpvhV5C8/video/index.m3u8" },
+                { label: "线路1／第04集", url: "https://v9.wsyzym3u8.com/202409/26/aEqTxWtyxF18/video/index.m3u8" },
+                { label: "线路1／第05集", url: "https://v6.wsyzym3u8.com/202409/26/iUYNjSwXfg12/video/index.m3u8" },
+                { label: "线路1／第06集", url: "https://v11.wsyzym3u8.com/202409/26/3BSdKhXmwi3/video/index.m3u8" },
+                { label: "线路1／第07集", url: "https://v4.wsyzym3u8.com/202409/26/QNHDjemdtX15/video/index.m3u8" },
+                { label: "线路1／第08集", url: "https://v4.wsyzym3u8.com/202409/26/9bFtqX0wFr15/video/index.m3u8" },
+                { label: "线路1／第09集", url: "https://v9.wsyzym3u8.com/202409/26/C6TRWUDGmk18/video/index.m3u8" },
+                { label: "线路1／第10集", url: "https://v4.wsyzym3u8.com/202409/26/hYa28VCipZ15/video/index.m3u8" },
+                { label: "线路2／第01集", url: "https://cdn6.ryplay6.com/20240910/14326_6952c75c/index.m3u8" },
+                { label: "线路2／第02集", url: "https://cdn6.ryplay6.com/20240910/14328_332e4bfb/index.m3u8" },
+                { label: "线路2／第03集", url: "https://cdn6.ryplay6.com/20240910/14329_383fee9a/index.m3u8" },
+                { label: "线路2／第04集", url: "https://cdn6.ryplay6.com/20240910/14332_e2264bc2/index.m3u8" },
+                { label: "线路2／第05集", url: "https://cdn6.ryplay6.com/20240910/14330_b0f69c50/index.m3u8" },
+                { label: "线路2／第06集", url: "https://cdn6.ryplay6.com/20240910/14331_81d3f4c1/index.m3u8" },
+                { label: "线路2／第07集", url: "https://cdn6.ryplay6.com/20240910/14333_210f6dce/index.m3u8" },
+                { label: "线路2／第08集", url: "https://cdn6.ryplay6.com/20240910/14335_62b994ee/index.m3u8" },
+                { label: "线路2／第09集", url: "https://cdn6.ryplay6.com/20240910/14336_9d853cba/index.m3u8" },
+                { label: "线路2／第10集", url: "https://cdn6.ryplay6.com/20240910/14334_7faec42a/index.m3u8" },
+                { label: "线路3／第01集", url: "https://v6.qqqrst.com/yyv6/202409/26/cMbs6zu9eW12/video/index.m3u8" },
+                { label: "线路3／第02集", url: "https://v12.qqqrst.com/yyv12/202409/26/ymxWcm0QVS8/video/index.m3u8" },
+                { label: "线路3／第03集", url: "https://v12.qqqrst.com/yyv12/202409/26/Hf3QpvhV5C8/video/index.m3u8" },
+                { label: "线路3／第04集", url: "https://v9.qqqrst.com/yyv9/202409/26/aEqTxWtyxF18/video/index.m3u8" },
+                { label: "线路3／第05集", url: "https://v6.qqqrst.com/yyv6/202409/26/iUYNjSwXfg12/video/index.m3u8" },
+                { label: "线路3／第06集", url: "https://v11.qqqrst.com/yyv11/202409/26/3BSdKhXmwi3/video/index.m3u8" },
+                { label: "线路3／第07集", url: "https://v10.qqqrst.com/yyv10/202409/26/QNHDjemdtX15/video/index.m3u8" },
+                { label: "线路3／第08集", url: "https://v10.qqqrst.com/yyv10/202409/26/9bFtqX0wFr15/video/index.m3u8" },
+                { label: "线路3／第09集", url: "https://v9.qqqrst.com/yyv9/202409/26/C6TRWUDGmk18/video/index.m3u8" },
+                { label: "线路3／第10集", url: "https://v10.qqqrst.com/yyv10/202409/26/hYa28VCipZ15/video/index.m3u8" }
             ] }
         };
-        // 內建劇集做成兩個選單：選好線路＋集數，按「▶ 播放劇集」就播（m3u8 自己有 CORS，不用開任何東西）
-        // 內建劇集表可以放好幾部劇；以前這裡只會「return 第一部」，
-        // 所以後面用 2dz加劇集.py 插進來的劇永遠選不到 —— 改成全部算得出來。
+        // 内建剧集做成两个选单：选好线路＋集数，按「▶ 播放剧集」就播（m3u8 自己有 CORS，不用开任何东西）
+        // 内建剧集表可以放好几部剧；以前这里只会「return 第一部」，
+        // 所以后面用 2dz加剧集.py 插进来的剧永远选不到 —— 改成全部算得出来。
         function dzSeedShows() {
             var out = [], k;
             for (k in DZ_SEED) { var g = DZ_SEED[k]; if (g && g.list && g.list.length) out.push(g); }
-            // 常用劇集下拉按「劇名字數」由小到大排列（僅影響顯示順序，不改 vod_id/url 對應）
+            // 常用剧集下拉按「剧名字数」由小到大排列（仅影响显示顺序，不改 vod_id/url 对应）
             out.sort(function (a, b) {
                 var na = String(a.name || ''), nb = String(b.name || '');
                 var da = na.length, db = nb.length;
@@ -2754,7 +2755,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             return ss[0];
         }
         function dzSeedList() { return dzCurShow().list || []; }
-        // 換線路時集數跟著重排（每條線路的集數不一定一樣多）
+        // 换线路时集数跟著重排（每条线路的集数不一定一样多）
         function dzFillEps(lineName) {
             var es = document.getElementById('mpDzEp'); if (!es) return;
             var list = dzSeedList(), uniq = [], i;
@@ -2765,46 +2766,46 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 if (uniq.indexOf(ep) < 0) uniq.push(ep);
             }
             es.innerHTML = '';
-            // 佔位選項一定要給 value=''：沒給的話 value 會掉回文字（「線路」），變成「真的有一條線路叫線路」
-            var o0 = document.createElement('option'); o0.textContent = '集數'; o0.value = ''; es.appendChild(o0);
+            // 占位选项一定要给 value=''：没给的话 value 会掉回文字（「线路」），变成「真的有一条线路叫线路」
+            var o0 = document.createElement('option'); o0.textContent = '集数'; o0.value = ''; es.appendChild(o0);
             for (i = 0; i < uniq.length; i++) {
                 var o = document.createElement('option'); o.textContent = uniq[i]; o.value = uniq[i]; es.appendChild(o);
             }
-            // 預設幫選第一集（和上面選第一條線路同一個意思）。
-            // 以前只填不選 → 打開面板直接按「▶ 播放劇集」時集數還是空的，會卡在「先選好線路與集數」。
+            // 预设帮选第一集（和上面选第一条线路同一个意思）。
+            // 以前只填不选 → 打开面板直接按「▶ 播放剧集」时集数还是空的，会卡在「先选好线路与集数」。
             if (uniq.length) { es.selectedIndex = 1; }
         }
         function dzFillPickers() {
             var ls = document.getElementById('mpDzLine'); if (!ls) return;
             var ss = dzSeedShows(), i;
-            // 一部以上的劇才給「劇名」選單；只有一部就藏起來，畫面保持乾淨
+            // 一部以上的剧才给「剧名」选单；只有一部就藏起来，画面保持干净
             var sx = document.getElementById('mpDzShow');
             if (sx) {
                 if (ss.length > 1) {
                     var keep = String(sx.value || ''), mk = [];
                     sx.innerHTML = '';
-                    var h0 = document.createElement('option'); h0.textContent = '劇名'; h0.value = ''; sx.appendChild(h0);
+                    var h0 = document.createElement('option'); h0.textContent = '剧名'; h0.value = ''; sx.appendChild(h0);
                     for (i = 0; i < ss.length; i++) {
                         var om = document.createElement('option');
-                        om.textContent = String(ss[i].name || ('劇' + (i + 1))); om.value = String(ss[i].name || '');
+                        om.textContent = String(ss[i].name || ('剧' + (i + 1))); om.value = String(ss[i].name || '');
                         sx.appendChild(om); mk.push(om.value);
                     }
                     sx.hidden = false;
                     if (mk.indexOf(keep) >= 0) sx.value = keep; else sx.selectedIndex = 1;
                 } else {
                     sx.hidden = true; sx.innerHTML = '';
-                    var z = document.createElement('option'); z.textContent = '劇名'; z.value = ''; sx.appendChild(z);
+                    var z = document.createElement('option'); z.textContent = '剧名'; z.value = ''; sx.appendChild(z);
                 }
             }
             var list = dzSeedList(), seen = {};
             ls.innerHTML = '';
-            var o0 = document.createElement('option'); o0.textContent = '線路'; o0.value = ''; ls.appendChild(o0);
+            var o0 = document.createElement('option'); o0.textContent = '线路'; o0.value = ''; ls.appendChild(o0);
             for (i = 0; i < list.length; i++) {
                 var p = String((list[i] && list[i].label) || '').split('／');
-                var line = p.length > 1 ? p[0] : '線路1';
+                var line = p.length > 1 ? p[0] : '线路1';
                 if (!seen[line]) { seen[line] = 1; var o = document.createElement('option'); o.textContent = line; o.value = line; ls.appendChild(o); }
             }
-            // 預設幫選第一條線路，集數立刻照著排好，不用用戶先猜
+            // 预设帮选第一条线路，集数立刻照著排好，不用用户先猜
             var def = '';
             for (i = 1; i < ls.options.length; i++) { if (!def) { ls.selectedIndex = i; def = ls.options[i].value; } }
             dzFillEps(def);
@@ -2815,22 +2816,22 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var lv = ls.value, ev = es.value, list = dzSeedList(), hit = null, i;
             for (i = 0; i < list.length; i++) {
                 var p = String((list[i] && list[i].label) || '').split('／');
-                var line = p.length > 1 ? p[0] : '線路1';
+                var line = p.length > 1 ? p[0] : '线路1';
                 var ep = p.length > 1 ? p[1] : p[0];
                 if (line === lv && ep === ev) { hit = list[i]; break; }
             }
             if (!hit) {
-                medErr('這組「線路＋集數」配不到。預設是第 1 線路／第 1 集，'
-                    + '先在下面兩個選單各選一次（記得要真的選，別留在「線路」「集數」那兩個灰色字），再按「▶ 播放劇集」。');
+                medErr('这组「线路＋集数」配不到。预设是第 1 线路／第 1 集，'
+                    + '先在下面两个选单各选一次（记得要真的选，别留在「线路」「集数」那两个灰色字），再按「▶ 播放剧集」。');
                 return;
             }
             medErr(''); medStatus('播放：' + (lv || '') + ' ' + (ev || ''));
             loadMediaUrl(hit.url);
         }
 
-        // 只做一件事：把那個網址的網頁原始碼抓下來（或它跳轉到的播放頁），
-        // 用正則把裡面的 .m3u8 / .mp4 / .m4a 挖出來給你點。
-        // 不開 helper、不跑 yt-dlp、不動無頭瀏覽器 —— 那些都拿掉了，這裡只留最前面這一段。
+        // 只做一件事：把那个网址的网页原始码抓下来（或它跳转到的播放页），
+        // 用正则把里面的 .m3u8 / .mp4 / .m4a 挖出来给你点。
+        // 不开 helper、不跑 yt-dlp、不动无头浏览器 —— 那些都拿掉了，这里只留最前面这一段。
         function ytVideoId(u) {
             try {
                 var s = String(u || '');
@@ -2843,16 +2844,16 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 return id;
             } catch (e) { return ''; }
         }
-        // ---------------- YouTube：已拿掉（它一定是畫面，這版只育音訊） ----------------
-        // 認得出 YouTube 網址，但不再內嵌：直接引導用 網頁轉音頻.py 轉成音檔再載入。
+        // ---------------- YouTube：已拿掉（它一定是画面，这版只育音讯） ----------------
+        // 认得出 YouTube 网址，但不再内嵌：直接引导用 网页转音频.py 转成音档再载入。
         function ytUnsupported(url) {
-            medErr('這版不播 YouTube 內嵌（那是畫面，這裡只有音訊）。');
-            medStatus('YouTube 已停用：只有音訊模式。', 'bad');
-            showFix('🔗 你的網址：<span style="word-break:break-all">' + String(url || '').slice(0, 160) + '</span><br />'
-                + '① 跑 網頁轉音頻.py，把上面這支影片轉成 mp3／m4a，再用「📁 本機音檔」選進來。<br />'
-                + '② 或直接在「常用劇集」裡挑一部劇播（內建的，不必自己找連結）。');
+            medErr('这版不播 YouTube 内嵌（那是画面，这里只有音讯）。');
+            medStatus('YouTube 已停用：只有音讯模式。', 'bad');
+            showFix('🔗 你的网址：<span style="word-break:break-all">' + String(url || '').slice(0, 160) + '</span><br />'
+                + '① 跑 网页转音频.py，把上面这支影片转成 mp3／m4a，再用「📁 本机音档」选进来。<br />'
+                + '② 或直接在「常用剧集」里挑一部剧播（内建的，不必自己找连结）。');
         }
-        // 字幕 → 音頻：把播放器跳到該句
+        // 字幕 → 音频：把播放器跳到该句
         var lastPlayIdx = -1;
         window.seekToSubtitle = function (idx) {
             var sub = AppState.processedSubtitles[idx];
@@ -2865,11 +2866,11 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             try { v.currentTime = Math.max(0, st0 + MP.audioDelaySec); } catch (e) { }
             if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () { }); }
         };
-        // 音頻 → 字幕：播放時把當下行標亮
+        // 音频 → 字幕：播放时把当下行标亮
         function markPlaying(idx) {
             if (idx === lastPlayIdx) return;
             var mk = medEl();
-            // 播放器暫停又剛好落在句與句的中間縫隙：不要清掉亮框又不補上，否則整片字幕會熄掉
+            // 播放器暂停又刚好落在句与句的中间缝隙：不要清掉亮框又不补上，否则整片字幕会熄掉
             var keep = (idx < 0 && mk && mk.paused);
             if (!keep) {
                 var old = document.querySelectorAll('#subtitles .subtitle.is-playing');
@@ -2882,7 +2883,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             row.classList.add('is-playing');
             var follow = document.getElementById('mpFollow');
             if (!follow || follow.checked) {
-                // 只把字幕框（#subtitles）内部滚到該句，不動整頁——頭部、引導區、🎵 音鈕都留在原位
+                // 只把字幕框（#subtitles）内部滚到该句，不动整页——头部、引导区、🎵 音钮都留在原位
                 try {
                     var box = document.getElementById('subtitles');
                     if (box) {
@@ -2904,9 +2905,9 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (!v || !v.src) return;
             var t = v.currentTime;
             if (typeof t !== 'number' || isNaN(t)) return;
-                        // 音訊偏移：字幕查表時間 = 音訊位置 − N
-                        //   N > 0（字幕延後 N 秒亮，聲音比字幕慢）→ 查表往回退
-                        //   N < 0（字幕提前 |N| 秒亮，聲音比字幕快）→ 查表往前推
+                        // 音讯偏移：字幕查表时间 = 音讯位置 − N
+                        //   N > 0（字幕延后 N 秒亮，声音比字幕慢）→ 查表往回退
+                        //   N < 0（字幕提前 |N| 秒亮，声音比字幕快）→ 查表往前推
             mediaTickAt(t - MP.audioDelaySec);
         }
         function mediaTickAt(t) {
@@ -2922,24 +2923,24 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var v = medEl();
             if (v) {
                 v.addEventListener('timeupdate', mediaTick);
-                v.addEventListener('play', function () { medStatus('▶ 播放中…（句前的 ⏱ 可以對到任何一句）', ''); });
+                v.addEventListener('play', function () { medStatus('▶ 播放中…（句前的数字可以对到任何一句）', ''); });
                 function errLocked() {
                     var e = document.getElementById('mpErr');
                     return !!(e && e.textContent.trim());
                 }
                 v.addEventListener('pause', function () {
-                    // 出錯的訊息不要被「已暫停」洗掉，否則看不到為什麼播不了
+                    // 出错的讯息不要被「已暂停」洗掉，否则看不到为什么播不了
                     if (errLocked()) return;
-                    medStatus('⏸ 已暫停。按句前的 ⏱ 可以對著字幕反覆練。', '');
+                    medStatus('⏸ 已暂停。按句前的数字可以对著字幕反复练。', '');
                 });
                 v.addEventListener('waiting', function () {
                     if (errLocked()) return;
-                    if (v.readyState < 3) medStatus('⟳ 緩衝中…（卡一下是正常的，別急）', '');
+                    if (v.readyState < 3) medStatus('⟳ 缓冲中…（卡一下是正常的，别急）', '');
                 });
-                v.addEventListener('error', function () { if (errLocked()) return; medStatus('⚠ 這個檔案讀不到（可能是網頁不是媒體檔，或連結失效）。', 'bad'); });
+                v.addEventListener('error', function () { if (errLocked()) return; medStatus('⚠ 这个档案读不到（可能是网页不是媒体档，或连结失效）。', 'bad'); });
             }
-            // 播放器下方控制列：速度 / 音訊偏移（負=字幕提前、正=字幕延後）
-            // 頭部 🎵 音鈕的紅點還是要照著真實播放狀態跑（play / pause / ended）
+            // 播放器下方控制列：速度 / 音讯偏移（负=字幕提前、正=字幕延后）
+            // 头部 🎵 音钮的红点还是要照著真实播放状态跑（play / pause / ended）
             (function () {
                 var v4 = medEl(); if (!v4) return;
                 var dotUpd = function () { try { soundDotOn(); } catch (e) { } };
@@ -2956,7 +2957,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                     try { var p = vv.play(); if (p && p.catch) p.catch(function () { }); } catch (e) { }
                 });
             });
-            // 「🎵 音訊偏移」bar（滑桿）：向左＝字幕提前、向右＝字幕延後，範圍 ±1 秒 ～ ±1 分鐘
+            // 「🎵 音讯偏移」bar（滑杆）：向左＝字幕提前、向右＝字幕延后，范围 ±1 秒 ～ ±1 分钟
             var dsel = document.getElementById('mpDelaySel');
             var _mpDelayShown = null;
             function mpDelaySync(quiet) {
@@ -2966,17 +2967,17 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 if (dlab) {
                     var narrow = !!(window.matchMedia && window.matchMedia('(max-width: 430px)').matches);
                     dlab.textContent = narrow
-                        ? (v < 0 ? ('提前 ' + (-v) + 's') : (v > 0 ? ('延後 ' + v + 's') : '不偏移'))
-                        : (v < 0 ? '提前 ' + (-v) + ' 秒' : (v > 0 ? '延後 ' + v + ' 秒' : '不偏移'));
+                        ? (v < 0 ? ('提前 ' + (-v) + 's') : (v > 0 ? ('延后 ' + v + 's') : '不偏移'))
+                        : (v < 0 ? '提前 ' + (-v) + ' 秒' : (v > 0 ? '延后 ' + v + ' 秒' : '不偏移'));
                 }
                 if (quiet || _mpDelayShown === v) return;
                 _mpDelayShown = v;
                 try { localStorage.setItem('xiaoye_media_delay_v1', String(v)); } catch (e) { }
                 medStatus(v < 0
-                    ? ('✅ 字幕提前 ' + (-v) + ' 秒：字幕會早 ' + (-v) + ' 秒亮（聲音比字幕快就拖向左）。')
+                    ? ('✅ 字幕提前 ' + (-v) + ' 秒：字幕会早 ' + (-v) + ' 秒亮（声音比字幕快就拖向左）。')
                     : (v > 0
-                        ? ('✅ 字幕延後 ' + v + ' 秒：字幕會晚 ' + v + ' 秒亮（聲音比字幕慢就拖向右）。')
-                        : '✅ 不偏移（字幕直接用原時間碼）。'), '');
+                        ? ('✅ 字幕延后 ' + v + ' 秒：字幕会晚 ' + v + ' 秒亮（声音比字幕慢就拖向右）。')
+                        : '✅ 不偏移（字幕直接用原时间码）。'), '');
             }
             function mpDelaySet(v) { MP.audioDelaySec = Math.max(-60, Math.min(60, Math.round(v))); mpDelaySync(false); }
             if (dsel) dsel.addEventListener('input', function () { mpDelaySet(parseFloat(this.value) || 0); });
@@ -3067,7 +3068,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             });
             var pb = document.getElementById('mpPickBtn');
             if (pb) pb.addEventListener('click', function () { var f = document.getElementById('mpFile'); if (f) f.click(); });
-            // 上次記的音訊偏移沿用（−1 秒 ～ ±1 分鐘，負＝提前、正＝延後）
+            // 上次记的音讯偏移沿用（−1 秒 ～ ±1 分钟，负＝提前、正＝延后）
             try {
                 var dvs = localStorage.getItem('xiaoye_media_delay_v1');
                 if (dvs !== null && dvs !== '') {
