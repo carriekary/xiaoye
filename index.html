@@ -2869,7 +2869,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (!sub) return;
             var st0 = subSec(sub.startTime);
             if (st0 < 0) return;
-            markPlaying(idx);
+            markPlaying(idx, true);
             var v = medEl();
             // 还没在音讯面板点过播放（或没载入音讯）：按数字只高亮+滚动，绝不误触音讯播放。
             if (!v || !v.src || !MP.started) return;
@@ -2893,12 +2893,8 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         window.smoothScrollBox = function (box, top) {
             if (!box) return;
             top = Math.max(0, top);
-            var supportsSmooth = false;
-            try { supportsSmooth = ('scrollBehavior' in document.documentElement.style); } catch (e) { }
-            if (supportsSmooth) {
-                try { box.scrollTo({ top: top, behavior: 'smooth' }); return; } catch (e2) { }
-            }
-            // 不支持 scrollTo smooth 选项的移动端（旧 iOS Safari 等）：手动 rAF 平滑滚动，保证一定滚得到
+            // 全部浏览器/手机统一用手动 rAF 缓动滚动，不再依赖 scrollTo/scrollIntoView 的 smooth 选项
+            // （旧 iOS Safari 及部分移动端 WebKit 会静默忽略带 smooth 选项的调用，导致「点数字不滚」）
             var start = box.scrollTop, dist = top - start, dur = 340, t0 = null;
             if (Math.abs(dist) < 2) { box.scrollTop = top; return; }
             function step(ts) {
@@ -2911,7 +2907,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             requestAnimationFrame(step);
         };
 
-        function markPlaying(idx) {
+        function markPlaying(idx, forceScroll) {
             if (idx === lastPlayIdx) return;
             var mk = medEl();
             // 播放器暂停又刚好落在句与句的中间缝隙：不要清掉亮框又不补上，否则整片字幕会熄掉
@@ -2926,7 +2922,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (!row) return;
             row.classList.add('is-playing');
             var follow = document.getElementById('mpFollow');
-            if (!follow || follow.checked) {
+            if (forceScroll || !follow || follow.checked) {
                 // 只把字幕框（#subtitles）内部滚到该句，不动整页——头部、引导区、🎵 音钮都留在原位
                 try {
                     var box = document.getElementById('subtitles');
