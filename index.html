@@ -1755,6 +1755,11 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             // 中止所有还在进行中的渲染（注音生成、双档合并），确保移除后画面不残留旧字幕
             AppState.renderEpoch = (AppState.renderEpoch || 0) + 1;
 
+            // 移除了字幕档案：同步停止音讯（旧音讯已对不上当前字幕），且按数字不会再出声，要重新选/播才恢复
+            try { stopPlayback(); } catch (e) { }
+            MP.started = false; MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1;
+            try { soundDotOn(); } catch (e) { }
+
             if (!file1Data.subtitles.length && !file2Data.subtitles.length) {
                 document.getElementById('subtitles').innerHTML = '';
                 document.getElementById('subtitles').scrollTop = 0; _feedGuard = 0;
@@ -1785,6 +1790,8 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         function handleFileChoose(file, targetData, num) {
           if (!file) return clearFile(num);
           AppState.renderEpoch = (AppState.renderEpoch || 0) + 1;   // 换新档案时，旧的渲染流程一律作废
+          // 换了字幕档案：旧音讯肯定对不上新档案，先禁止按数字出声（只高亮＋滚动），要重新点播放才播
+          MP.started = false; MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1;
           document.getElementById('textFile' + num).textContent = file.name;
           document.getElementById('labelFile' + num).classList.add('has-file');
           document.getElementById('clearBtn' + num).style.display = 'block';
@@ -1822,7 +1829,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         
         // ==================== 渲染与无限滚动 ====================
         // ============ 音訊播放器：貼連結直接播 ＋ 與字幕對時 ============
-        var MP = { hls: null, mode: 'none', token: 0, audioDelaySec: 0, stopped: false }; // audioDelaySec：音讯偏移，负＝字幕提前、正＝字幕延后（±1s ～ ±1min）
+        var MP = { hls: null, mode: 'none', token: 0, audioDelaySec: 0, stopped: false, started: false, singleSentence: false, singleStopAt: 0, singleIdx: -1 }; // audioDelaySec：音讯偏移，负＝字幕提前、正＝字幕延后（±1s ～ ±1min）
         // 現在只育一颗「音訊」元素：mpAudio。<video> 已整顆拿掉，字幕聯動照舊走 currentTime。
         function medEl() { return document.getElementById('mpAudio'); }
         function medErr(msg) { var e = document.getElementById('mpErr'); if (e) e.textContent = msg || ''; }
@@ -2826,6 +2833,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 return;
             }
             medErr(''); medStatus('播放：' + (lv || '') + ' ' + (ev || ''));
+            MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1;
             loadMediaUrl(hit.url);
         }
 
@@ -2862,9 +2870,23 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (st0 < 0) return;
             markPlaying(idx);
             var v = medEl();
-            if (!v) return;
-            try { v.currentTime = Math.max(0, st0 + MP.audioDelaySec); } catch (e) { }
-            if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () { }); }
+            // 还没在音讯面板点过播放（或没载入音讯）：按数字只高亮+滚动，绝不误触音讯播放。
+            if (!v || !v.src || !MP.started) return;
+            // 同一句按了第二次 → 取消单句停止，改为一路往下播（不卡在句尾）
+            if (MP.singleIdx === idx) {
+                MP.singleSentence = false; MP.singleStopAt = 0;
+                try { if (v.paused) { var _pp2 = v.play(); if (_pp2 && _pp2.catch) _pp2.catch(function () { }); } } catch (e) { }
+                return;
+            }
+            // 第一次按这句：只读这一句，跳到句首，播到句尾自动停（不往下播）
+            var endT = subSec(sub.endTime);
+            MP.singleStopAt = (endT > st0) ? (endT + MP.audioDelaySec) : (v.duration || (st0 + 8));
+            MP.singleSentence = true;
+            MP.singleIdx = idx;
+            try {
+                v.currentTime = Math.max(0, st0 + MP.audioDelaySec);
+                var _pp = v.play(); if (_pp && _pp.catch) _pp.catch(function () { });
+            } catch (e) { }
         };
         // 音频 → 字幕：播放时把当下行标亮
         function markPlaying(idx) {
@@ -2903,6 +2925,12 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 mediaTickAt(MP.ytTime - MP.audioDelaySec); return;
             }
             if (!v || !v.src) return;
+            // 单句播放：到句尾自动停，不往下播
+            if (MP.singleSentence && !v.paused && v.currentTime >= MP.singleStopAt - 0.05) {
+                try { v.pause(); } catch (e) { }
+                MP.singleSentence = false; MP.singleStopAt = 0;
+                return;
+            }
             var t = v.currentTime;
             if (typeof t !== 'number' || isNaN(t)) return;
                         // 音讯偏移：字幕查表时间 = 音讯位置 − N
@@ -2923,7 +2951,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var v = medEl();
             if (v) {
                 v.addEventListener('timeupdate', mediaTick);
-                v.addEventListener('play', function () { medStatus('▶ 播放中…（句前的数字可以对到任何一句）', ''); });
+                v.addEventListener('play', function () { MP.started = true; medStatus('▶ 播放中…（句前的数字可以对到任何一句）', ''); });
                 function errLocked() {
                     var e = document.getElementById('mpErr');
                     return !!(e && e.textContent.trim());
@@ -2951,6 +2979,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var rateBtns = document.querySelectorAll('.mp-ctl button[data-playrate]');
             Array.prototype.forEach.call(rateBtns, function (b) {
                 b.addEventListener('click', function () {
+                    MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1;
                     var vv = medEl(); if (!vv) return;
                     vv.playbackRate = parseFloat(b.getAttribute('data-playrate'));
                     Array.prototype.forEach.call(rateBtns, function (o) { o.classList.toggle('on', o === b); });
