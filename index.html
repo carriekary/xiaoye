@@ -2890,6 +2890,27 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             } catch (e) { }
         };
         // 音频 → 字幕：播放时把当下行标亮
+        window.smoothScrollBox = function (box, top) {
+            if (!box) return;
+            top = Math.max(0, top);
+            var supportsSmooth = false;
+            try { supportsSmooth = ('scrollBehavior' in document.documentElement.style); } catch (e) { }
+            if (supportsSmooth) {
+                try { box.scrollTo({ top: top, behavior: 'smooth' }); return; } catch (e2) { }
+            }
+            // 不支持 scrollTo smooth 选项的移动端（旧 iOS Safari 等）：手动 rAF 平滑滚动，保证一定滚得到
+            var start = box.scrollTop, dist = top - start, dur = 340, t0 = null;
+            if (Math.abs(dist) < 2) { box.scrollTop = top; return; }
+            function step(ts) {
+                if (t0 === null) t0 = ts;
+                var p = Math.min(1, (ts - t0) / dur);
+                var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+                box.scrollTop = start + dist * e;
+                if (p < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        };
+
         function markPlaying(idx) {
             if (idx === lastPlayIdx) return;
             var mk = medEl();
@@ -2913,8 +2934,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                         var rt = row.getBoundingClientRect(), bt = box.getBoundingClientRect();
                         var delta = (rt.top - bt.top) - (box.clientHeight - rt.height) / 2;
                         var top = box.scrollTop + delta;
-                        if (typeof box.scrollTo === 'function') box.scrollTo({ top: top, behavior: 'smooth' });
-                        else box.scrollTop = top;
+                        window.smoothScrollBox(box, top);
                     }
                 } catch (e) { }
             }
@@ -3185,7 +3205,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             
             document.body.classList.toggle('single-language', !AppState.bilingualEnabled);
             if (query !== undefined) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo(0, 0);
             }
         }
 
@@ -4213,7 +4233,15 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             if (idx >= 0) {
               close();
               var row = subtitlesContainer.querySelector('.row[data-index="' + idx + '"]');
-              if (row) { row.scrollIntoView({ behavior: 'smooth', block: 'center' }); row.classList.add('note-open'); }
+              if (row) {
+                var _sb = document.getElementById('subtitles');
+                if (_sb) {
+                  var _rt = row.getBoundingClientRect(), _bt = _sb.getBoundingClientRect();
+                  var _delta = (_rt.top - _bt.top) - (_sb.clientHeight - _rt.height) / 2;
+                  window.smoothScrollBox(_sb, _sb.scrollTop + _delta);
+                } else { try { row.scrollIntoView(); } catch (e3) { } }
+                row.classList.add('note-open');
+              }
             } else {
               alert('当前字幕文件不是这条笔记的来源，无法跳转。');
             }
