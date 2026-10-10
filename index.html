@@ -2873,16 +2873,16 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var v = medEl();
             // 还没在音讯面板点过播放（或没载入音讯）：按数字只高亮+滚动，绝不误触音讯播放。
             if (!v || !v.src || !MP.started) return;
-            // 同一句按了第二次 → 取消单句停止，改为一路往下播（不卡在句尾）
-            if (MP.singleIdx === idx) {
-                MP.singleSentence = false; MP.singleStopAt = 0;
-                try { if (v.paused) { var _pp2 = v.play(); if (_pp2 && _pp2.catch) _pp2.catch(function () { }); } } catch (e) { }
-                return;
+            // 同一句（或第一次点）→ 只读这一句，跳到句首，播到句尾自动停
+            // 点了别的句（例如下一句）→ 取消单句停止，一路往下播（不卡在句尾）
+            if (MP.singleIdx === -1 || MP.singleIdx === idx) {
+                MP.singleSentence = true;
+            } else {
+                MP.singleSentence = false;
             }
-            // 第一次按这句：只读这一句，跳到句首，播到句尾自动停（不往下播）
-            var endT = subSec(sub.endTime);
-            MP.singleStopAt = (endT > st0) ? (endT + MP.audioDelaySec) : (v.duration || (st0 + 8));
-            MP.singleSentence = true;
+            MP.singleStopAt = MP.singleSentence
+                ? ((subSec(sub.endTime) > st0) ? (subSec(sub.endTime) + MP.audioDelaySec) : (v.duration || (st0 + 8)))
+                : 0;
             MP.singleIdx = idx;
             try {
                 v.currentTime = Math.max(0, st0 + MP.audioDelaySec);
