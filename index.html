@@ -1757,7 +1757,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
 
             // 移除了字幕档案：同步停止音讯（旧音讯已对不上当前字幕），且按数字不会再出声，要重新选/播才恢复
             try { stopPlayback(); } catch (e) { }
-            MP.started = false; MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1;
+            MP.started = false; MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1; MP.audioDelaySec = 0; try { mpDelaySync(true); } catch (e) {};
             try { soundDotOn(); } catch (e) { }
 
             if (!file1Data.subtitles.length && !file2Data.subtitles.length) {
@@ -1791,7 +1791,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
           if (!file) return clearFile(num);
           AppState.renderEpoch = (AppState.renderEpoch || 0) + 1;   // 换新档案时，旧的渲染流程一律作废
           // 换了字幕档案：旧音讯肯定对不上新档案，先禁止按数字出声（只高亮＋滚动），要重新点播放才播
-          MP.started = false; MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1;
+          MP.started = false; MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1; MP.audioDelaySec = 0; try { mpDelaySync(true); } catch (e) {};
           document.getElementById('textFile' + num).textContent = file.name;
           document.getElementById('labelFile' + num).classList.add('has-file');
           document.getElementById('clearBtn' + num).style.display = 'block';
@@ -2030,6 +2030,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         function loadMediaUrl(url, opt) {
             opt = opt || {};
             MP.token++;
+            MP.audioDelaySec = 0; try { mpDelaySync(true); } catch (e) {};   // 新音频：音讯偏移归零，避免影响新内容
             medErr(''); showFix(''); medStatus('');
             MP.proxyTried = false; MP.pageUrl = opt.pageUrl || '';
             if (!url) { medErr('没给音讯。'); return; }
@@ -2947,6 +2948,26 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             }
             markPlaying(found);
         }
+        var _mpDelayShown = null;
+        function mpDelaySync(quiet) {
+            var v = MP.audioDelaySec;
+            var dsel2 = document.getElementById('mpDelaySel');
+            if (dsel2) { dsel2.value = String(v); dsel2.style.setProperty('--mpv', (Math.abs(v) / 60 * 50) + '%'); }
+            var dlab = document.getElementById('mpDelayVal');
+            if (dlab) {
+                var narrow = !!(window.matchMedia && window.matchMedia('(max-width: 430px)').matches);
+                dlab.textContent = narrow
+                    ? (v < 0 ? ('提前 ' + (-v) + 's') : (v > 0 ? ('延后 ' + v + 's') : '不偏移'))
+                    : (v < 0 ? '提前 ' + (-v) + ' 秒' : (v > 0 ? '延后 ' + v + ' 秒' : '不偏移'));
+            }
+            if (quiet || _mpDelayShown === v) return;
+            _mpDelayShown = v;
+            try { localStorage.setItem('xiaoye_media_delay_v1', String(v)); } catch (e) { }
+            medStatus(v < 0
+                ? ('✅ 字幕提前 ' + (-v) + ' 秒：字幕会早 ' + (-v) + ' 秒亮（声音比字幕快就拖向左）。')
+                : (v > 0 ? ('✅ 字幕延后 ' + v + ' 秒：字幕会晚 ' + v + ' 秒亮（声音比字幕慢就拖向右）。') : '✅ 不偏移（字幕直接用原时间码）。'), '');
+        }
+
         (function initMediaUI() {
             var v = medEl();
             if (v) {
@@ -2988,26 +3009,6 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             });
             // 「🎵 音讯偏移」bar（滑杆）：向左＝字幕提前、向右＝字幕延后，范围 ±1 秒 ～ ±1 分钟
             var dsel = document.getElementById('mpDelaySel');
-            var _mpDelayShown = null;
-            function mpDelaySync(quiet) {
-                var v = MP.audioDelaySec;
-                if (dsel) { dsel.value = String(v); dsel.style.setProperty('--mpv', (Math.abs(v) / 60 * 50) + '%'); }
-                var dlab = document.getElementById('mpDelayVal');
-                if (dlab) {
-                    var narrow = !!(window.matchMedia && window.matchMedia('(max-width: 430px)').matches);
-                    dlab.textContent = narrow
-                        ? (v < 0 ? ('提前 ' + (-v) + 's') : (v > 0 ? ('延后 ' + v + 's') : '不偏移'))
-                        : (v < 0 ? '提前 ' + (-v) + ' 秒' : (v > 0 ? '延后 ' + v + ' 秒' : '不偏移'));
-                }
-                if (quiet || _mpDelayShown === v) return;
-                _mpDelayShown = v;
-                try { localStorage.setItem('xiaoye_media_delay_v1', String(v)); } catch (e) { }
-                medStatus(v < 0
-                    ? ('✅ 字幕提前 ' + (-v) + ' 秒：字幕会早 ' + (-v) + ' 秒亮（声音比字幕快就拖向左）。')
-                    : (v > 0
-                        ? ('✅ 字幕延后 ' + v + ' 秒：字幕会晚 ' + v + ' 秒亮（声音比字幕慢就拖向右）。')
-                        : '✅ 不偏移（字幕直接用原时间码）。'), '');
-            }
             function mpDelaySet(v) { MP.audioDelaySec = Math.max(-60, Math.min(60, Math.round(v))); mpDelaySync(false); }
             if (dsel) dsel.addEventListener('input', function () { mpDelaySet(parseFloat(this.value) || 0); });
             var dnA = document.getElementById('mpDelayNudgeA');
