@@ -737,6 +737,15 @@
         }
         .vocab-item .vocab-sentence { font-family: var(--vb-font); font-size: calc(18px * var(--vb-scale)); color: #232c38; line-height: 1.6; margin-bottom: 5px; word-break: break-word; }
         .vocab-item .vocab-zh { font-family: var(--vb-font-zh); font-size: calc(16px * var(--vb-scale)); line-height: 1.55; color: #5a544b; margin-bottom: 5px; word-break: break-word; }
+        @media (max-width: 640px) {
+          .vocab-item { flex-direction: column; gap: 10px; padding: 13px 14px; }
+          .vocab-left { flex-basis: auto; flex: 0 0 auto; }
+          .vocab-item .vocab-word { font-size: calc(15px * var(--vb-scale)); }
+          .vocab-item .vocab-gloss { font-size: calc(14px * var(--vb-scale)); }
+          .vocab-item .vocab-sentence { font-size: calc(15px * var(--vb-scale)); }
+          .vocab-item .vocab-zh { font-size: calc(13px * var(--vb-scale)); }
+          .vocab-item .vocab-meta { font-size: 12.5px; }
+        }
         .vocab-item .vocab-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13.5px; color: #7a7266; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
         .vocab-item .vocab-file { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .vocab-cat { border: 1px solid #e3d8c2; background: #fff; color: #7c6f56; border-radius: 6px; padding: 3px 6px; font-size: 12px; cursor: pointer; margin-right: 4px; }
