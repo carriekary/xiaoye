@@ -738,7 +738,7 @@
         .vocab-item .vocab-sentence { font-family: var(--vb-font); font-size: calc(18px * var(--vb-scale)); color: #232c38; line-height: 1.6; margin-bottom: 5px; word-break: break-word; }
         .vocab-item .vocab-zh { font-family: var(--vb-font-zh); font-size: calc(16px * var(--vb-scale)); line-height: 1.55; color: #5a544b; margin-bottom: 5px; word-break: break-word; }
         @media (max-width: 640px) {
-          .vocab-item { flex-direction: column; gap: 10px; padding: 13px 14px; }
+          .vocab-item { flex-direction: column; gap: 10px; padding: 13px 14px; align-items: stretch; }
           .vocab-left { flex-basis: auto; flex: 0 0 auto; }
           .vocab-item .vocab-word { font-size: calc(15px * var(--vb-scale)); }
           .vocab-item .vocab-gloss { font-size: calc(14px * var(--vb-scale)); }
@@ -747,12 +747,15 @@
           .vocab-item .vocab-meta { font-size: 12.5px; }
         }
         .vocab-item .vocab-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13.5px; color: #7a7266; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
+        .vocab-item .vocab-meta > span:last-child { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; max-width: 100%; }
+        .vocab-cat { max-width: 100%; min-width: 0; flex: 1 1 auto; }
         .vocab-item .vocab-file { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .vocab-cat { border: 1px solid #e3d8c2; background: #fff; color: #7c6f56; border-radius: 6px; padding: 3px 6px; font-size: 12px; cursor: pointer; margin-right: 4px; }
         .vocab-del { border: none; background: #f3ede1; color: #a8866f; border-radius: 6px; padding: 3px 9px; cursor: pointer; font-size: 12px; }
         .vocab-del:hover { background: #f0d9d0; color: #b02430; }
         /* 記憶曲線（間隔重複）四舍五入的進度條 */
-        .vocab-srs { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #7a7266; }
+        .vocab-srs { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #7a7266; flex-wrap: wrap; }
+        .vocab-srs-due { min-width: 0; flex: 1 1 120px; }
         .vocab-dots { display: inline-flex; gap: 4px; }
         .vocab-dot { width: 8px; height: 8px; border-radius: 50%; background: #e6dcc8; display: inline-block; }
         .vocab-dot.on { background: var(--vermillion); }
@@ -2756,6 +2759,46 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 { label: "线路3／第08集", url: "https://v10.qqqrst.com/yyv10/202409/26/9bFtqX0wFr15/video/index.m3u8" },
                 { label: "线路3／第09集", url: "https://v9.qqqrst.com/yyv9/202409/26/C6TRWUDGmk18/video/index.m3u8" },
                 { label: "线路3／第10集", url: "https://v10.qqqrst.com/yyv10/202409/26/hYa28VCipZ15/video/index.m3u8" }
+            ] },
+
+            "114643": { name: "机动搜查队404", list: [
+                { label: "线路1／第01集", url: "https://cdn8.ryplay8.com/20240918/2585_a144b2bd/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn8.ryplay8.com/20240918/2586_56b6bffb/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn8.ryplay8.com/20240918/2590_6aa7e581/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn8.ryplay8.com/20240918/2595_30530e12/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn8.ryplay8.com/20240918/2600_a04ca6fc/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn8.ryplay8.com/20240918/2601_41af2460/index.m3u8" },
+                { label: "线路1／第07集", url: "https://cdn8.ryplay8.com/20240918/2604_a09cab72/index.m3u8" },
+                { label: "线路1／第08集", url: "https://cdn8.ryplay8.com/20240918/2610_9b90313a/index.m3u8" },
+                { label: "线路1／第09集", url: "https://cdn8.ryplay8.com/20240918/2618_c5ca8a14/index.m3u8" },
+                { label: "线路1／第10集", url: "https://cdn8.ryplay8.com/20240918/2625_a130e43f/index.m3u8" },
+                { label: "线路1／第11集", url: "https://cdn8.ryplay8.com/20240918/2631_67751665/index.m3u8" }
+            ] },
+
+            "112357": { name: "短剧开始啦", list: [
+                { label: "线路1／第01集", url: "https://cdn8.ryplay8.com/20240925/7168_4fd7ea3e/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn8.ryplay8.com/20240925/7173_7d94450b/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn8.ryplay8.com/20240925/7181_363754a3/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn8.ryplay8.com/20240925/7185_02099d7c/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn8.ryplay8.com/20240925/7198_20665e2d/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn8.ryplay8.com/20240925/7204_8201a52a/index.m3u8" },
+                { label: "线路1／第07集", url: "https://cdn8.ryplay8.com/20240925/7209_967f8ac8/index.m3u8" },
+                { label: "线路1／第08集", url: "https://cdn8.ryplay8.com/20240925/7220_c731408f/index.m3u8" },
+                { label: "线路1／第09集", url: "https://cdn8.ryplay8.com/20240925/7227_db067c1f/index.m3u8" },
+                { label: "线路1／第10集", url: "https://cdn8.ryplay8.com/20240925/7238_e7871238/index.m3u8" }
+            ] },
+
+            "121260": { name: "这个不可以报销！", list: [
+                { label: "线路1／第01集", url: "https://cdn6.ryplay6.com/20240910/13521_63eeec96/index.m3u8" },
+                { label: "线路1／第02集", url: "https://cdn6.ryplay6.com/20240910/13522_a742fd0c/index.m3u8" },
+                { label: "线路1／第03集", url: "https://cdn6.ryplay6.com/20240910/13528_848dcbb7/index.m3u8" },
+                { label: "线路1／第04集", url: "https://cdn6.ryplay6.com/20240910/13536_62ee113b/index.m3u8" },
+                { label: "线路1／第05集", url: "https://cdn6.ryplay6.com/20240910/13544_ce1d9456/index.m3u8" },
+                { label: "线路1／第06集", url: "https://cdn6.ryplay6.com/20240910/13552_a8439554/index.m3u8" },
+                { label: "线路1／第07集", url: "https://cdn6.ryplay6.com/20240910/13553_20852696/index.m3u8" },
+                { label: "线路1／第08集", url: "https://cdn6.ryplay6.com/20240910/13559_153f0441/index.m3u8" },
+                { label: "线路1／第09集", url: "https://cdn6.ryplay6.com/20240910/13566_67a24bda/index.m3u8" },
+                { label: "线路1／第10集", url: "https://cdn6.ryplay6.com/20240910/13567_b3019d39/index.m3u8" }
             ] }
         };
         // 内建剧集做成两个选单：选好线路＋集数，按「▶ 播放剧集」就播（m3u8 自己有 CORS，不用开任何东西）
