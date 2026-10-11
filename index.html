@@ -258,7 +258,7 @@
         
         @media (max-width: 600px) {
           :root { --header-height: 188px; }
-          #subtitles { max-height: calc(100vh - 220px); }
+          #subtitles { max-height: none; overflow-y: visible; scrollbar-gutter: auto; }
           .file-search-container { flex-direction: row; gap: 6px; }
           .file-buttons-wrapper { width: 100%; flex: none; gap: 6px; flex-wrap: wrap; }
           .file-item { width: auto; flex: 0 0 calc((100% - 12px) * 0.4); min-width: 0; justify-content: space-between; }
@@ -2989,10 +2989,17 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 try {
                     var box = document.getElementById('subtitles');
                     if (box) {
-                        var rt = row.getBoundingClientRect(), bt = box.getBoundingClientRect();
-                        var delta = (rt.top - bt.top) - (box.clientHeight - rt.height) / 2;
-                        var top = box.scrollTop + delta;
-                        window.smoothScrollBox(box, top);
+                        if (getComputedStyle(box).overflowY !== 'visible' && box.scrollHeight > box.clientHeight + 4) {
+                            // 桌面：字幕框本身可滚，框內滚到該句（头部/控制列留在原位）
+                            var rt = row.getBoundingClientRect(), bt = box.getBoundingClientRect();
+                            var delta = (rt.top - bt.top) - (box.clientHeight - rt.height) / 2;
+                            window.smoothScrollBox(box, box.scrollTop + delta);
+                        } else {
+                            // 小屏：字幕框不滚（整頁滾），改滾視窗把該句置中
+                            var r2 = row.getBoundingClientRect();
+                            var target = window.scrollY + r2.top - (window.innerHeight - r2.height) / 2;
+                            window.smoothScrollBox(document.scrollingElement || document.documentElement, Math.max(0, target));
+                        }
                     }
                 } catch (e) { }
             }
@@ -3351,6 +3358,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         function feedSubtitlesIfNearBottom() {
             var _box = document.getElementById('subtitles');
             if (!_box || _feedGuard > 40) return;
+            if (_box.scrollHeight <= _box.clientHeight + 4) return; // 小屏字幕框不滚，改由整頁滾動 + IntersectionObserver 懶加載
             if (_box.scrollTop + _box.clientHeight >= _box.scrollHeight - 500) {
                 _feedGuard++;
                 renderNextBatch();
