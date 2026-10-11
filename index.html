@@ -37,23 +37,34 @@
           z-index: 999; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
         }
         
-        .header-left { display: flex; flex-direction: row; align-items: center; gap: 12px; }
+        /* 头部底边：音讯进度条（有音讯才出现，点／拖可跳转，不必开面板） */
+        .mp-header-progress {
+          position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+          background: rgba(176, 36, 48, 0.20); cursor: pointer; z-index: 6;
+          touch-action: none; transition: height 0.12s ease;
+        }
+        .mp-header-progress::before { content: ""; position: absolute; left: 0; right: 0; top: -7px; bottom: -7px; }
+        .mp-header-progress-fill { height: 100%; width: 0%; background: var(--vermillion, #b02430); pointer-events: none; }
+        .mp-header-progress:focus-visible { outline: 2px solid #b02430; outline-offset: -2px; }
+        @media (hover: hover) { .mp-header-progress:hover { height: 6px; } }
+        .mp-header-progress:active { height: 7px; }
+                .header-left { display: flex; flex-direction: row; align-items: center; gap: 12px; }
         .header-left h1 { margin: 0; font-size: 24px; }
         .header-left p { margin: 0; font-size: 12px; opacity: 0.9; }
         
         .file-search-container { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .file-buttons-wrapper { display: flex; gap: 12px; }
-        .file-item { display: flex; align-items: center; gap: 6px; }
+        .file-buttons-wrapper { display: flex; gap: 12px; width: 500px; flex: none; }
+        .file-item { display: flex; align-items: stretch; gap: 6px; flex: 0 0 calc((100% - 24px) * 0.4); min-width: 0; }
 
         .custom-file-upload {
           display: flex; align-items: center; gap: 6px; padding: 6px 14px;
           background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: 20px; cursor: pointer; font-size: 13px; color: #fff;
-          transition: all 0.2s ease; max-width: 160px; user-select: none;
+          transition: all 0.2s ease; max-width: none; flex: 1; min-width: 0; overflow: hidden; user-select: none;
         }
         .custom-file-upload:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-1px); }
         .custom-file-upload input[type="file"] { display: none; }
-        .file-name-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .file-name-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1 1 0; }
         .file-icon { font-size: 14px; }
         .custom-file-upload.has-file { background: rgba(46, 204, 113, 0.2); border-color: #2ecc71; color: #e8f8f5; }
 
@@ -231,7 +242,7 @@
           .header-left h1 { font-size: 18px; line-height: 1.2; }
           .header-left p { font-size: 11px; line-height: 1.3; }
           .file-search-container { width: 100%; justify-content: flex-start; gap: 6px; }
-          .custom-file-upload { padding: 4px 10px; max-width: 130px; font-size: 12px; }
+          .custom-file-upload { padding: 4px 10px; max-width: none; flex: 1; font-size: 11px; }
           .search-box { flex: 1; min-width: 120px; width: auto; font-size: 12px; }
           .bilingual-btn, .toggle-notes-btn { font-size: 11px; padding: 6px 10px; }
           main { padding-top: calc(var(--header-height) + 16px); padding-bottom: 180px; }
@@ -246,17 +257,18 @@
         }
         
         @media (max-width: 600px) {
-          :root { --header-height: 174px; }
+          :root { --header-height: 188px; }
           #subtitles { max-height: calc(100vh - 220px); }
           .file-search-container { flex-direction: row; gap: 6px; }
-          .file-buttons-wrapper { width: 100%; flex: none; gap: 6px; }
-          .file-item { width: calc(50% - 3px); justify-content: space-between; }
-          .custom-file-upload { flex: 1; max-width: none; justify-content: center; padding: 6px; }
-          .file-name-text { font-size: 11px; max-width: 70px; }
+          .file-buttons-wrapper { width: 100%; flex: none; gap: 6px; flex-wrap: wrap; }
+          .file-item { width: auto; flex: 0 0 calc((100% - 12px) * 0.4); min-width: 0; justify-content: space-between; }
+          .custom-file-upload { flex: 1; max-width: none; min-width: 0; justify-content: center; padding: 6px; }
+          .file-name-text { font-size: 11px; max-width: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
           .clear-btn { font-size: 18px; }
           .action-group { width: 100%; display: flex; gap: 5px; }
           .search-box { width: 100%; flex: 1; min-width: 0; }
           .action-group .bilingual-btn, .action-group .toggle-notes-btn { flex: none; width: 100%; min-width: 0; padding: 7px 2px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .file-buttons-wrapper > #mediaLinkBtn { flex: 0 0 calc((100% - 12px) * 0.2); min-width: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 11px; padding: 6px 4px; }
           main { padding-top: calc(var(--header-height) + 12px); }
         }
         @media (max-width: 430px) {
@@ -666,7 +678,7 @@
         .media-panel.closed .media-card { display: none; }
         .media-card { position: relative; width: min(580px, 92vw); max-height: 88vh; overflow-y: auto; background: #fffdf8; border: 2px solid #e2cfa8; border-radius: 14px; padding: 18px 20px; box-shadow: 0 18px 50px rgba(0,0,0,.28); }
         /* 头部 🎵 音钮：声音还在播（播放器收起／面具关掉时）就亮红点，点它叫回音讯面板 */
-        #mediaLinkBtn { position: relative; }
+        #mediaLinkBtn { position: relative; flex: 0 0 calc((100% - 24px) * 0.2); min-width: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 6px 14px; }
         #mediaLinkBtn.media-sound-on { border-color: var(--vermillion) !important; color: var(--vermillion); }
         #mediaLinkBtn.media-sound-on::after { content: ""; position: absolute; top: 5px; right: 5px; width: 8px; height: 8px; border-radius: 50%; background: #c0392b; animation: mpDotPulse 1.6s ease-out infinite; }
         @keyframes mpDotPulse { 0% { box-shadow: 0 0 0 0 rgba(192,57,43,.55); } 70% { box-shadow: 0 0 0 7px rgba(192,57,43,0); } 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0); } }
@@ -876,6 +888,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                   </label>
                   <span class="clear-btn" id="clearBtn2" title="移除档案2" data-page-node-id="OWfWYshhUY6hWntbHoHqpv">×</span>
               </div>
+              <button id="mediaLinkBtn" class="bilingual-btn" title="贴上音讯连结，对著字幕播放">🎵 音讯</button>
             </div>
 
             <div class="offset-control" id="offsetControl" title="日文檔與中文檔時間碼有整體偏差時，拖動此滑桿把中文整體前／後移 N 秒來對齊">
@@ -892,9 +905,11 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 <button id="toggleNotesBtn" class="toggle-notes-btn" data-page-node-id="Bue79v2SKhcXGCvm4BKH71">隐藏笔记</button>
                 <button id="bilingualBtn" class="bilingual-btn" data-page-node-id="4Bknm7rNDPRogzOnMVlPHh">单语显示</button>
                 <button id="furiganaBtn" class="bilingual-btn" data-page-node-id="QvV7DzEHEYuQQhDCGlwGxO">隐藏注音</button>
-                <button id="mediaLinkBtn" class="bilingual-btn" title="贴上音讯连结，对著字幕播放">🎵 音讯</button>
                 </div>
             </div>
+        </div>
+        <div id="mpHeaderProgress" class="mp-header-progress" role="slider" aria-label="音讯进度（点一下或拖动可跳到该处，并弹到对应台词）" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0" style="display:none">
+            <div id="mpHeaderFill" class="mp-header-progress-fill"></div>
         </div>
     </header>
 
@@ -925,10 +940,6 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         <div class="settings-row">
           <span class="settings-label">阅读模式</span>
           <label class="settings-switch"><input type="checkbox" id="swReading"><span class="settings-slider"></span></label>
-        </div>
-        <div class="settings-row">
-          <span class="settings-label">🎵 音讯面板</span>
-          <button id="settingsAudioBtn" class="settings-open-btn" type="button">开启</button>
         </div>
       </div>
     </aside>
@@ -1123,7 +1134,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         <button type="button" data-playrate="1.5">1.5×</button>
         <button type="button" data-playrate="2">2×</button>
         </div>
-        <div class="mp-delay" id="mpDelayBox" title="音讯与字幕对齐用：向左拉＝字幕提前（声音比字幕快，字幕会早 N 秒亮）；向右拉＝字幕延后（声音比字幕慢，字幕会晚 N 秒亮）。可拖曳、按方向键，或用右边◀▶每次 1 秒微调，范围 ±1 秒 ～ ±1 分钟。"><span class="mp-delay-cap">🎵 音讯偏移</span><input type="range" class="mp-delay-range" id="mpDelaySel" min="-60" max="60" step="1" value="0" aria-label="音讯偏移（秒）：向左字幕提前，向右字幕延后" /><span class="mp-delay-val" id="mpDelayVal">不偏移</span><button type="button" class="mp-delay-nudge" id="mpDelayNudgeA" title="字幕提前 1 秒">◀</button><button type="button" class="mp-delay-nudge" id="mpDelayNudgeB" title="字幕延后 1 秒">▶</button><button type="button" class="mp-delay-reset" id="mpDelayReset" title="归零（不偏移）">↺</button></div>
+        <div class="mp-delay" id="mpDelayBox" title="音讯与字幕对齐用：向左拉＝字幕延后（声音比字幕慢，字幕会晚 N 秒亮）；向右拉＝字幕提前（声音比字幕快，字幕会早 N 秒亮）。可拖曳、按方向键，或用右边◀▶每次 1 秒微调，范围 ±1 秒 ～ ±1 分钟。"><span class="mp-delay-cap">🎵 音讯偏移</span><input type="range" class="mp-delay-range" id="mpDelaySel" min="-60" max="60" step="1" value="0" aria-label="音讯偏移（秒）：向左字幕延后，向右字幕提前" /><span class="mp-delay-val" id="mpDelayVal">不偏移</span><button type="button" class="mp-delay-nudge" id="mpDelayNudgeA" title="字幕延后 1 秒">◀</button><button type="button" class="mp-delay-nudge" id="mpDelayNudgeB" title="字幕提前 1 秒">▶</button><button type="button" class="mp-delay-reset" id="mpDelayReset" title="归零（不偏移）">↺</button></div>
         </div>
         <div class="mp-status" id="mpStatus"></div>
         </div>
@@ -1913,7 +1924,6 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var v = medEl(), on = false;
             try { on = !!(v && v.currentSrc || (v && v.src)) && !v.paused && !v.ended; } catch (e) { on = false; }
             b.classList.toggle('media-sound-on', on);
-            var gear = document.getElementById('settingsBtn'); if (gear) gear.classList.toggle('media-sound-on', on);
             b.title = on ? '🎵 音讯：声音正在播（播放器收起中）— 点这里打开音讯面板' : '🎵 音讯：点这里打开音讯面板';
         }
         function setStage() { openStage(); }
@@ -2908,7 +2918,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         };
 
         function markPlaying(idx, forceScroll) {
-            if (idx === lastPlayIdx) return;
+            if (idx === lastPlayIdx && !forceScroll) return;
             var mk = medEl();
             // 播放器暂停又刚好落在句与句的中间缝隙：不要清掉亮框又不补上，否则整片字幕会熄掉
             var keep = (idx < 0 && mk && mk.paused);
@@ -2934,6 +2944,51 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                     }
                 } catch (e) { }
             }
+        }
+        var _mpHp = null, _mpHf = null;
+        function mpHeaderProgEl() {
+            if (!_mpHp) _mpHp = document.getElementById('mpHeaderProgress');
+            if (!_mpHf) _mpHf = document.getElementById('mpHeaderFill');
+            return _mpHp;
+        }
+        function mpHeaderProgShow(on) { var el = mpHeaderProgEl(); if (el) el.style.display = on ? 'block' : 'none'; }
+        function mpHeaderProgUpdate() {
+            var el = mpHeaderProgEl(); if (!el || el.style.display === 'none') return;
+            var v = medEl(); if (!v || !v.duration || isNaN(v.duration) || v.duration <= 0) { if (_mpHf) _mpHf.style.width = '0%'; return; }
+            var pct = Math.max(0, Math.min(100, (v.currentTime / v.duration) * 100));
+            if (_mpHf) _mpHf.style.width = pct + '%';
+            el.setAttribute('aria-valuenow', Math.round(pct));
+        }
+        function mpHeaderProgSync() {
+            var el = mpHeaderProgEl(); if (!el) return;
+            var v = medEl();
+            var has = !!(v && v.src && v.src.length > 0 && v.duration && !isNaN(v.duration) && v.duration > 0);
+            el.style.display = has ? 'block' : 'none';
+            if (has) mpHeaderProgUpdate();
+        }
+        function mpHeaderJumpToTime(t) {
+            // 點進度條：彈到該時間對應的字幕句（高亮＋滾動到該句；音訊停在點的位置繼續播）
+            var list = AppState.processedSubtitles, found = -1;
+            for (var i = 0; i < list.length; i++) {
+                var s0 = subSec(list[i].startTime); if (s0 < 0) continue;
+                if (t >= s0 - 0.05) found = i; else break;
+            }
+            if (found < 0) return;
+            markPlaying(found, true);
+            var v = medEl();
+            if (v && v.src && MP.started) {
+                MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = found;
+                try { var nt = Math.max(0, Math.min((v.duration || 1e9), t + MP.audioDelaySec)); v.currentTime = nt; var _pp = v.play(); if (_pp && _pp.catch) _pp.catch(function () { }); } catch (e) { }
+            }
+        }
+        function mpHeaderProgSeek(clientX, alsoJump) {
+            var el = mpHeaderProgEl(); if (!el) return;
+            var v = medEl(); if (!v || !v.duration || isNaN(v.duration)) return;
+            var rect = el.getBoundingClientRect(); if (!rect.width) return;
+            var ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+            try { v.currentTime = ratio * v.duration; } catch (e) { }
+            mpHeaderProgUpdate();
+            if (alsoJump) mpHeaderJumpToTime(v.currentTime - MP.audioDelaySec);
         }
         function mediaTick() {
             var v = medEl();
@@ -2968,7 +3023,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         function mpDelaySync(quiet) {
             var v = MP.audioDelaySec;
             var dsel2 = document.getElementById('mpDelaySel');
-            if (dsel2) { dsel2.value = String(v); dsel2.style.setProperty('--mpv', (Math.abs(v) / 60 * 50) + '%'); }
+            if (dsel2) { dsel2.value = String(-v); dsel2.style.setProperty('--mpv', (Math.abs(v) / 60 * 50) + '%'); }
             var dlab = document.getElementById('mpDelayVal');
             if (dlab) {
                 var narrow = !!(window.matchMedia && window.matchMedia('(max-width: 430px)').matches);
@@ -2980,14 +3035,35 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             _mpDelayShown = v;
             try { localStorage.setItem('xiaoye_media_delay_v1', String(v)); } catch (e) { }
             medStatus(v < 0
-                ? ('✅ 字幕提前 ' + (-v) + ' 秒：字幕会早 ' + (-v) + ' 秒亮（声音比字幕快就拖向左）。')
-                : (v > 0 ? ('✅ 字幕延后 ' + v + ' 秒：字幕会晚 ' + v + ' 秒亮（声音比字幕慢就拖向右）。') : '✅ 不偏移（字幕直接用原时间码）。'), '');
+                ? ('✅ 字幕提前 ' + (-v) + ' 秒：字幕会早 ' + (-v) + ' 秒亮（声音比字幕快就拖向右）。')
+                : (v > 0 ? ('✅ 字幕延后 ' + v + ' 秒：字幕会晚 ' + v + ' 秒亮（声音比字幕慢就拖向左）。') : '✅ 不偏移（字幕直接用原时间码）。'), '');
         }
 
         (function initMediaUI() {
             var v = medEl();
             if (v) {
                 v.addEventListener('timeupdate', mediaTick);
+                v.addEventListener('timeupdate', mpHeaderProgSync);
+                v.addEventListener('loadedmetadata', mpHeaderProgSync);
+                v.addEventListener('play', mpHeaderProgSync);
+                v.addEventListener('pause', mpHeaderProgUpdate);
+                v.addEventListener('seeked', mpHeaderProgUpdate);
+                v.addEventListener('ended', mpHeaderProgSync);
+                v.addEventListener('emptied', function () { mpHeaderProgShow(false); });
+                var _hp = document.getElementById('mpHeaderProgress');
+                if (_hp) {
+                    var _drag = false;
+                    _hp.addEventListener('pointerdown', function (e) { _drag = true; try { _hp.setPointerCapture(e.pointerId); } catch (_) {} mpHeaderProgSeek(e.clientX, true); });
+                    _hp.addEventListener('pointermove', function (e) { if (_drag) mpHeaderProgSeek(e.clientX, false); });
+                    _hp.addEventListener('pointerup', function (e) { if (_drag) { _drag = false; mpHeaderProgSeek(e.clientX, true); } });
+                    _hp.addEventListener('pointercancel', function () { _drag = false; });
+                    _hp.addEventListener('keydown', function (e) {
+                        var vv = medEl(); if (!vv || !vv.duration) return;
+                        var step = e.key === 'ArrowRight' ? 5 : (e.key === 'ArrowLeft' ? -5 : 0);
+                        if (step) { e.preventDefault(); try { vv.currentTime = Math.max(0, Math.min(vv.duration, vv.currentTime + step)); } catch (_) {} mpHeaderProgUpdate(); }
+                    });
+                }
+
                 v.addEventListener('play', function () { MP.started = true; medStatus('▶ 播放中…（句前的数字可以对到任何一句）', ''); });
                 function errLocked() {
                     var e = document.getElementById('mpErr');
@@ -3026,11 +3102,11 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             // 「🎵 音讯偏移」bar（滑杆）：向左＝字幕提前、向右＝字幕延后，范围 ±1 秒 ～ ±1 分钟
             var dsel = document.getElementById('mpDelaySel');
             function mpDelaySet(v) { MP.audioDelaySec = Math.max(-60, Math.min(60, Math.round(v))); mpDelaySync(false); }
-            if (dsel) dsel.addEventListener('input', function () { mpDelaySet(parseFloat(this.value) || 0); });
+            if (dsel) dsel.addEventListener('input', function () { mpDelaySet(-(parseFloat(this.value) || 0)); });
             var dnA = document.getElementById('mpDelayNudgeA');
-            if (dnA) dnA.addEventListener('click', function () { mpDelaySet(MP.audioDelaySec - 1); });
+            if (dnA) dnA.addEventListener('click', function () { mpDelaySet(MP.audioDelaySec + 1); });
             var dnB = document.getElementById('mpDelayNudgeB');
-            if (dnB) dnB.addEventListener('click', function () { mpDelaySet(MP.audioDelaySec + 1); });
+            if (dnB) dnB.addEventListener('click', function () { mpDelaySet(MP.audioDelaySec - 1); });
             var dnR = document.getElementById('mpDelayReset');
             if (dnR) dnR.addEventListener('click', function () { mpDelaySet(0); });
                         var bp = document.getElementById('mediaLinkBtn');
@@ -3085,8 +3161,6 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 this.checked = AppState.readingMode;
                 syncSwitches();
               });
-              var sa = document.getElementById('settingsAudioBtn');
-              if (sa) sa.addEventListener('click', function () { closeSettings(); var b = document.getElementById('mediaLinkBtn'); if (b) b.click(); });
             })();
             var cb = document.getElementById('mpCloseBtn');
             if (cb) cb.addEventListener('click', closeMediaPanel);
