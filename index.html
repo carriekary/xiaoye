@@ -12,7 +12,8 @@
 
     <style>
         :root {
-          --header-height: 100px;
+          --header-h-base: 100px;
+          --header-height: var(--header-h-base);
           --accent: #2c3e50;
           --subtitle-min-height: 30px;
           --gutter: 12px;
@@ -39,15 +40,32 @@
         
         /* 头部底边：音讯进度条（有音讯才出现，点／拖可跳转，不必开面板） */
         .mp-header-progress {
-          position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
-          background: rgba(176, 36, 48, 0.20); cursor: pointer; z-index: 6;
-          touch-action: none; transition: height 0.12s ease;
+          position: absolute; left: 0; right: 0; bottom: 0; height: 26px;
+          display: flex; align-items: center; gap: 8px; padding: 0 10px;
+          background: rgba(255,253,249,0.96); border-top: 1px solid transparent;
+          cursor: pointer; z-index: 6;
+          touch-action: none;
         }
-        .mp-header-progress::before { content: ""; position: absolute; left: 0; right: 0; top: -7px; bottom: -7px; }
-        .mp-header-progress-fill { height: 100%; width: 0%; background: var(--vermillion, #b02430); pointer-events: none; }
-        .mp-header-progress:focus-visible { outline: 2px solid #b02430; outline-offset: -2px; }
-        @media (hover: hover) { .mp-header-progress:hover { height: 6px; } }
-        .mp-header-progress:active { height: 7px; }
+        .mp-header-progress::before { content: ""; position: absolute; left: 0; right: 0; top: -7px; bottom: 0; }
+        .mp-hp-play {
+          flex: 0 0 auto; width: 20px; height: 20px; border: none; border-radius: 50%;
+          background: rgba(0,0,0,0.06); color: #333; cursor: pointer;
+          display: flex; align-items: center; justify-content: center; padding: 0 0 0 2px;
+          box-shadow: 0 0 0 1px transparent;
+          transition: background 0.15s ease, color 0.15s ease;
+        }
+        .mp-hp-play:hover { background: rgba(0,0,0,0.12); color: #222; }
+        .mp-hp-time { flex: 0 0 auto; font-size: 11px; line-height: 1; color: rgba(51,51,51,0.92); font-variant-numeric: tabular-nums; letter-spacing: 0.2px; user-select: none; transition: color 0.15s ease; }
+        /* ::before 延伸點擊區會畫在非定位子元素之上攔截點擊 → 子元素抬高到偽元素之上 */
+        .mp-hp-play, .mp-hp-time, .mp-hp-track { position: relative; z-index: 1; }
+        .mp-hp-track { flex: 1 1 0; min-width: 40px; height: 5px; box-sizing: border-box; border-radius: 4px; background: rgba(0,0,0,0.12); border: 1px solid transparent; overflow: hidden; transition: height 0.12s ease, background 0.15s ease, border-color 0.15s ease; }
+        .mp-header-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(239,68,68,0.95), rgba(220,38,38,0.95)); border-radius: 3px; pointer-events: none; }
+        .mp-header-progress:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; }
+        @media (hover: hover) { .mp-header-progress:hover .mp-hp-track { height: 8px; background: rgba(0,0,0,0.18); border-color: transparent; } .mp-header-progress:hover .mp-hp-time { color: rgba(40,40,40,0.98); } .mp-header-progress:hover .mp-hp-play { background: rgba(0,0,0,0.12); color: #222; } }
+        .mp-header-progress:active .mp-hp-track { height: 9px; }
+        /* 不論屏幕：時間文字/軌道邊線/按鈕描邊 統一深灰色；條本身改淺底確保深灰在深色 header 上也看得見（≤900px 不再另設） */
+        /* 播放時 header 加高 26px 容納進度條（所有依 --header-height 的排版自動讓位） */
+        body.mp-hp-on { --header-height: calc(var(--header-h-base, 100px) + 26px); }
                 .header-left { display: flex; flex-direction: row; align-items: center; gap: 12px; }
         .header-left h1 { margin: 0; font-size: 24px; }
         .header-left p { margin: 0; font-size: 12px; opacity: 0.9; }
@@ -236,7 +254,7 @@
         .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; }
 
         @media (max-width: 900px) {
-          :root { --header-height: 130px; }
+          :root { --header-h-base: 130px; --header-height: var(--header-h-base); }
           .header { flex-direction: column; align-items: flex-start; justify-content: center; padding: 12px 16px; }
           .header-left { width: 100%; margin-bottom: 6px; }
           .header-left h1 { font-size: 18px; line-height: 1.2; }
@@ -257,7 +275,7 @@
         }
         
         @media (max-width: 600px) {
-          :root { --header-height: 188px; }
+          :root { --header-h-base: 168px; --header-height: var(--header-h-base); }
           #subtitles { max-height: calc(100vh - 220px); overflow-y: auto; scrollbar-gutter: stable; }
           .file-search-container { flex-direction: row; gap: 6px; }
           .file-buttons-wrapper { width: 100%; flex: none; gap: 6px; flex-wrap: wrap; }
@@ -952,7 +970,13 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             </div>
         </div>
         <div id="mpHeaderProgress" class="mp-header-progress" role="slider" aria-label="音讯进度（点一下或拖动可跳到该处，并弹到对应台词）" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0" style="display:none">
-            <div id="mpHeaderFill" class="mp-header-progress-fill"></div>
+            <button id="mpHeaderPlayBtn" class="mp-hp-play" type="button" title="播放／暂停" aria-label="播放">
+                <svg id="mpHpIcoPlay" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M7 4.5 L19.5 12 L7 19.5 Z" fill="currentColor"/></svg>
+                <svg id="mpHpIcoPause" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" style="display:none"><rect x="6" y="4.5" width="4.4" height="15" rx="1.2" fill="currentColor"/><rect x="13.6" y="4.5" width="4.4" height="15" rx="1.2" fill="currentColor"/></svg>
+            </button>
+            <span id="mpHeaderCur" class="mp-hp-time">00:00:00</span>
+            <div id="mpHeaderTrack" class="mp-hp-track"><div id="mpHeaderFill" class="mp-header-progress-fill"></div></div>
+            <span id="mpHeaderDur" class="mp-hp-time">00:00:00</span>
         </div>
     </header>
 
@@ -1838,6 +1862,9 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
 
             // 移除了字幕档案：同步停止音讯（旧音讯已对不上当前字幕），且按数字不会再出声，要重新选/播才恢复
             try { stopPlayback(); } catch (e) { }
+            // 移除了字幕档案：头部播放条也一并隐藏（音频已停，条留着没有意义）
+            try { var _hp = document.getElementById('mpHeaderProgress'); if (_hp) _hp.style.display = 'none'; } catch (e) {}
+            try { document.body.classList.remove('mp-hp-on'); } catch (e) {}
             MP.started = false; MP.singleSentence = false; MP.singleStopAt = 0; MP.singleIdx = -1; MP.audioDelaySec = 0; try { mpDelaySync(true); } catch (e) {};
             try { soundDotOn(); } catch (e) { }
 
@@ -3079,16 +3106,9 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
             var v = medEl();
             // 还没在音讯面板点过播放（或没载入音讯）：按数字只高亮+滚动，绝不误触音讯播放。
             if (!v || !v.src || !MP.started) return;
-            // 同一句（或第一次点）→ 只读这一句，跳到句首，播到句尾自动停
-            // 点了别的句（例如下一句）→ 取消单句停止，一路往下播（不卡在句尾）
-            if (MP.singleIdx === -1 || MP.singleIdx === idx) {
-                MP.singleSentence = true;
-            } else {
-                MP.singleSentence = false;
-            }
-            MP.singleStopAt = MP.singleSentence
-                ? ((subSec(sub.endTime) > st0) ? (subSec(sub.endTime) + MP.audioDelaySec) : (v.duration || (st0 + 8)))
-                : 0;
+            // 点任何数字：跳到该句首，只播该句（播到句尾自动停），不往下连播
+            MP.singleSentence = true;
+            MP.singleStopAt = (subSec(sub.endTime) > st0) ? (subSec(sub.endTime) + MP.audioDelaySec) : (v.duration || (st0 + 8));
             MP.singleIdx = idx;
             try {
                 v.currentTime = Math.max(0, st0 + MP.audioDelaySec);
@@ -3143,25 +3163,48 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                 } catch (e) { }
             }
         }
-        var _mpHp = null, _mpHf = null;
+        var _mpHp = null, _mpHf = null, _mpHt = null, _mpHc = null, _mpHd = null;
+        function mpHpFmt(t) {
+            if (typeof t !== 'number' || isNaN(t) || t < 0) t = 0;
+            var p = function (n) { return (n < 10 ? '0' : '') + n; };
+            return p(Math.floor(t / 3600)) + ':' + p(Math.floor(t / 60) % 60) + ':' + p(Math.floor(t % 60));
+        }
         function mpHeaderProgEl() {
             if (!_mpHp) _mpHp = document.getElementById('mpHeaderProgress');
             if (!_mpHf) _mpHf = document.getElementById('mpHeaderFill');
+            if (!_mpHt) _mpHt = document.getElementById('mpHeaderTrack');
+            if (!_mpHc) _mpHc = document.getElementById('mpHeaderCur');
+            if (!_mpHd) _mpHd = document.getElementById('mpHeaderDur');
             return _mpHp;
         }
-        function mpHeaderProgShow(on) { var el = mpHeaderProgEl(); if (el) el.style.display = on ? 'block' : 'none'; }
+        function mpHeaderPlayIcon(playing) {
+            var a = document.getElementById('mpHpIcoPlay'), b = document.getElementById('mpHpIcoPause');
+            if (a) a.style.display = playing ? 'none' : '';
+            if (b) b.style.display = playing ? '' : 'none';
+            var pb = document.getElementById('mpHeaderPlayBtn');
+            if (pb) pb.setAttribute('aria-label', playing ? '暂停' : '播放');
+        }
+        function mpHeaderProgShow(on) {
+            var el = mpHeaderProgEl(); if (el) el.style.display = on ? 'flex' : 'none';
+            try { document.body.classList.toggle('mp-hp-on', !!on); } catch (e) { }
+        }
         function mpHeaderProgUpdate() {
             var el = mpHeaderProgEl(); if (!el || el.style.display === 'none') return;
-            var v = medEl(); if (!v || !v.duration || isNaN(v.duration) || v.duration <= 0) { if (_mpHf) _mpHf.style.width = '0%'; return; }
+            var v = medEl(); if (!v || !v.duration || isNaN(v.duration) || v.duration <= 0) { if (_mpHf) _mpHf.style.width = '0%'; if (_mpHc) _mpHc.textContent = mpHpFmt(0); if (_mpHd) _mpHd.textContent = mpHpFmt(0); return; }
             var pct = Math.max(0, Math.min(100, (v.currentTime / v.duration) * 100));
             if (_mpHf) _mpHf.style.width = pct + '%';
+            if (_mpHc) _mpHc.textContent = mpHpFmt(v.currentTime);
+            if (_mpHd) _mpHd.textContent = mpHpFmt(v.duration);
             el.setAttribute('aria-valuenow', Math.round(pct));
+            try { el.setAttribute('aria-valuetext', mpHpFmt(v.currentTime) + ' / ' + mpHpFmt(v.duration)); } catch (e) { }
+            mpHeaderPlayIcon(!!(v && !v.paused));
         }
         function mpHeaderProgSync() {
             var el = mpHeaderProgEl(); if (!el) return;
             var v = medEl();
             var has = !!(v && v.src && v.src.length > 0 && v.duration && !isNaN(v.duration) && v.duration > 0);
-            el.style.display = has ? 'block' : 'none';
+            el.style.display = has ? 'flex' : 'none';
+            try { document.body.classList.toggle('mp-hp-on', !!has); } catch (e) { }
             if (has) mpHeaderProgUpdate();
         }
         function mpHeaderJumpToTime(t) {
@@ -3182,7 +3225,7 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
         function mpHeaderProgSeek(clientX, alsoJump) {
             var el = mpHeaderProgEl(); if (!el) return;
             var v = medEl(); if (!v || !v.duration || isNaN(v.duration)) return;
-            var rect = el.getBoundingClientRect(); if (!rect.width) return;
+            var rect = (_mpHt || el).getBoundingClientRect(); if (!rect.width) return;
             var ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
             try { v.currentTime = ratio * v.duration; } catch (e) { }
             mpHeaderProgUpdate();
@@ -3259,7 +3302,18 @@ var e,t,r="function"==typeof Symbol?Symbol:{},i=r.iterator||"@@iterator",n=r.toS
                         var vv = medEl(); if (!vv || !vv.duration) return;
                         var step = e.key === 'ArrowRight' ? 5 : (e.key === 'ArrowLeft' ? -5 : 0);
                         if (step) { e.preventDefault(); try { vv.currentTime = Math.max(0, Math.min(vv.duration, vv.currentTime + step)); } catch (_) {} mpHeaderProgUpdate(); }
+                        if (e.key === ' ') { e.preventDefault(); if (vv.paused) { var _p = vv.play(); if (_p && _p.catch) _p.catch(function () { }); } else { vv.pause(); } }
                     });
+                    var _hpb = document.getElementById('mpHeaderPlayBtn');
+                    if (_hpb) {
+                        _hpb.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+                        _hpb.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            var vv = medEl(); if (!vv || !vv.src) return;
+                            if (vv.paused) { var _p2 = vv.play(); if (_p2 && _p2.catch) _p2.catch(function () { }); }
+                            else { vv.pause(); }
+                        });
+                    }
                 }
 
                 v.addEventListener('play', function () { MP.started = true; medStatus('▶ 播放中…（句前的数字可以对到任何一句）', ''); });
