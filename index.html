@@ -257,6 +257,8 @@
           #vocabInline, #reviewInline { display: none !important; }
           /* 右下角的「生词本／汇出档案」已搬到設定抽屜，小屏隱藏原懸浮按鈕組 */
           .button-container { display: none !important; }
+          /* 小屏：依需求移除設定抽屜裡的「生词本」入口（大屏左欄入口不受影響，元素保留以免接線出錯） */
+          #sdVocabBookBtn { display: none !important; }
           /* 小屏：輕點跳句、長按查詞——關掉 iOS 長按的原生選取／放大鏡選單，避免干擾 */
           .japanese-text .wf-word { -webkit-touch-callout: none; }
         }
@@ -60968,6 +60970,33 @@ https://github.com/nodeca/pako/blob/main/LICENSE
           textarea.style.overflowY = 'auto';
         }
 
+        // 批次量筆記框高度：把「寫→讀→寫→讀」的逐框強制重新排版，改成「全部寫→一次量→全部寫」。
+        // 原本每框 autoResizeTextarea 各觸發 2 次強制 layout，一批 50 行＝100 次，低端手機會被主執行緒卡死、
+        // 被 iOS _watchdog 殺掉（表現為「無法開啟這個網頁」或重載跳回首頁）。批次版整批只觸發約 1 次 layout。
+        function autoResizeTextareasBatch(list) {
+          if (!AppState.notesVisible || !list || !list.length) return;
+          var items = [];
+          for (var i = 0; i < list.length; i++) {
+            var ta = list[i];
+            var subtitleRow = ta.closest('.subtitle'); if (!subtitleRow) continue;
+            var textBox = subtitleRow.querySelector('.text-box'); if (!textBox) continue;
+            items.push({ ta: ta, tb: textBox, prevAlign: textBox.style.alignSelf });
+            textBox.style.alignSelf = 'flex-start';
+            ta.style.height = 'auto';
+          }
+          for (var j = 0; j < items.length; j++) {
+            var it = items[j];
+            it.boxH = Math.max(it.tb.scrollHeight, 34);
+            it.noteH = Math.max(it.ta.scrollHeight, 34);
+          }
+          for (var k = 0; k < items.length; k++) {
+            var it2 = items[k];
+            it2.tb.style.alignSelf = it2.prevAlign;
+            it2.ta.style.height = Math.max(it2.boxH, it2.noteH) + 'px';
+            it2.ta.style.overflowY = 'auto';
+          }
+        }
+
         // 把已经算好注音（rubyHtml）的行一次性刷进 DOM：
         // 解决「滚到一半注音还在生成、该行被渲染成纯文本后一直没注音」的问题
         function refillFuriganaDOM() {
@@ -61545,6 +61574,9 @@ https://github.com/nodeca/pako/blob/main/LICENSE
             try { if (MP.hls) { MP.hls.destroy(); } } catch (e) { }
             MP.hls = null;
             MP.mode = 'file'; MP.src = url;
+            // 換新媒體時釋放上一個本機音檔的 blob URL：否则每載一集就永久留住一顆音檔 blob（動輒數十 MB），
+            // 多集累積下來數百 MB，播放＋瀏覽字幕時把 iOS WebContent 擠爆 → 跳回首頁／無法開啟頁面。
+            if (MP._blobUrl && MP._blobUrl !== url) { try { URL.revokeObjectURL(MP._blobUrl); } catch (e) { } MP._blobUrl = null; }
             medErr(''); showFix('');
             var settled = false, watch = null;
             function ok() {
@@ -63030,12 +63062,6 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                 // 播放欄會變成只靠 CSS 顯示出來、按了卻毫無反應的擺設。故等 DOM 解析完再初始化。
                 if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', __mpbInit); }
                 else { __mpbInit(); }
-                // 手機開啟時彈出版本提示：讓使用者一眼確認是否讀到最新檔（避免 Safari 強快取讀到舊版卻以為是新版）
-                try {
-                    if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches && typeof showGlobalStatus === 'function') {
-                        showGlobalStatus('小野字幕君 v4.5 已載入 ✅', 2200);
-                    }
-                } catch (e) { }
             }
             // 播放器下方控制列：速度 / 音讯偏移（负=字幕提前、正=字幕延后）
             // 头部 🎵 音钮的红点还是要照著真实播放状态跑（play / pause / ended）
@@ -63180,7 +63206,9 @@ https://github.com/nodeca/pako/blob/main/LICENSE
             var fi = document.getElementById('mpFile');
             if (fi) fi.addEventListener('change', function () {
                 var f = fi.files && fi.files[0]; if (!f) return;
-                loadMediaUrl(URL.createObjectURL(f));
+                var blobUrl = URL.createObjectURL(f);
+                loadMediaUrl(blobUrl);   // tryDirect 會先釋放上一個本機檔的 blob URL
+                MP._blobUrl = blobUrl;   // 記住這顆，下次換檔時釋放，避免音檔 blob 一路累積把 iPhone 記憶體擠爆
                 medErr('已載入本機檔：' + f.name);
                 setTimeout(closeMediaPanel, 700);
             });
@@ -63371,9 +63399,11 @@ https://github.com/nodeca/pako/blob/main/LICENSE
             if (AppState.notesVisible) {
                 var newRows = box.querySelectorAll('.row');
                 var startK = prepend ? 0 : Math.max(0, newRows.length - (to - from));
+                var nbs = [];
                 for (var j = startK; j < newRows.length; j++) {
-                    var nb = newRows[j].querySelector('.note-box'); if (nb) autoResizeTextarea(nb);
+                    var nb = newRows[j].querySelector('.note-box'); if (nb) nbs.push(nb);
                 }
+                autoResizeTextareasBatch(nbs);
             }
         }
         // 播放／跳句時：確保目標句所在的視窗 [idx-60, idx+30) 已在 DOM（不足就向前或往回補）
@@ -63448,6 +63478,55 @@ https://github.com/nodeca/pako/blob/main/LICENSE
             if (topIdx === Infinity) return;
             trimAbove(topIdx + SUB_KEEP_ABOVE);
         }
+        // 裁掉「當前句下方、且已滾出視窗下方」的多餘行。與 trimAbove 對稱，但「不」需要 bottom-spacer：
+        // 刪的是視窗下方的行，scrollHeight 由底部縮短，scrollTop 與可見內容完全不受影響（不會跳動）。
+        // 少了這一半，往下讀深再往上捲時下方行永不裁 → DOM 一路累積到整部劇 → 記憶體爆、被 iOS 殺掉重載（跳回首頁／無法開啟頁面）。
+        function trimBelow(focusIdx) {
+            if (AppState.searchActive || subBoxHidden()) return;
+            var box = subBox(); if (!box) return;
+            var hi = focusIdx + SUB_KEEP_BELOW;
+            if (SUB_WIN_END <= hi) return;
+            var viewBottom = (box.scrollHeight > box.clientHeight + 4) ? box.getBoundingClientRect().bottom : Infinity;
+            var rows = box.querySelectorAll('.row');
+            var toRemove = [], maxIdx = -1;
+            for (var i = rows.length - 1; i >= 0; i--) {
+                var idx = parseInt(rows[i].getAttribute('data-index'), 10);
+                if (idx > hi) {
+                    var r = rows[i].getBoundingClientRect();
+                    if (r.top > viewBottom + 8) {           // 完全在視窗下方才刪，避免畫面跳動
+                        try { var nb = rows[i].querySelector('.note-box'); if (nb) saveNote(nb); } catch (e2) { }
+                        toRemove.push(rows[i]);
+                    } else { if (idx > maxIdx) maxIdx = idx; break; }
+                } else { if (idx > maxIdx) maxIdx = idx; break; }
+            }
+            if (toRemove.length) {
+                for (var t = 0; t < toRemove.length; t++) box.removeChild(toRemove[t]);
+                // 下方行移除後向前邊緣 retreat；renderedCount 同步，往下捲時觸底續載會自然把這些行補回
+                if (maxIdx >= 0 && maxIdx + 1 < SUB_WIN_END) { SUB_WIN_END = maxIdx + 1; AppState.renderedCount = SUB_WIN_END; }
+            }
+        }
+        // 手動瀏覽時：以視窗內最下面那行為基準，把下方行裁掉，保持 DOM 有界（往上捲時尤其重要）
+        function trimOffscreenBottom() {
+            if (AppState.searchActive || subBoxHidden()) return;
+            var box = subBox(); if (!box) return;
+            var rows = box.querySelectorAll('.row');
+            if (!rows.length) return;
+            var viewBottom = (box.scrollHeight > box.clientHeight + 4) ? box.getBoundingClientRect().bottom : Infinity;
+            var bottomIdx = -1;
+            for (var i = rows.length - 1; i >= 0; i--) {
+                var r = rows[i].getBoundingClientRect();
+                if (r.top <= viewBottom + 8) { bottomIdx = parseInt(rows[i].getAttribute('data-index'), 10); break; }
+            }
+            // 快速往上捲時視窗可能落在 top-spacer 空白區（scrollTop < _topPad）：所有行都在視窗下方、
+            // 沒有行與視窗相交（bottomIdx=-1），下方裁切會整個跳過 → DOM 在空白區一路累積到硬上限。
+            // 此时改以「最上面那行」為錨點，照樣裁掉遠下方的行，讓 DOM 在空白區也保持小而有界。
+            if (bottomIdx < 0) {
+                var fr = rows[0].getBoundingClientRect();
+                if (fr.top > viewBottom + 8) bottomIdx = parseInt(rows[0].getAttribute('data-index'), 10);
+                else return;
+            }
+            trimBelow(bottomIdx);
+        }
         // 硬性 DOM 行數上限保護：spacer 方案下裁行不減 scrollTop/scrollHeight，觸底續載可能陷入
         // 「灌 → 裁 → 觸底判斷仍成立 → 再灌」的正回饋，把整部劇 DOM 灌爆記憶體、被 iOS 強制重載頁面。
         // 此函式在每次增補後檢查，DOM .row 數超過上限就強制裁掉上方行（用 spacer 補高，不震動），把行數壓回安全範圍。
@@ -63461,6 +63540,9 @@ https://github.com/nodeca/pako/blob/main/LICENSE
             var excess = rows.length - 200;
             var cutIdx = parseInt(rows[excess].getAttribute('data-index'), 10);
             trimAbove(cutIdx + SUB_KEEP_ABOVE);
+            // 注意：此硬上限「只裁上方」。下方裁切交給 _runScrollWork 的 trimOffscreenBottom（含空白區 fallback）
+            // 在滾動時主動處理。若在这里也裁下方，會把 ensureRowRendered 剛為「跳句」補渲染的目標句（在視窗下方、
+            // 尚未滾到）立刻裁掉，導致點數字／拖進度條跳遠句時目標行消失、跳不過去。故下方裁切不在增補當下做。
         }
         // 往回捲動複習時，若已捲到頂部邊緣，自動把上面的行補回來
         function maybeUnTrim() {
@@ -63488,12 +63570,14 @@ https://github.com/nodeca/pako/blob/main/LICENSE
             const container = subBox();
             if (container) container.insertAdjacentHTML('beforeend', nextBatch.map(createSubtitleRowHTML).join(''));
             
-            // 针对刚加载进来有内容的笔记框进行高度计算（取最後 nextBatch.length 個 .row）
+            // 针对刚加载进来有内容的笔记框进行高度计算（取最後 nextBatch.length 個 .row，批次量測避免逐框強制排版）
             if (AppState.notesVisible && container) {
                 var all = container.querySelectorAll('.row');
+                var nbs = [];
                 for (var k = Math.max(0, all.length - nextBatch.length); k < all.length; k++) {
-                    var nb = all[k].querySelector('.note-box'); if (nb) autoResizeTextarea(nb);
+                    var nb = all[k].querySelector('.note-box'); if (nb) nbs.push(nb);
                 }
+                autoResizeTextareasBatch(nbs);
             }
             
             AppState.renderedCount += nextBatch.length;
@@ -63531,6 +63615,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                 if (_box.scrollTop + _box.clientHeight >= _box.scrollHeight - 400) renderNextBatch();
                 maybeUnTrim();      // 往回捲到頂部邊緣時，自動把上面的行補回來
                 trimOffscreenTop(); // 手動瀏覽：把視窗上方的行裁掉，保持 DOM 有界
+                trimOffscreenBottom(); // 手動瀏覽：把視窗下方的行裁掉，避免往上捲時 DOM 無限增長
                 _enforceDomCap();   // DOM 行數硬上限保護（連續下滑時也保持有界，避免記憶體爆）
             }
             function _schedule() {
